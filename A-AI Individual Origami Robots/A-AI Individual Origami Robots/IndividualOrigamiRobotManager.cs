@@ -9,16 +9,32 @@ namespace A_AI_Individual_Origami_Robots
 {
     class IndividualOrigamiRobotManager
     {
-        private List<byte[]> RobotModel;
+        private Dictionary<int, List<byte>> RobotModel;
 
         public void TrainRobotModel(List<string> ModelIdentifiers)
         {
-            List<byte[]> Model = new List<byte[]>();
+            Dictionary<int, List<byte>> Model = new Dictionary<int, List<byte>>();
 
             foreach (string Identifier in ModelIdentifiers)
             {
                 byte[] AsciiBytes = Encoding.ASCII.GetBytes(Identifier);
-                Model.Add(AsciiBytes);
+                List<byte> asciiList = new List<byte>();
+
+                for (int i = 0; i < AsciiBytes.Length; i++)
+                {
+                    asciiList.Add(AsciiBytes[i]);
+
+                    if (!Model.TryGetValue(i, out List<byte> existingAscii))
+                    {
+                        existingAscii = new List<byte>(asciiList);
+                        Model.Add(i, existingAscii);
+                    }
+                    else
+                    {
+                        existingAscii.AddRange(asciiList);
+                        Model[i] = existingAscii;
+                    }
+                }
             }
 
             RobotModel = Model;
@@ -33,6 +49,7 @@ namespace A_AI_Individual_Origami_Robots
 
                 if (!ObjectIsInSelfSpace(nearestObject))
                 {
+                    Console.WriteLine("Object is foreign cell");
                     if (CollidingWithObject(robot, nearestObject))
                     {
                         //Ask Goal/Reward System
@@ -40,9 +57,9 @@ namespace A_AI_Individual_Origami_Robots
                     }
                     else
                     {
+                        Console.WriteLine("No collision, reducing energy while not converged.");
                         while (!robot.IsConverged && robot.Energy != 0)
                         {
-                            Console.WriteLine("No collision, reducing energy while not converged.");
                             robot.Energy -= 10;
                         }
                     }
@@ -59,14 +76,20 @@ namespace A_AI_Individual_Origami_Robots
         {
             byte[] AsciiBytes = Encoding.ASCII.GetBytes(Identifier);
 
-            foreach (byte[] ModelItem in RobotModel) {
-                if (ModelItem.SequenceEqual(AsciiBytes))
+            for (int i = 0; i < AsciiBytes.Length; i++)
+            {
+                if (!RobotModel.TryGetValue(i, out List<byte> validAscii))
                 {
-                    return true;
+                    return false;
+                }
+
+                if (!validAscii.Contains(AsciiBytes[i]))
+                {
+                    return false;
                 }
             }
 
-            return false;
+            return true;
         }
 
         private bool CollidingWithObject(OrigamiRobot Robot, string NearestObject)
@@ -77,8 +100,6 @@ namespace A_AI_Individual_Origami_Robots
         public void MatchRobotToCoordinates(List<OrigamiRobot> Robots, List<List<Vector3>> CoordinatesList)
         {
             int radius = 10;
-            double smallestDistance = double.MaxValue;
-            OrigamiRobot closestRobot = null;
 
             OrigamiRobot[] temp = new OrigamiRobot[Robots.Count];
             Robots.CopyTo(temp);
@@ -86,6 +107,8 @@ namespace A_AI_Individual_Origami_Robots
 
             foreach (List<Vector3> coordinates in CoordinatesList)
             {
+                double smallestDistance = double.MaxValue;
+                OrigamiRobot closestRobot = null;
                 Vector3 centerCoordinate = GetCentroid(coordinates);
 
                 foreach (OrigamiRobot robot in RobotClones)
@@ -102,11 +125,11 @@ namespace A_AI_Individual_Origami_Robots
 
                 RobotClones.Remove(closestRobot);
 
-                Console.WriteLine("Closest robot has coordinates to center coordinate " + centerCoordinate.ToString() + " : (" + closestRobot.CurrentCoordinates.X +
+                Console.WriteLine("Closest robot that has coordinates to center coordinate " + centerCoordinate.ToString() + " : (" + closestRobot.CurrentCoordinates.X +
                 ", " + closestRobot.CurrentCoordinates.Y + ", " + closestRobot.CurrentCoordinates.Z + ")");
             }
 
-            
+            Console.WriteLine("Test Complete.");
         }
 
         private Vector3 GetCentroid(List<Vector3> Coordinates)

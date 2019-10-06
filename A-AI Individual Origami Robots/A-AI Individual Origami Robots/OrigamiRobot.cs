@@ -22,8 +22,8 @@ namespace A_AI_Individual_Origami_Robots
         {
             List<string> objects = new List<string>();
 
-            objects.Add("ges90awj2b");
-            //objects.Add("auoWenuvse");
+            //objects.Add("ges90awj2b"); //Foreign
+            objects.Add("Esfnawefin"); //Self
 
             return objects;
         }
