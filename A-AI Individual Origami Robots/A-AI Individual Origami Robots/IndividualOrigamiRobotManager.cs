@@ -52,16 +52,8 @@ namespace A_AI_Individual_Origami_Robots
                     Console.WriteLine("Object is foreign cell");
                     if (CollidingWithObject(robot, nearestObject))
                     {
-                        //Ask Goal/Reward System
-                        Console.WriteLine("Collided with object, asking reward system.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("No collision, reducing energy while not converged.");
-                        while (!robot.IsConverged && robot.Energy != 0)
-                        {
-                            robot.Energy -= 10;
-                        }
+                        //Send danger signal!
+                        Console.WriteLine("Collided with object, sending danger signal.");
                     }
                 }
                 else

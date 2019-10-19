@@ -23,8 +23,8 @@ namespace A_AI_Individual_Origami_Robots
             List<string> objects = new List<string>
             {
 
-                //"AAAAA" //Foreign
-                "0A002" //Self
+                "2222R" //Foreign
+                //"0A002" //Self
             };
 
             return objects;
