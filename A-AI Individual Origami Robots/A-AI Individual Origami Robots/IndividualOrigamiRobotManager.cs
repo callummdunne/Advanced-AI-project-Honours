@@ -18,20 +18,20 @@ namespace A_AI_Individual_Origami_Robots
             foreach (string Identifier in ModelIdentifiers)
             {
                 byte[] AsciiBytes = Encoding.ASCII.GetBytes(Identifier);
-                List<byte> asciiList = new List<byte>();
 
                 for (int i = 0; i < AsciiBytes.Length; i++)
                 {
-                    asciiList.Add(AsciiBytes[i]);
-
                     if (!Model.TryGetValue(i, out List<byte> existingAscii))
                     {
-                        existingAscii = new List<byte>(asciiList);
+                        existingAscii = new List<byte>
+                        {
+                            AsciiBytes[i]
+                        };
                         Model.Add(i, existingAscii);
                     }
                     else
                     {
-                        existingAscii.AddRange(asciiList);
+                        existingAscii.Add(AsciiBytes[i]);
                         Model[i] = existingAscii;
                     }
                 }
@@ -74,6 +74,8 @@ namespace A_AI_Individual_Origami_Robots
 
         private bool ObjectIsInSelfSpace(string Identifier)
         {
+            int k = 3;
+            double threshold = 0.5;
             byte[] AsciiBytes = Encoding.ASCII.GetBytes(Identifier);
 
             for (int i = 0; i < AsciiBytes.Length; i++)
@@ -83,7 +85,37 @@ namespace A_AI_Individual_Origami_Robots
                     return false;
                 }
 
-                if (!validAscii.Contains(AsciiBytes[i]))
+                byte sampleAsciiValue = AsciiBytes[i];
+
+                int totalDistance = 0;
+                List<int> nearestValues = new List<int>();
+                List<byte> tempValidAscii = new List<byte>(validAscii);
+
+                for (int j = 0; j < k; j++)
+                {
+                    byte closestValidAsciiValue = 0;
+                    int smallestDistance = 100;
+                    foreach (byte validAsciiValue in tempValidAscii)
+                    {
+                        int distance = Math.Abs((validAsciiValue - sampleAsciiValue));
+                        if (distance < smallestDistance)
+                        {
+                            smallestDistance = distance;
+                            closestValidAsciiValue = validAsciiValue;
+                        }
+                    }
+
+                    totalDistance += smallestDistance;
+                    nearestValues.Add(smallestDistance);
+                    tempValidAscii.Remove(closestValidAsciiValue);
+                }
+
+                int closestNeighbourDistance = nearestValues[0];
+
+                double normality = (double) (closestNeighbourDistance == 0 ? 1 : closestNeighbourDistance) / (totalDistance == 0 ? 1 : totalDistance);
+                Console.WriteLine("Level of normality for index " + i + ": " + normality);
+
+                if (normality < threshold)
                 {
                     return false;
                 }

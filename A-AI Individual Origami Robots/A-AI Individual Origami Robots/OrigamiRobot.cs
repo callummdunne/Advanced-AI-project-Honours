@@ -20,10 +20,12 @@ namespace A_AI_Individual_Origami_Robots
 
         public List<string> GetNearestObjects()
         {
-            List<string> objects = new List<string>();
+            List<string> objects = new List<string>
+            {
 
-            //objects.Add("ges90awj2b"); //Foreign
-            objects.Add("Esfnawefin"); //Self
+                //"AAAAA" //Foreign
+                "0A002" //Self
+            };
 
             return objects;
         }
