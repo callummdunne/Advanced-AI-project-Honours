@@ -41,7 +41,7 @@ public class GoalSystem : MonoBehaviour
 
 
     //Calculates the energy of the ball and removes any origamis if needed
-    int CalcGoal() 
+    void CalcGoal() 
     {
         GameObject[] Origamis = GetOrigamis();
 
@@ -68,6 +68,8 @@ public class GoalSystem : MonoBehaviour
             {
                 if (Origamis[O].age > MaxAge) //need age of origami 
                 {
+                    //check if the origami is part of a mesh 
+                    // add to their age if they are part of smaller balls so check the average distance is large then we can add to the age of the origamis
                     //myObject.GetComponent<MyScript>().MyFunction(); call Julius remove origami 
                 }
                 else
@@ -77,7 +79,7 @@ public class GoalSystem : MonoBehaviour
             }
             else
             {
-                Origamis[O].age = 0;
+                Origamis[O].age = 0; //maybe reduce this value
             }
 
         }
@@ -85,7 +87,7 @@ public class GoalSystem : MonoBehaviour
 
         //GameObject.FindGameObjectWithTag("Your_Tag_Here").transform.position; .transform.position
         //myObject.GetComponent<MyScript>().MyFunction();
-        return ;
+        
     }
 
     double EuclidianDistance(Vector3 first, Vector3 second)
@@ -157,6 +159,10 @@ public class GoalSystem : MonoBehaviour
     {
         return new Vector3(0, 0, 0);
     }
+
+
+    //make a function to find out the number of origamis that should come back and change that values 
+    // if collision then we can lower this value so as to stop as many origamis coming back
 
 
 
