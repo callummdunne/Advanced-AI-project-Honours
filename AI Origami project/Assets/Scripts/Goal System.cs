@@ -6,6 +6,8 @@ using UnityEngine;
 public class GoalSystem : MonoBehaviour
 {
     private int CheckPointsPassed;
+    private int NumBringBack;
+    private int PastObstacles;
     public int NumOrigamics
     {
         get
@@ -36,12 +38,12 @@ public class GoalSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        AddOrigamis();
     }
 
 
     //Calculates the energy of the ball and removes any origamis if needed
-    void CalcGoal() 
+    void CalcGoal() //will be called as i will need data on if part of mesh could call in update if morne has function for me to get part of mesh 
     {
         GameObject[] Origamis = GetOrigamis();
 
@@ -74,12 +76,12 @@ public class GoalSystem : MonoBehaviour
                 }
                 else
                 {
-                    Origamis[O].age++; 
+                    Origamis[O].age+= 2 ; 
                 }
             }
             else
             {
-                Origamis[O].age = 0; //maybe reduce this value
+                Origamis[O].age -= 1 ; 
             }
 
         }
@@ -125,6 +127,28 @@ public class GoalSystem : MonoBehaviour
     }
 
     
+    void AddOrigamis()
+    {
+        int NumberOfObstaclesBeforeAdd = 3;
+        if (PastObstacles > NumberOfObstaclesBeforeAdd)
+        {
+            PastObstacles = 0;
+            for (int i = 0; i < NumBringBack; i++)
+            {
+                
+                //Call function to add origamis 
+            }
+        }
+        else
+        {
+            if (CheckPastObstacle(""))
+            {
+                PastObstacles += 1;
+            }
+        }
+    }
+
+
     bool CheckPastObstacle(string NextObstacle) //Checks if all origamis are past a obstacle to see if we should add origamis
     {
         GameObject[] Origamis = GetOrigamis();
@@ -148,6 +172,10 @@ public class GoalSystem : MonoBehaviour
     }
 
 
+    void CollisionHappened(string DangerSignal) //Maybe give the value or just call it and i can do a calculation 
+    {
+
+    }
 
 
     private Vector3 GetLocationObstacle(string str) //look at the naming scheme of obstacles and get location
