@@ -31,7 +31,7 @@ public class GoalSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        //create the right number of origamis 
     }
 
 
@@ -72,7 +72,7 @@ public class GoalSystem : MonoBehaviour
                 {
                     //check if the origami is part of a mesh 
                     // add to their age if they are part of smaller balls so check the average distance is large then we can add to the age of the origamis
-                    //myObject.GetComponent<MyScript>().MyFunction(); call Julius remove origami 
+                    //myObject.GetComponent<MyScript>().MyFunction(); create a destroy function for the origamis
                 }
                 else
                 {
