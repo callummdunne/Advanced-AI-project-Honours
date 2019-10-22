@@ -22,10 +22,11 @@ public class GoalSystem : MonoBehaviour
     }
     public int Energy
     {
-        get { 
-            return Energy; 
-        } 
-        
+        get
+        {
+            return Energy;
+        }
+
     }
 
     // Start is called before the first frame update
@@ -45,18 +46,18 @@ public class GoalSystem : MonoBehaviour
     //Calculates the energy of the ball and removes any origamis if needed
     void CalcGoal() //will be called as i will need data on if part of mesh could call in update if morne has function for me to get part of mesh 
     {
-        GameObject[] Origamis = GetOrigamis();
+        Origami[] Origamis = GameManager.origamis.ToArray();
 
 
-        Vector3 Average = AverageLocation(Origamis); 
-        
+        Vector3 Average = AverageLocation(Origamis);
+
 
         double AverageDistance = 0.00;
         double[] Distances = new double[NumOrigamics]; //storing distances so i dont have to calculate again later 
 
-        for (int j = 0; j < NumOrigamics; j++) //Calculate average distance from average point 
+        for(int j = 0; j < NumOrigamics; j++) //Calculate average distance from average point 
         {
-            Distances[j] = EuclidianDistance(Origamis[j].transform.position, Average);
+            Distances[j] = EuclidianDistance(Origamis[j].GameObject.transform.position, Average);
             AverageDistance += Distances[j];
         }
 
@@ -64,11 +65,11 @@ public class GoalSystem : MonoBehaviour
 
         int Leeway = 5; //This is how much leeway to give on the average distance
         int MaxAge = 5; //This is the maximum age that an origami can get to
-        for (int O = 0; O < NumOrigamics; O++)
+        for(int O = 0; O < NumOrigamics; O++)
         {
-            if (Distances[O] > AverageDistance + Leeway) 
+            if(Distances[O] > AverageDistance + Leeway)
             {
-                if (Origamis[O].age > MaxAge) //need age of origami 
+                if(Origamis[O].Age > MaxAge) //need age of origami 
                 {
                     //check if the origami is part of a mesh 
                     // add to their age if they are part of smaller balls so check the average distance is large then we can add to the age of the origamis
@@ -76,12 +77,12 @@ public class GoalSystem : MonoBehaviour
                 }
                 else
                 {
-                    Origamis[O].age+= 2 ; 
+                    Origamis[O].Age += 2;
                 }
             }
             else
             {
-                Origamis[O].age -= 1 ; 
+                Origamis[O].Age -= 1;
             }
 
         }
@@ -89,7 +90,7 @@ public class GoalSystem : MonoBehaviour
 
         //GameObject.FindGameObjectWithTag("Your_Tag_Here").transform.position; .transform.position
         //myObject.GetComponent<MyScript>().MyFunction();
-        
+
     }
 
     double EuclidianDistance(Vector3 first, Vector3 second)
@@ -97,51 +98,51 @@ public class GoalSystem : MonoBehaviour
         float X = first.x - second.x;
         float Y = first.y - second.y;
         float Z = first.z - second.z;
-         
+
         return Math.Sqrt((X * X) + (Y * Y) + (Z * Z));
     }
 
-    
+
 
 
     private GameObject[] GetOrigamis() //get all the origamis
     {
         GameObject[] Origamis = new GameObject[NumOrigamics];
-        for (int i = 0; i < NumOrigamics; i++)
+        for(int i = 0; i < NumOrigamics; i++)
         {
             Origamis[i] = GameObject.FindGameObjectWithTag("Origamis" + i);
         }
         return Origamis;
     }
 
-    Vector3 AverageLocation(GameObject[] Origamis) //calculate the average location to find a center point
+    Vector3 AverageLocation(Origami[] Origamis) //calculate the average location to find a center point
     {
         Vector3 Average = new Vector3(0, 0, 0);
-        for (int a = 0; a < NumOrigamics; a++)
+        for(int a = 0; a < NumOrigamics; a++)
         {
-            Average = Average + Origamis[a].transform.position;
+            Average = Average + Origamis[a].GameObject.transform.position;
         }
 
         Average = Average / NumOrigamics;
         return Average;
     }
 
-    
+
     void AddOrigamis()
     {
         int NumberOfObstaclesBeforeAdd = 3;
-        if (PastObstacles > NumberOfObstaclesBeforeAdd)
+        if(PastObstacles > NumberOfObstaclesBeforeAdd)
         {
             PastObstacles = 0;
-            for (int i = 0; i < NumBringBack; i++)
+            for(int i = 0; i < NumBringBack; i++)
             {
-                
+
                 //Call function to add origamis 
             }
         }
         else
         {
-            if (CheckPastObstacle(""))
+            if(CheckPastObstacle(""))
             {
                 PastObstacles += 1;
             }
@@ -152,16 +153,16 @@ public class GoalSystem : MonoBehaviour
     bool CheckPastObstacle(string NextObstacle) //Checks if all origamis are past a obstacle to see if we should add origamis
     {
         GameObject[] Origamis = GetOrigamis();
-        
-        for (int i = 0; i < NumOrigamics; i++)
+
+        for(int i = 0; i < NumOrigamics; i++)
         {
-            if (GetLocationObstacle(NextObstacle)[0] < Origamis[i].transform.position[0])
+            if(GetLocationObstacle(NextObstacle)[0] < Origamis[i].transform.position[0])
             {
-                if (GetLocationObstacle(NextObstacle)[1] < Origamis[i].transform.position[1])
+                if(GetLocationObstacle(NextObstacle)[1] < Origamis[i].transform.position[1])
                 {
-                    if (GetLocationObstacle(NextObstacle)[2] < Origamis[i].transform.position[2])
+                    if(GetLocationObstacle(NextObstacle)[2] < Origamis[i].transform.position[2])
                     {
-                        return false; 
+                        return false;
                     }
                 }
             }
@@ -199,5 +200,5 @@ public class GoalSystem : MonoBehaviour
 
 
 
-    
+
 }
