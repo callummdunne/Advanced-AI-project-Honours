@@ -4,12 +4,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 // Kevin Matthew Julius 216007874
-public class DTObstacle : DTGameObject
+public class Obstacle : DTGameObject
 {
 
     private GameObject gameObject;
 
-    public DTObstacle()
+    public Obstacle()
     {
         SetToObstacle();
         GameObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
