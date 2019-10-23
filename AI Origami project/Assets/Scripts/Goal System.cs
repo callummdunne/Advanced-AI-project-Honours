@@ -131,7 +131,7 @@ public class GoalSystem : MonoBehaviour
     void AddOrigamis()
     {
         int NumberOfObstaclesBeforeAdd = 3;
-        if(PastObstacles > NumberOfObstaclesBeforeAdd)
+        if(PastObstacles >= NumberOfObstaclesBeforeAdd)
         {
             PastObstacles = 0;
             for(int i = 0; i < NumBringBack; i++)
@@ -192,13 +192,5 @@ public class GoalSystem : MonoBehaviour
 
     //make a function to find out the number of origamis that should come back and change that values 
     // if collision then we can lower this value so as to stop as many origamis coming back
-
-
-
-
-
-
-
-
 
 }
