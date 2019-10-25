@@ -34,6 +34,7 @@ public class Morne_swarm_behaviour : MonoBehaviour
 
     //The detector spheres of variable size add up to a coverage volume, ths must be greater than the Coverage_Threshold
     double Detector_coverage = 0;
+    int sizeOfList;
 
     //The maximum allowable overlap with current detectors
     //double allowed_detetor_overlap = 2;
@@ -57,6 +58,41 @@ public class Morne_swarm_behaviour : MonoBehaviour
             y = Y;
             z = Z;
             radius = 1;
+        }
+    }
+
+    public struct Detector_Response
+    {
+        public Sphere Detector { get; set; }
+        public bool Activated { get; set; }
+        public AssociatedResponce Responce { get; set; }
+    }
+
+    public class AssociatedResponce
+    {
+        //Assign reward weights to these indexes
+
+        // Swarm choice
+        // [3 linear small swarm, 3 sequenced small swarms, large swarm]
+        int[] SwarmChoice { get; set; }
+
+        // Movement choice
+        // [move left, centre, move right]
+        int[] MovementChoice { get; set; }
+
+        public AssociatedResponce(int SwarmReward_Index, int MoveReward_Index)
+        {
+        SwarmChoice = new int[3] { 0, 1, 2 };
+        MovementChoice = new int[3] { 0, 1, 0 };
+
+        SwarmChoice[SwarmReward_Index] += 1;
+        MovementChoice[MoveReward_Index] += 1;
+        }
+
+        public void Reinforcement_learning(int S_index, int S_Reward, int M_index, int M_Reward)
+        {
+            SwarmChoice[S_index] += S_Reward;
+            MovementChoice[M_index] += M_Reward;
         }
     }
 
@@ -105,9 +141,16 @@ public class Morne_swarm_behaviour : MonoBehaviour
             foreach (char c in s)
             {
                 i++;
-                self_space.Add(mapToPoint(c, i));
+                Sphere candidate_sphere = mapToPoint(c, i);
+                if(!self_space.Contains(candidate_sphere))
+                {
+                    self_space.Add(candidate_sphere);
+                }
             }
+            i = 0;
         }
+        int count_self_space = self_space.Count;
+        print("Self space cells: " + count_self_space);
 
         // Generate random detector
         Random rnd = new System.Random();
@@ -197,6 +240,9 @@ public class Morne_swarm_behaviour : MonoBehaviour
 
         //print_detectors();
         print("Detector coverage: " + Detector_coverage);
+        sizeOfList = detectors.Count;
+        print("Number of detectors: " + sizeOfList);
+
     }
 
     // Update is called once per frame

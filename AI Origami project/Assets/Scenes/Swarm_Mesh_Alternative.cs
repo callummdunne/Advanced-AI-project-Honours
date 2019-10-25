@@ -129,7 +129,7 @@ public class Swarm_Mesh_Alternative : MonoBehaviour
         Dictionary<long, int> middlePointIndexCache = new Dictionary<long, int>();
         int index = 0;
 
-        int recursionLevel = 0;
+        int recursionLevel = 1;
         float radius = 5f;
 
         // create 12 vertices of a icosahedron
