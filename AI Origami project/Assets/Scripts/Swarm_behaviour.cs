@@ -294,6 +294,7 @@ public class Swarm_behaviour : MonoBehaviour
                     }
                 }
             }
+            newObstacle = false;
         }
     }
 
