@@ -13,8 +13,7 @@ public class wallsNramps : MonoBehaviour
     // Counter for increase diffuculty functionality
     //this shows how many obstacles have been generated so far
     public int numObstaclesGenerated;
-
-    //lsit 
+ 
 
     //vars for internal use; I'll add comments here later but nobody should need to use these directly
     public GameObject ramp;
@@ -42,6 +41,12 @@ public class wallsNramps : MonoBehaviour
     //list of next obstacles to be created
     private ArrayList nextObstacles = new ArrayList();
 
+    //Flag to indicate when next obstacle can be generated
+    private bool flagCreateNext = false;
+
+    //string of next obstacle
+    private string nextObstacle;
+
     // Use this for initialization
     void Start()
     {
@@ -61,24 +66,25 @@ public class wallsNramps : MonoBehaviour
     void Update()
     {
         
-        if (Input.GetButton("placeRamp") && Time.time > nextPlace)
+        if (flagCreateNext)
         {
-            nextPlace = Time.time + placeRate;
-            rampPos = cameraHeadTransform.TransformPoint(0, 0, 10);
-            rampPos.y = 2;
-            Instantiate(ramp, rampPos, Quaternion.Euler(270, 270, 0));
-            ramp.transform.localScale = new Vector3(200f, 200f, 200f);
-        }
-        if (Input.GetButton("placeWall") && Time.time > nextPlace)
-        {
-            nextPlace = Time.time + placeRate;
-            wallPos = cameraHeadTransform.TransformPoint(0, 0, 10);
-            wallPos.y = 1;
-            Instantiate(wall, wallPos, Quaternion.Euler(270, 0, 0));
-            wall.transform.localScale = new Vector3(100f, 50f, 100f);
+            createNextObstacle();
+            flagCreateNext = false;
         }
         
     }
+
+    //----------------getters and setters
+    public void setFlagNext(bool flag)
+    {
+        flagCreateNext = flag;
+    }
+
+    public string getNextObstacle()
+    {
+        return nextObstacle;
+    }
+    //----------------end getters and setters
 
     void getDetectors()
     {
@@ -248,12 +254,13 @@ public class wallsNramps : MonoBehaviour
     }
 
     //call this method to add next obstacle in the list
-    public void createNextObstacle(string detector) {
+    public void createNextObstacle() {
         if (nextObstacles.Count == 0)
         {
             return;
         }
-        detector = (string)nextObstacles[0];
+        string detector = (string)nextObstacles[0];
+        nextObstacle = detector;
         detectorToObstacle(detector);
         //remove from list
         nextObstacles.RemoveAt(0);
