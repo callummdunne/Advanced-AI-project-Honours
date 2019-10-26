@@ -198,7 +198,7 @@ public class GetUserInput : MonoBehaviour
      **/
     public String increaseDifficulty(ArrayList returnedObstaclesPattern, int frameValue)
     {
-        string newValues = "";
+        string newValues = (string)returnedObstaclesPattern[0]; //Get first character, the letter
         int newSize = 0;
         //Start from index 1 as W/R does not matter
         for(int i = 1; i < returnedObstaclesPattern.Count; i++)
