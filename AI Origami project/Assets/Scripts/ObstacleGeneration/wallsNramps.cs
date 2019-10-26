@@ -88,7 +88,7 @@ public class wallsNramps : MonoBehaviour
 
     public GameObject getNextObstacle()
     {
-
+        return nextObject;
     }
     //----------------end getters and setters
 
@@ -229,9 +229,9 @@ public class wallsNramps : MonoBehaviour
 
 
     //this method accepts an arraylist of strings representing obstacles to be generated
-    public void setObstacleListOfObstacles(ArrayList obstacleStrings)
+    public void setObstacleListOfObstacles(string obstacleStrings)
     {
-        createObstacleWithCode("W3333");
+        createObstacleWithCode(obstacleStrings);
         /*
         Debug.Log(obstacleStrings.Count);
         foreach (object d in obstacleStrings){
