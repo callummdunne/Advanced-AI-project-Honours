@@ -99,7 +99,7 @@ public class AddOrigamis : MonoBehaviour
 
         Origami origami = new Origami();
 
-        origami.GameObject = new GameObject("origami " + Convert.ToString(iFromLoop + 1));
+        origami.GameObject = new GameObject("Origami " + Convert.ToString(iFromLoop + 1));
         origami.GameObject.AddComponent<MeshFilter>().mesh = myMesh;
 
         Material mat = AssetDatabase.GetBuiltinExtraResource<Material>("Sprites-Default.mat");

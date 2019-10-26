@@ -143,6 +143,8 @@ public class DTGameObject : MonoBehaviour
                         if(IsInRange(origami.GameObject, obstacle.GameObject, GameManager.ObstacleDZRADIUS))
                         {
                             o.AddSignal(signal);
+                            GetComponent<Swarm_behaviour>().newObstacle = true;
+                            GetComponent<Swarm_behaviour>().ObstaclePattern = obstacle.Pattern;
                         }
                     }
                 }
