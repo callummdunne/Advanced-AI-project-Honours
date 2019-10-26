@@ -6,21 +6,16 @@ using System;
 public class GoalSystem : MonoBehaviour
 {
 
-    public struct Origami
-    {
-        public GameObject myObject;
-        public string pattern;
-        public int age;
-    }
-
-    //creating an array of origamis
-    public Origami[] origamis = new Origami[1];
-
-
+    //Origami origamis;
     // Start is called before the first frame update
+    GameManager MasterScript;
     void Start()
     {
-        
+        GameObject ManagerOfTheSystem = GameObject.Find("GameManager");
+        GameManager MasterScript = ManagerOfTheSystem.GetComponent<GameManager>();
+        //origamis = MasterScript.origamis;
+        //origamis = GameManager.origamis;
+        Debug.Log("It worked");
     }
 
     // Update is called once per frame
@@ -32,67 +27,70 @@ public class GoalSystem : MonoBehaviour
 
 
 
-    //Callums code starts here
+    
 
 
-    private int NumOrigamics;
-    private int NumBringBack = 0;
+    private int NumOrigamics; //how many origamis 
+    private int NumBringBack = 0; //how many will be brought back after next obstacle 
     public int NumDied
     {
         get { return NumDied; }
         set { NumDied = value; }
     }
-    private int PastObstacles = 0;
+    private int PastObstacles = 0; //how many obstacles we have pasted 
 
 
 
 
     public void CalcGoal() //will be called as i will need data on if part of mesh could call in update if morne has function for me to get part of mesh 
     {
-        NumOrigamics = origamis.Length; //todo check that this has the right number 
+        
+        NumOrigamics = MasterScript.origamis.Count; 
 
 
-        Vector3 Average = AverageLocation(origamis);
+        Vector3 Average = AverageLocation();
 
 
         double AverageDistance = 0.00;
         double[] Distances = new double[NumOrigamics]; //storing distances so i dont have to calculate again later 
-
-        for (int j = 0; j < NumOrigamics; j++) //Calculate average distance from average point 
+        int position = 0;
+        foreach (Origami Ori in MasterScript.origamis) //Calculate average distance from average point 
         {
-            Distances[j] = EuclidianDistance(origamis[j].myObject.transform.position, Average);
-            AverageDistance += Distances[j];
+            Distances[position] = EuclidianDistance(Ori.GameObject.transform.position, Average);
+            AverageDistance += Distances[position];
+            position +=1;
         }
 
         AverageDistance /= NumOrigamics;
 
         int Leeway = 5; //This is how much leeway to give on the average distance
         int MaxAge = 5; //This is the maximum age that an origami can get to
-        for (int O = 0; O < NumOrigamics; O++)
+        position = 0; 
+        foreach (Origami Ori in MasterScript.origamis)
         {
-            if (Distances[O] > (AverageDistance + Leeway))
+            if (Distances[position] > (AverageDistance + Leeway))
             {
-                if (origamis[O].age >= MaxAge)
+                if (Ori.Age >= MaxAge)
                 {
                     //todo check if the origami is part of a mesh 
 
                     //myObject.GetComponent<MyScript>().MyFunction(); create a destroy function for the origamis
                     //todo call the destroy function
-
+                    NumDied += 1;
                 }
                 else
                 {
-                    origamis[O].age += 2;
+                    Ori.Age += 2;
                 }
             }
             else
             {
-                if (origamis[O].age > 0)
+                if (Ori.Age > 0)
                 {
-                    origamis[O].age -= 1;
+                    Ori.Age -= 1;
                 }
             }
-
+        position +=1;
         }
     }
 
@@ -106,12 +104,12 @@ public class GoalSystem : MonoBehaviour
         return Math.Sqrt((X * X) + (Y * Y) + (Z * Z));
     }
 
-    Vector3 AverageLocation(Origami[] Origamis) //calculate the average location to find a center point
+    Vector3 AverageLocation() //calculate the average location to find a center point
     {
         Vector3 Average = new Vector3(0, 0, 0);
-        for (int a = 0; a < NumOrigamics; a++)
+        foreach (Origami Ori in MasterScript.origamis)
         {
-            Average = Average + Origamis[a].myObject.transform.position;
+            Average = Average + Ori.GameObject.transform.position;
         }
 
         Average = Average / NumOrigamics;
@@ -131,7 +129,7 @@ public class GoalSystem : MonoBehaviour
                 //addNewOrigami(i); call nsikas addOrigami function 
             }
 
-            NumOrigamics = origamis.Length;
+            NumOrigamics = MasterScript.origamis.Count;
         }
         else
         {
@@ -146,22 +144,16 @@ public class GoalSystem : MonoBehaviour
 
     public bool CheckPastObstacle(string NextObstacle) //Checks if all origamis are past a obstacle to see if we should add origamis
     {
+        //get the location of the next obstacle
 
-
-        for (int i = 0; i < NumOrigamics; i++)
+        if(GetLocationObstacle(NextObstacle)[0] < 0)
         {
-            if (GetLocationObstacle(NextObstacle)[0] < origamis[i].myObject.transform.position[0]) //todo change these once we know direction
-            {
-                if (GetLocationObstacle(NextObstacle)[1] < origamis[i].myObject.transform.position[1])
-                {
-                    if (GetLocationObstacle(NextObstacle)[2] < origamis[i].myObject.transform.position[2])
-                    {
-                        return false;
-                    }
-                }
-            }
+            return true;
         }
-        return true;
+        else
+        {
+            return false;
+        }
     }
 
 

@@ -6,6 +6,14 @@ using UnityEditor;
 
 public class AddOrigamis : MonoBehaviour
 {
+    //the structure for a single origami
+    public struct Origami
+    {
+        public GameObject myObject;
+        public string pattern;
+        public int age;
+        public bool inPosition;
+    }
 
     //declaring a new game and mesh object
     GameObject origami;
@@ -13,6 +21,8 @@ public class AddOrigamis : MonoBehaviour
 
     //creating an array of origamis
     Origami[] origamis = new Origami[1];
+
+    public bool origamisGenerated = false;
 
     public Origami[] origamiArray
     {
@@ -61,6 +71,8 @@ public class AddOrigamis : MonoBehaviour
             addNewOrigami(i);
         }
 
+        Array.Resize(ref origamis, origamis.Length - 1);
+        origamisGenerated = true;
     }
 
     //this function should be called in awake to initialise the random patterns
@@ -88,6 +100,16 @@ public class AddOrigamis : MonoBehaviour
             }
 
         } while (initializationList.Count < 20);
+    }
+
+    public List<Origami> getOrigamis()
+    {
+        return new List<Origami>(origamis);
+    }
+
+    public bool isOrigamisGenerated()
+    {
+        return origamisGenerated;
     }
 
     //function used to generate a single origami robot.. call in a loop to create many

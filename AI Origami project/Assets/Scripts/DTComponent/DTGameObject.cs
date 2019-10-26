@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 // Kevin Matthew Julius 216007874
-public class DTGameObject
+public class DTGameObject : MonoBehaviour
 {
     /// Danger Theory Model Classification
     /// ========================================
@@ -23,60 +23,51 @@ public class DTGameObject
     /// signal. If the T cell recognises the antigen (which, if negative selection has worked, 
     /// should mean the antigen is non-self) then the immune response can commence.
 
-
-    private string name;
-    private bool signal1;
+    public GameObject GameManagerObj;
     private bool sentasignal;
     private List<string> receivedSignals;
 
     public string Name
     {
-        get => name;
+        get; set;
     }
     public bool Awake
     {
-        get => signal1;
+        get; set;
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
+        GameManagerObj = GameObject.FindWithTag("GameManager");
+
     }
 
     public DTGameObject()
     {
-        name = "";
-        signal1 = false;
+        Name = "";
+        Awake = false;
         sentasignal = true;
         receivedSignals = new List<string>();
-    }
-
-    public void SetToOrigami()
-    {
-        string name = "ORI" + GameManager.NumberOrigami;
-        ++GameManager.NumberOrigami;
-        this.name = name;
-        GameManager.AddOrigami((Origami)this);
-    }
-
-    public void SetToObstacle()
-    {
-        string name = "OBS" + GameManager.NumberObstacles;
-        ++GameManager.NumberObstacles;
-        this.name = name;
-        GameManager.AddObstacle((Obstacle)this);
     }
 
     public void AddSignal(string signal)
     {
         if(signal.Equals("Awake"))
         {
-            signal1 = true;
+            Awake = true;
             sentasignal = false;
         }
-        else if(signal1)
+        else if(Awake)
         {
             receivedSignals.Add(signal);
-            signal1 = false;
+            Awake = false;
             if(!sentasignal)
             {
                 sentasignal = true;
-                foreach(DTGameObject o in GameManager.origamis)
+                List<Origami> origamis = GameManagerObj.GetComponent<GameManager>().origamis;
+                foreach(DTGameObject o in origamis)
                 {
                     if(o.Name.Contains("ORI") && this is Origami)
                     {
@@ -117,9 +108,10 @@ public class DTGameObject
         return (distance <= range);
     }
 
-    public static void AwakeOrigami()
+    public void AwakeOrigami()
     {
-        foreach(DTGameObject o in GameManager.origamis)
+        List<Origami> origamis = GameManagerObj.GetComponent<GameManager>().origamis;
+        foreach(DTGameObject o in origamis)
         {
             if(o.Name.Contains("ORI"))
             {
@@ -131,11 +123,12 @@ public class DTGameObject
 
     // find all origami close to the given origami
     // and send the message to the origami
-    public static void SendSignal(DTGameObject gameObject, string signal)
+    public void SendSignal(DTGameObject gameObject, string signal)
     {
         if(!gameObject.Equals(null))
         {
-            foreach(DTGameObject o in GameManager.origamis)
+            List<Origami> origamis = GameManagerObj.GetComponent<GameManager>().origamis;
+            foreach(DTGameObject o in origamis)
             {
                 if(o.Name.Contains("ORI"))
                 {
