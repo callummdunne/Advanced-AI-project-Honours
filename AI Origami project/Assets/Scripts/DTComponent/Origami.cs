@@ -7,11 +7,16 @@ using UnityEngine.SceneManagement;
 public class Origami : DTGameObject
 {
 
+    static int intName= 0;
+
     GameObject gameObject;
+
+    public bool hasMoved;
 
     public Origami()
     {
-       
+       Name = "Ori" + intName;
+       intName += 1;
     }
 
     public GameObject GameObject

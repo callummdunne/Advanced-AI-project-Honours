@@ -31,10 +31,10 @@ public class Swarm_mesh : MonoBehaviour
 
         CreatePlanet();
 
-        foreach(int triangle in planetMesh.triangles)
+        /*foreach(int triangle in planetMesh.triangles)
         {
             print(triangle);
-        }
+        }*/
 
         // Small swarm 42 triangle origamis
         //
@@ -124,7 +124,7 @@ public class Swarm_mesh : MonoBehaviour
         //int index = 0;
 
         int recursionLevel = iteration;
-        float radius = 5f;
+        float radius = 20f;
 
         // create 12 vertices of a icosahedron
         float t = (1f + Mathf.Sqrt(5f)) / 2f;
@@ -446,12 +446,12 @@ public class Swarm_mesh : MonoBehaviour
         // int location, int SwarmSize, int configuration
         setSwarmResponce(planet,0, 2, 0);
         print("Triangle count: " + MeshTriangleExtraction.Count);
-        foreach(List<Vector3> vectorTriangle in MeshTriangleExtraction)
+        /*foreach(List<Vector3> vectorTriangle in MeshTriangleExtraction)
         {
             print("Vector 0 x:" + vectorTriangle[0].x + " y:" + vectorTriangle[0].y + " z:" + vectorTriangle[0].z);
             print("Vector 1 x:" + vectorTriangle[1].x + " y:" + vectorTriangle[1].y + " z:" + vectorTriangle[1].z);
             print("Vector 2 x:" + vectorTriangle[2].x + " y:" + vectorTriangle[2].y + " z:" + vectorTriangle[2].z);
-        }
+        }*/
         //Create(planet);
     }
 

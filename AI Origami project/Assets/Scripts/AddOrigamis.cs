@@ -52,7 +52,7 @@ public class AddOrigamis : MonoBehaviour
     {
         GameManagerObj = GameObject.FindWithTag("GameManager");
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 160; i++)
         {
             addNewOrigami(i);
         }
@@ -106,7 +106,7 @@ public class AddOrigamis : MonoBehaviour
 
         origami.GameObject.AddComponent<MeshRenderer>().material = mat;
 
-        origami.GameObject.transform.position = new Vector3(iFromLoop * 5, iFromLoop * 5, iFromLoop * 3);
+        origami.GameObject.transform.position = new Vector3(5, iFromLoop * 5, iFromLoop * 5);
 
         string newRobot = "";
 
@@ -163,9 +163,10 @@ public class AddOrigamis : MonoBehaviour
     //one triangle origami function
     void makeModelOneTriangle(int main, char po, int one, int two, int three)
     {
+        main = 0; 
         myVertices = new Vector3[]
         {
-            new Vector3(0, main, 1), new Vector3(3, main, 4), new Vector3(4, main, 0),
+            new Vector3(-1, 1, 0), new Vector3(1, 1, 0), new Vector3(-1, -1, 0),
             //new Vector3(-1, one, 5), new Vector3(7, two, 3), new Vector3(1, three, -3)
         };
 

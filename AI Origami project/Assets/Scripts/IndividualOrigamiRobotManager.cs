@@ -46,7 +46,7 @@ namespace A_AI_Individual_Origami_Robots
         void Update()
         {
             if (GameManager.GetComponent<Swarm_mesh>().isSwarmCalculated() &&
-                GameManager.GetComponent<AddOrigamis>().isOrigamisGenerated() && current < max)
+                GameManager.GetComponent<AddOrigamis>().isOrigamisGenerated())
             {
                 List<List<Vector3>> coordinatesList = GameManager.GetComponent<Swarm_mesh>().getSwarmCoordinates();
                 List<Origami> robots = GameManager.GetComponent<GameManager>().origamis;
@@ -170,47 +170,56 @@ namespace A_AI_Individual_Origami_Robots
 
         public void MatchRobotToCoordinates(ref List<Origami> Robots, List<List<Vector3>> CoordinatesList)
         {
-            Origami[] temp = new Origami[Robots.Count];
-            Robots.CopyTo(temp);
-            List<Origami> RobotClones = temp.ToList();
+
+            foreach(Origami robot in Robots)
+            {
+                print("Robot myObject: " + robot.myObject);
+            }
+
+            //Origami[] temp = new Origami[Robots.Count];
+            //Robots.CopyTo(temp);
+            //List<Origami> RobotClones = temp.ToList();
 
             foreach (List<Vector3> coordinates in CoordinatesList)
             {
                 double smallestDistance = double.MaxValue;
-                Origami closestRobot = new Origami();
-                print("Before center v1: x = " + coordinates[0].x + ", y = " + coordinates[0].y + ", z = " + coordinates[0].z);
+                int closestRobotIndex = -1;
+                /*print("Before center v1: x = " + coordinates[0].x + ", y = " + coordinates[0].y + ", z = " + coordinates[0].z);
                 print("Before center v2: x = " + coordinates[1].x + ", y = " + coordinates[1].y + ", z = " + coordinates[1].z);
-                print("Before center v3: x = " + coordinates[2].x + ", y = " + coordinates[2].y + ", z = " + coordinates[2].z);
+                print("Before center v3: x = " + coordinates[2].x + ", y = " + coordinates[2].y + ", z = " + coordinates[2].z);*/
                 Vector3 centerCoordinate = GetCentroid(coordinates);
                 print("After center v3: x = " + centerCoordinate.x + ", y = " + centerCoordinate.y + ", z = " + centerCoordinate.z);
 
-                if (RobotClones.Count == 0)
+                /*if (RobotClones.Count == 0)
                 {
                     break;
-                }
+                }*/
 
-                foreach (Origami robot in RobotClones)
+                for (int i = 0; i < Robots.Count; i++)
                 {
-                    double distance = GetEuclideanDistance(robot.myObject.transform.position, centerCoordinate);
+                    double distance = GetEuclideanDistance(Robots[i].myObject.transform.position, centerCoordinate);
                     //print("Robot Distance: " + distance);
 
-                    if (distance < smallestDistance)
+                    if (!Robots[i].hasMoved && distance < smallestDistance)
                     {
                         smallestDistance = distance;
-                        closestRobot = robot;
+                        closestRobotIndex = i;
                     }
                 }
 
-                RobotClones.Remove(closestRobot);
+                //RobotClones.Remove(closestRobot);
 
-                print("Closest robot that has coordinates to center coordinate " + centerCoordinate.ToString() + " : (" + closestRobot.myObject.transform.position.x +
-                ", " + closestRobot.myObject.transform.position.y + ", " + closestRobot.myObject.transform.position.z + ")");
+                print("Closest robot that has coordinates to center coordinate " + centerCoordinate.ToString() + " : (" + Robots[closestRobotIndex].myObject.transform.position.x +
+                ", " + Robots[closestRobotIndex].myObject.transform.position.y + ", " + Robots[closestRobotIndex].myObject.transform.position.z + ")");
 
-                Origami origami = Robots.Find(x => x.Equals(closestRobot));
+                //Origami origami = Robots.Find(x => x.Equals(closestRobot));
 
-                print("Positions before: " + origami.myObject.transform.position.x + " " + origami.myObject.transform.position.y + " " + origami.myObject.transform.position.z);
-                GameManager.GetComponent<AddOrigamis>().changePosition(origami.myObject, centerCoordinate.x, centerCoordinate.y, centerCoordinate.z);
-                print("Positions after: " + origami.myObject.transform.position.x + " " + origami.myObject.transform.position.y + " " + origami.myObject.transform.position.z);
+
+                print(Robots[closestRobotIndex].myObject);
+                print("Positions before: " + Robots[closestRobotIndex].myObject.transform.position.x + " " + Robots[closestRobotIndex].myObject.transform.position.y + " " + Robots[closestRobotIndex].myObject.transform.position.z);
+                GameManager.GetComponent<AddOrigamis>().changePosition(Robots[closestRobotIndex].myObject, centerCoordinate.x, centerCoordinate.y, centerCoordinate.z);
+                Robots[closestRobotIndex].hasMoved = true;
+                print("Positions after: " + Robots[closestRobotIndex].myObject.transform.position.x + " " + Robots[closestRobotIndex].myObject.transform.position.y + " " + Robots[closestRobotIndex].myObject.transform.position.z);
             }
         }
 
