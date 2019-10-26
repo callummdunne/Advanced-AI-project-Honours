@@ -26,6 +26,9 @@ public class Swarm_behaviour : MonoBehaviour
     List<Sphere> self_space;
     List<Sphere> detectors;
 
+    public bool newObstacle;
+    public striing ObstaclePattern;
+
     //The string patterns are 5 characters, with 26 alphabet letters and 10 numbers, thus x ( 0 - 25), y (0 - 9), z = (0 - 4)
     //int Universe_Volume = 1300;
 
@@ -96,6 +99,8 @@ public class Swarm_behaviour : MonoBehaviour
         }
     }
 
+   
+
     public class Move_Info
     {
         // How much should a detctor move in x direction to avoid overlap with a specific sample or other detector
@@ -131,7 +136,11 @@ public class Swarm_behaviour : MonoBehaviour
     // Start is called before the first frame update
     public void Start()
     {
-        print("Swarm behaviour is running");
+
+         newObstacle = false;
+         ObstaclePattern = "00000";
+
+    print("Swarm behaviour is running");
         self_space = new List<Sphere>();
         detectors = new List<Sphere>();
 
@@ -248,7 +257,10 @@ public class Swarm_behaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if(newObstacle)
+        {
+                
+        }
     }
 
     Sphere mapToPoint(char C, int i)

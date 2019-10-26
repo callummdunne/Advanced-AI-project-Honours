@@ -171,6 +171,12 @@ namespace A_AI_Individual_Origami_Robots
         public void MatchRobotToCoordinates(ref List<Origami> Robots, List<List<Vector3>> CoordinatesList)
         {
             Origami[] temp = new Origami[Robots.Count];
+
+            foreach (Origami robot in Robots)
+            {
+                print("Robot myobject: " + robot.myObject);
+            }
+
             Robots.CopyTo(temp);
             List<Origami> RobotClones = temp.ToList();
 
@@ -201,12 +207,13 @@ namespace A_AI_Individual_Origami_Robots
                     }
                 }
 
-                RobotClones.Remove(closestRobot);
+                
 
                 print("Closest robot that has coordinates to center coordinate " + centerCoordinate.ToString() + " : (" + closestRobot.myObject.transform.position.x +
                 ", " + closestRobot.myObject.transform.position.y + ", " + closestRobot.myObject.transform.position.z + ")");
 
                 Origami origami = Robots.Find(x => x.Equals(closestRobot));
+                RobotClones.Remove(closestRobot);
 
                 print("Positions before: " + origami.myObject.transform.position.x + " " + origami.myObject.transform.position.y + " " + origami.myObject.transform.position.z);
                 GameManager.GetComponent<AddOrigamis>().changePosition(origami.myObject, centerCoordinate.x, centerCoordinate.y, centerCoordinate.z);
