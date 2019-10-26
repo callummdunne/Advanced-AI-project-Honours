@@ -2,29 +2,53 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * CLASS GETTERS AND SETTERS TO BE USED BETWEEN COMPONENTS
+ * 
+ * Jason calls getSwarmCoordinates() to get the cordinates of each origami location in the swarm, returns List<Vector3>
+ * 
+ * 
+ * */
+
 public class Swarm_mesh : MonoBehaviour
 {
     // public List<Vector3> MeshStructVertices = new List<Vector3>();
     public List<Vector3> MeshStructVertices;
     public Material planetMaterial;
+    public bool swarmCalculated;
     // Start is called before the first frame update
     void Start()
     {
+        swarmCalculated = false;
         planetMaterial = new Material(Shader.Find("VR/SpatialMapping/Wireframe"));
         CreatePlanet();
-        /*
+        
         foreach (int triangle in planetMesh.triangles)
         {
             print(triangle);
         }
-        */
+
+        // Small swarm 42 triangle origamis
+        //
+        
 
         
-       /* foreach (Vector3 tri in MeshStructVertices)
+        foreach (Vector3 tri in MeshStructVertices)
         {
             print("Vectors " + tri.x + " " + tri.y + " " + tri.z);
-        } */
+        } 
         print("Vector list obtained");
+        swarmCalculated = true;
+    }
+    public bool isSwarmCalculated()
+    {
+        return swarmCalculated;
+    }
+
+
+    public List<Vector3> getSwarmCoordinates()
+    {
+        return MeshStructVertices;
     }
 
     // Update is called once per frame
