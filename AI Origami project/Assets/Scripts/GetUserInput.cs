@@ -5,7 +5,7 @@ using System;
 public class GetUserInput : MonoBehaviour
 {
     static ArrayList patterns = null;
-    static int frameLevel = 0;
+    static int intCounter = 0;  //From Ruan to increase Difficulty
     ArrayList userInputs = new ArrayList();
 
     void Start()
@@ -40,8 +40,9 @@ public class GetUserInput : MonoBehaviour
                         //Return Matched
                         print(returnedObstaclesPattern[i]);
                         //GENERATE OBSTACLES
+                    
                         //First check difficulty
-                        //increaseDifficulty(returnedObstaclesPattern, frameLevel);
+                        increaseDifficulty(returnedObstaclesPattern, intCounter);
                     }
                 }
                 else
