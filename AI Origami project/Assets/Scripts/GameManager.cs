@@ -99,7 +99,7 @@ public class GameManager : MonoBehaviour
                         }
 
                         //First check difficulty
-                        ArrayList result = GetComponent<GetUserInput>().increaseDifficulty(toIncrease, intCounter);
+                        string result = GetComponent<GetUserInput>().increaseDifficulty(toIncrease, intCounter);
                         GetComponent<GetUserInput>().PatternStringsList[i] = result;
                     }
                 }

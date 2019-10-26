@@ -196,9 +196,9 @@ public class GetUserInput : MonoBehaviour
      * starting with the smallest
      * It will mutate values to be sent to obstacle graphics generator
      **/
-    public ArrayList increaseDifficulty(ArrayList returnedObstaclesPattern, int frameValue)
+    public String increaseDifficulty(ArrayList returnedObstaclesPattern, int frameValue)
     {
-        ArrayList newValues = new ArrayList();
+        string newValues = "";
         int newSize = 0;
         //Start from index 1 as W/R does not matter
         for(int i = 1; i < returnedObstaclesPattern.Count; i++)
@@ -206,7 +206,8 @@ public class GetUserInput : MonoBehaviour
             //Get Value that represents size, eg. 3 - 6 second index[1]
             newSize = (int)returnedObstaclesPattern[i] * (frameValue / 10); //Takes about 10 obstacles for it to increase in size
             //Set new value to that index
-            newValues[i] = newSize;
+            //newValues[i] = newSize;
+            newValues += newSize;
         }
         return newValues;
     }
