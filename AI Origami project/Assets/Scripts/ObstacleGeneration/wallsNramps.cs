@@ -222,15 +222,13 @@ public class wallsNramps : MonoBehaviour
 
 
     //this method accepts an arraylist of strings representing obstacles to be generated
-    public void setObstacleListOfObstacles(string obstacleStrings)
+    public void setObstacleListOfObstacles(ArrayList obstacleStrings)
     {
-        //Debug.Log(obstacleStrings.Count);
-        createObstacleWithCode(obstacleStrings);
-        /*
-        foreach (string d in obstacleStrings){
-            createObstacleWithCode(d);
+        Debug.Log(obstacleStrings.Count);
+        foreach (object d in obstacleStrings){
+            createObstacleWithCode((string)d);
         }
-        */
+        
     }
 
     //call this method to create a new obstacle based on a given code
