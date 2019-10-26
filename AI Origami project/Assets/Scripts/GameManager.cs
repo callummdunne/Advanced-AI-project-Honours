@@ -66,18 +66,25 @@ public class GameManager : MonoBehaviour
 
                     //Generate List of Strings
                     GetComponent<GetUserInput>().PatternStringsList = new ArrayList(); //First Reset List
-                    int intCounting = 0;
+                    //int intCounting = 0;
                     string strObstacle = "";
-                    for(int j = 0; j < returnedObstaclesPattern.Count; j++)
+                    //for(int j = 0; j < returnedObstaclesPattern.Count; j++)
+                    //{
+                    //    if (intCounting < 5)
+                    //    {
+                    //        strObstacle += returnedObstaclesPattern[j];
+                    //        intCounting++;
+                    //    }
+                    //    else {
+                    //        GetComponent<GetUserInput>().PatternStringsList.Add(strObstacle);
+                    //        strObstacle = "";
+                    //        intCounting = 0;
+                    //    }                        
+                    //}
+
+                    for (int j = 0; j < 5; j++)
                     {
-                        if(intCounting == 5)
-                        {
-                            GetComponent<GetUserInput>().PatternStringsList.Add(strObstacle);
-                            strObstacle = "";
-                            intCounting = 0;
-                        }
                         strObstacle += returnedObstaclesPattern[j];
-                        intCounting++;
                     }
 
                     //Increase difficulty if necessary
@@ -88,7 +95,8 @@ public class GameManager : MonoBehaviour
                         //Valid String
                         string validString = (string)GetComponent<GetUserInput>().PatternStringsList[i];
                         //Current Obstacle Combo
-                        for (int k = 0; k < validString.Length; k++) {
+                        for (int k = 0; k < validString.Length; k++)
+                        {
                             //Return Matched
                             print(validString[k]);
                             toIncrease.Add(validString[k]);
@@ -100,7 +108,8 @@ public class GameManager : MonoBehaviour
                     }
 
                     //Send List
-                    GetComponent<wallsNramps>().setObstacleListOfObstacles(GetComponent<GetUserInput>().PatternStringsList);
+                    //GameManagerObj.GetComponent<wallsNramps>().setObstacleListOfObstacles(GetComponent<GetUserInput>().PatternStringsList);
+                    GetComponent<wallsNramps>().setObstacleListOfObstacles(strObstacle);
                 }
                 else
                 {

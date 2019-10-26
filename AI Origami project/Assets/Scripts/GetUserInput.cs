@@ -204,13 +204,12 @@ public class GetUserInput : MonoBehaviour
         for(int i = 1; i < returnedObstaclesPattern.Count; i++)
         {
             //Get Value that represents size, eg. 3 - 6 second index[1]
-            newSize = (int)returnedObstaclesPattern[i] * (frameValue / 10); //Takes about 10 obstacles for it to increase in size
+            newSize = (int)returnedObstaclesPattern[i] * (frameValue / 100); //Takes about 100 obstacles for it to increase in size
             //Set new value to that index
             //newValues[i] = newSize;
             newValues += newSize;
         }
         return newValues;
     }
-
 
 }

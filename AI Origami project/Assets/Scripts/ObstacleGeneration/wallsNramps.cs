@@ -65,7 +65,6 @@ public class wallsNramps : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
         if (flagCreateNext)
         {
             createNextObstacle();
@@ -132,7 +131,7 @@ public class wallsNramps : MonoBehaviour
     //read from file containing self set
     void ReadString()
     {
-        string path = "Assets/Scripts/Data/selfSet.txt";
+        string path = "Assets/Scripts/ObstacleGeneration/Data/selfSet.txt";
 
         //Read the text from directly from the test.txt file
         StreamReader sr = new StreamReader(path);
@@ -223,16 +222,22 @@ public class wallsNramps : MonoBehaviour
 
 
     //this method accepts an arraylist of strings representing obstacles to be generated
-    public void setObstacleListOfObstacles(ArrayList obstacleStrings)
+    public void setObstacleListOfObstacles(string obstacleStrings)
     {
+        //Debug.Log(obstacleStrings.Count);
+        createObstacleWithCode(obstacleStrings);
+        /*
         foreach (string d in obstacleStrings){
             createObstacleWithCode(d);
         }
+        */
     }
 
     //call this method to create a new obstacle based on a given code
     public void createObstacleWithCode(string obstacleCode)
     {
+        Debug.Log("Creating Obstacle with Code");
+        Debug.Log(obstacleCode);
         //find closest matching detector
         //set min distance to first detector in list   
         //get the first detector in the set
@@ -250,6 +255,8 @@ public class wallsNramps : MonoBehaviour
         }
 
         //add detector to queue for next obstacle to be generated
+        Debug.Log("Creating Obstacle");
+        Debug.Log(detector);
         nextObstacles.Add(detector);
     }
 
@@ -269,6 +276,8 @@ public class wallsNramps : MonoBehaviour
     //convert the given detector to an obstacle and instantiate it
     private void detectorToObstacle(string detector)
     {
+        Debug.Log("instantiating obstacle");
+        Debug.Log(detector);
         //create wall or ramp depending on first char
         if (detector[0] == 'W')
         {
@@ -287,10 +296,14 @@ public class wallsNramps : MonoBehaviour
             float zScale = float.Parse(detector.Substring(4, 1));
             zScale = zScale - 3;
             zScale = zScale * obstacleScales;
-
+            
             wallPos = new Vector3(scaleWidth*left, 385, zScale /obstacleScales);
+            Debug.Log("Wall Pos: "+ wallPos);
             Instantiate(wall, wallPos, Quaternion.Euler(270, 0, 0));
             wall.transform.localScale = new Vector3(xScale, 500f, zScale);
+            Debug.Log("Wall object created");
+            Debug.Log(wall);
+            Debug.Log(wall.transform.position);
 
         }
         else if (detector[0] == 'R') {
