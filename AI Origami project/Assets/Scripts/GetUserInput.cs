@@ -2,86 +2,56 @@
 using System.Collections;
 using System;
 
+//DANIEL OGWOK
+
 public class GetUserInput : MonoBehaviour
 {
-    static ArrayList patterns = null;
-    static int intCounter = 0;  //From Ruan to increase Difficulty
-    ArrayList userInputs = new ArrayList();
+    //Variables
+    private ArrayList patternStringsList = new ArrayList();  //List of Strings that Ruan will access
+    public ArrayList patterns = null;
+    private int intCounter = 1;  //From Ruan to increase Difficulty
+    public ArrayList userInputs = new ArrayList();
+
+    //Get and Set Counter
+    public int IntCounter
+    {
+        get => intCounter; set => intCounter = value;
+    } //Counter to keep track of how many obstacles generated
+    public ArrayList PatternStringsList
+    {
+        get => patternStringsList; set => patternStringsList = value;
+    } //List of Valid Strings from User Input
 
     void Start()
     {
-        //Generate Patterns
-        generatePatterns();
+
     }
 
     void Update()
     {
-        foreach (char c in Input.inputString)
-        {
-           
-            if ((c == '\n') || (c == '\r')) // enter/return
-            {
-                //Create String of User Input
-                String userInput = "";
-                for (int i = 0; i < userInputs.Count; i++) {
-                    //Debug.Log(userInputs[i]);
-                    userInput += userInputs[i];
-                }
-                //print(userInput);
-                //Call function to pattern match and send results to Ruan
-                //Match patterns using Rchunk pattern matching
 
-                ArrayList returnedObstaclesPattern = matchPattern(userInput.ToUpper());
-                if (returnedObstaclesPattern.Count > 0)
-                {
-                    print("Returned a matching pattern");
-                    for (int i = 0; i < returnedObstaclesPattern.Count; i++)
-                    {
-                        //Return Matched
-                        print(returnedObstaclesPattern[i]);
-                        //GENERATE OBSTACLES
-                    
-                        //First check difficulty
-                        increaseDifficulty(returnedObstaclesPattern, intCounter);
-                    }
-                }
-                else
-                {
-                    print("No matching pattern found");
-                }
-
-                //Reset list after sending
-                userInputs = new ArrayList();
-            }
-            else
-            {
-                userInputs.Add(c);
-                //Debug.Log(c);
-            }
-        }
     }
-
 
     // ----------------MY FUNCTIONS ---------------------//
     //Generate a pool of patterns to be used
     //Starts with a character to represent to obstacle type followed by a digit to represent size (sizes 1 to 5, 1 smallest, 5 biggest)
     //R stands for rectangle, S stands for square
-    static private void generatePatterns()
+    public void generatePatterns()
     {
         patterns = new ArrayList();
 
         //Add combinations of W padded with extra characters
-        for (int i = 3; i <= 9; i++)
+        for(int i = 3; i <= 6; i++)
         {
-            for (int j = 3; j <= 9; j++)
+            for(int j = 3; j <= 9; j++)
             {
-                for (int k = 3; k <= 6; k++)
+                for(int k = 3; k <= 6; k++)
                 {
-                    for (int l = 3; l <= 6; l++)
+                    for(int l = 3; l <= 6; l++)
                     {
                         //W
                         patterns.Add("W");
-                        //(3-9)
+                        //(3-6)
                         patterns.Add(i);
                         //(3-9)
                         patterns.Add(j);
@@ -95,17 +65,17 @@ public class GetUserInput : MonoBehaviour
         }
 
         //Add combinations of R padded with extra characters
-        for (int i = 3; i <= 9; i++)
+        for(int i = 3; i <= 6; i++)
         {
-            for (int j = 3; j <= 9; j++)
+            for(int j = 3; j <= 9; j++)
             {
-                for (int k = 3; k <= 6; k++)
+                for(int k = 3; k <= 6; k++)
                 {
-                    for (int l = 3; l <= 6; l++)
+                    for(int l = 3; l <= 6; l++)
                     {
                         //R
                         patterns.Add("R");
-                        //(3-9)
+                        //(3-6)
                         patterns.Add(i);
                         //(3-9)
                         patterns.Add(j);
@@ -123,7 +93,7 @@ public class GetUserInput : MonoBehaviour
 
     //Pattern Matching using Rchunks, R is 6.. those are 3 obstacles max at once
     //String patterns are limited to an R-Chunk to prevent the user from bombarding the space with all shapes and sizes
-    static private ArrayList matchPattern(string userInput)
+    public ArrayList matchPattern(string userInput)
     {
         ArrayList matchedPattern = new ArrayList();
 
@@ -133,17 +103,17 @@ public class GetUserInput : MonoBehaviour
         //Make sure user input is trimmed to 6 characters
         //first 6 characters
         string userString = "";
-        if (userInput.Length > 5)
+        if(userInput.Length > 5)
         {
-            for (int i = 0; i < userInput.Length; i++)
+            for(int i = 0; i < userInput.Length; i++)
             {
                 //Reset string 
                 userString = "";
                 //Remaining String longer than 5
-                if (userInput.Length - i >= 5)
+                if(userInput.Length - i >= 5)
                 {
                     //Get Chunk of 5
-                    for (int j = i; j < 5 + i; j++)
+                    for(int j = i; j < 5 + i; j++)
                     {
                         userString += userInput[j];
                     };
@@ -154,7 +124,7 @@ public class GetUserInput : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < userInput.Length; i++)
+            for(int i = 0; i < userInput.Length; i++)
             {
                 userString += userInput[i];
             }
@@ -166,13 +136,13 @@ public class GetUserInput : MonoBehaviour
         //Remaining characters to loop = 
         int strLength = patterns.Count - 5;
 
-        for (int i = 0; i <= strLength; i++)
+        for(int i = 0; i <= strLength; i++)
         {
             //Take a chunk of the patterns Vector
             string strPatternsChunk = "";
-            if (userInput.Length > 5)
+            if(userInput.Length > 5)
             {
-                for (int w = i; w < 5 + i; w++)
+                for(int w = i; w < 5 + i; w++)
                 {
                     //userString += userInput[w];
                     strPatternsChunk += patterns[w];
@@ -180,7 +150,7 @@ public class GetUserInput : MonoBehaviour
             }
             else
             {
-                for (int x = i; x < userInput.Length + i; x++)
+                for(int x = i; x < userInput.Length + i; x++)
                 {
                     strPatternsChunk += patterns[x];
                 }
@@ -190,26 +160,26 @@ public class GetUserInput : MonoBehaviour
             //Console.WriteLine(userString);
 
             //Loop thru all User Strings
-            for (int s = 0; s < userStrings.Count; s++)
+            for(int s = 0; s < userStrings.Count; s++)
             {
                 //Current String
                 String currentString = (string)userStrings[s];
                 //Compare it with the userInput string
-                if (strPatternsChunk.ToUpper() == currentString.ToUpper() && (currentString[0].CompareTo('W') == 0 || currentString[0].CompareTo('R') == 0))
+                if(strPatternsChunk.ToUpper() == currentString.ToUpper() && (currentString[0].CompareTo('W') == 0 || currentString[0].CompareTo('R') == 0))
                 {
                     //Pattern Matched
-                    for (int k = 0; k < currentString.Length; k++)
+                    for(int k = 0; k < currentString.Length; k++)
                     {
                         matchedPattern.Add(currentString[k]);
                     }
                     //return matchedPattern;
-                    Console.WriteLine(currentString);
+                    //Console.WriteLine(currentString);
                 }
             }
 
         }
         //Return mATCH lIST
-        if (matchedPattern.Count > 1)
+        if(matchedPattern.Count > 1)
         {
             return matchedPattern;
         }
@@ -226,17 +196,21 @@ public class GetUserInput : MonoBehaviour
      * starting with the smallest
      * It will mutate values to be sent to obstacle graphics generator
      **/
-    static private void increaseDifficulty(ArrayList returnedObstaclesPattern, int frameValue)
+    public String increaseDifficulty(ArrayList returnedObstaclesPattern, int frameValue)
     {
+        string newValues = (string)returnedObstaclesPattern[0]; //Get first character, the letter
         int newSize = 0;
         //Start from index 1 as W/R does not matter
-        for (int i = 1; i < returnedObstaclesPattern.Count; i++)
+        for(int i = 1; i < returnedObstaclesPattern.Count; i++)
         {
             //Get Value that represents size, eg. 3 - 6 second index[1]
-            newSize = (int)returnedObstaclesPattern[i] * (frameValue / 100);
+            newSize = (int)returnedObstaclesPattern[i] * (frameValue / 10); //Takes about 10 obstacles for it to increase in size
             //Set new value to that index
-            returnedObstaclesPattern[i] = newSize;
+            //newValues[i] = newSize;
+            newValues += newSize;
         }
-
+        return newValues;
     }
+
+
 }

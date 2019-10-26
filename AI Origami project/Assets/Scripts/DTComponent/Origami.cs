@@ -6,25 +6,26 @@ using UnityEngine.SceneManagement;
 // Kevin Matthew Julius 216007874
 public class Origami : DTGameObject
 {
-
-    private GameObject gameObject;
-    private int age;
-
     public Origami()
     {
-        SetToOrigami();
-        GameObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+
     }
 
     public GameObject GameObject
     {
-        get => gameObject;
-        set => gameObject = value;
+        get;
+        set;
     }
 
     public int Age
     {
-        get => age;
-        set => age = value;
+        get;
+        set;
+    }
+
+    public string Pattern
+    {
+        get;
+        set;
     }
 }
