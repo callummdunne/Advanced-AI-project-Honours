@@ -7,6 +7,7 @@ public class moveObstacle : MonoBehaviour
     public Transform myTransform;
     private float speed = 100f;
     private float lifeTime = 5;
+    public GameObject obstacle;
     GameObject manager;
     wallsNramps wNr;
     GoalSystem gs;
@@ -15,22 +16,30 @@ public class moveObstacle : MonoBehaviour
     {
         myTransform = transform;
         GameObject manager = GameObject.Find("GameManager");
+       
         wNr = manager.GetComponent<wallsNramps>();
+
         gs = manager.GetComponent<GoalSystem>();
+
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(myTransform == null)
+        {
+            return;
+        }
         myTransform.Translate(Vector3.up * speed * Time.deltaTime);
+        Debug.Log(gs);
         if (gs.CheckPastObstacle(myTransform.position.z))
         {
             wNr.setFlagNext(true);
         }
         if (myTransform.position.z < -100)
         {
-            Destroy(myTransform);
+            Destroy(obstacle);
         }
     }
 }

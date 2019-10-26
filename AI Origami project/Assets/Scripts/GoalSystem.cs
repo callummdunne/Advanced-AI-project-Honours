@@ -8,39 +8,32 @@ public class GoalSystem : MonoBehaviour
 
     //Origami origamis;
     // Start is called before the first frame update
-    GameManager MasterScript;
+    private GameManager MasterScript;
+    private GameObject ManagerOfTheSystem;
+     private int NumOrigamics; //how many origamis 
+    private int NumBringBack = 0; //how many will be brought back after next obstacle 
+    //public int NumDied { get; set; } = 0;
+    
+    private int PastObstacles = 0; //how many obstacles we have pasted 
+
+    private float ObstacleLocation = 390;
+
     void Start()
     {
-        GameObject ManagerOfTheSystem = GameObject.Find("GameManager");
-        GameManager MasterScript = ManagerOfTheSystem.GetComponent<GameManager>();
+        ManagerOfTheSystem = GameObject.Find("GameManager");
+        MasterScript = ManagerOfTheSystem.GetComponent<GameManager>();
         //origamis = MasterScript.origamis;
         //origamis = GameManager.origamis;
-        Debug.Log(Convert.ToString(MasterScript));
-        Debug.Log("It worked");
+        
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        CalcGoal();
     }
 
-
-
-
-    
-
-
-    private int NumOrigamics; //how many origamis 
-    private int NumBringBack = 0; //how many will be brought back after next obstacle 
-    public int NumDied
-    {
-        get { return NumDied; }
-        set { NumDied = value; }
-    }
-    private int PastObstacles = 0; //how many obstacles we have pasted 
-
-    private float ObstacleLocation = 390;
 
 
     public void CalcGoal() //will be called as i will need data on if part of mesh could call in update if morne has function for me to get part of mesh 
@@ -67,6 +60,7 @@ public class GoalSystem : MonoBehaviour
         int Leeway = 5; //This is how much leeway to give on the average distance
         int MaxAge = 5; //This is the maximum age that an origami can get to
         position = 0; 
+        List<Origami> ToBedestroyed = new List<Origami>();
         foreach (Origami Ori in MasterScript.origamis)
         {
             if (Distances[position] > (AverageDistance + Leeway))
@@ -77,11 +71,15 @@ public class GoalSystem : MonoBehaviour
 
                     //myObject.GetComponent<MyScript>().MyFunction(); create a destroy function for the origamis
                     //todo call the destroy function
-                    NumDied += 1;
+                    ToBedestroyed.Add(Ori);
+                    //MasterScript.RemoveOrigami(Ori);
+                    //NumDied += 1;
+                    Debug.Log("Killed Origami");
                 }
                 else
                 {
                     Ori.Age += 2;
+                    Debug.Log("Added to age");
                 }
             }
             else
@@ -89,10 +87,17 @@ public class GoalSystem : MonoBehaviour
                 if (Ori.Age > 0)
                 {
                     Ori.Age -= 1;
+                    Debug.Log("Took away from Age");
                 }
             }
         position +=1;
         }
+
+        for (int i = 0 ; i< ToBedestroyed.Count; i++)
+        {
+            MasterScript.RemoveOrigami(ToBedestroyed[i]);
+        }
+        ToBedestroyed = null;
     }
 
 
@@ -128,6 +133,8 @@ public class GoalSystem : MonoBehaviour
             {
 
                 //addNewOrigami(i); call nsikas addOrigami function 
+                ManagerOfTheSystem.GetComponent<AddOrigamis>().addNewOrigami(i);
+                Debug.Log("Added new Origami");
             }
 
             NumOrigamics = MasterScript.origamis.Count;
