@@ -14,7 +14,9 @@ public class wallsNramps : MonoBehaviour
     //this shows how many obstacles have been generated so far
     public int numObstaclesGenerated;
 
-    //vars
+    //lsit 
+
+    //vars for internal use; I'll add comments here later but nobody should need to use these directly
     public GameObject ramp;
     public GameObject wall;
 
@@ -30,6 +32,15 @@ public class wallsNramps : MonoBehaviour
     private ArrayList selfSet = new ArrayList();
     private Dictionary<System.String, System.Int32> detectors = new Dictionary<System.String, System.Int32>();
     private int detectorRange = 10;
+
+    //these values should changes if balls are bigger or smaller
+    private float minLeftValue = 33;
+    private float scaleWidth = 20;
+    // scales for obstacles
+    private float obstacleScales = 1000;
+
+    //list of next obstacles to be created
+    private ArrayList nextObstacles = new ArrayList();
 
     // Use this for initialization
     void Start()
@@ -49,6 +60,7 @@ public class wallsNramps : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (Input.GetButton("placeRamp") && Time.time > nextPlace)
         {
             nextPlace = Time.time + placeRate;
@@ -65,6 +77,7 @@ public class wallsNramps : MonoBehaviour
             Instantiate(wall, wallPos, Quaternion.Euler(270, 0, 0));
             wall.transform.localScale = new Vector3(100f, 50f, 100f);
         }
+        
     }
 
     void getDetectors()
@@ -204,7 +217,7 @@ public class wallsNramps : MonoBehaviour
 
 
     //this method accepts an arraylist of strings representing obstacles to be generated
-    public createListOfObstacles(ArrayList obstacleStrings)
+    public void setObstacleListOfObstacles(ArrayList obstacleStrings)
     {
         foreach (string d in obstacleStrings){
             createObstacleWithCode(d);
@@ -212,7 +225,7 @@ public class wallsNramps : MonoBehaviour
     }
 
     //call this method to create a new obstacle based on a given code
-    public createObstacleWithCode(string obstacleCode)
+    public void createObstacleWithCode(string obstacleCode)
     {
         //find closest matching detector
         //set min distance to first detector in list   
@@ -230,13 +243,71 @@ public class wallsNramps : MonoBehaviour
             }
         }
 
-        //create obstacle using best detector pattern
+        //add detector to queue for next obstacle to be generated
+        nextObstacles.Add(detector);
+    }
 
+    //call this method to add next obstacle in the list
+    public void createNextObstacle(string detector) {
+        if (nextObstacles.Count == 0)
+        {
+            return;
+        }
+        detector = (string)nextObstacles[0];
+        detectorToObstacle(detector);
+        //remove from list
+        nextObstacles.RemoveAt(0);
     }
 
     //convert the given detector to an obstacle and instantiate it
-    private detectorToObstacle(string detector)
+    private void detectorToObstacle(string detector)
     {
+        //create wall or ramp depending on first char
+        if (detector[0] == 'W')
+        {
+            float left = float.Parse(detector.Substring(1, 2));
+            //convert to number between 0 and 4
+            //given number is 33 - 69
+            left = left - minLeftValue;
+            left = left / 10;
+            left = (float)(Math.Round((double)left));
 
+            //width of object
+            float xScale = float.Parse(detector.Substring(3, 1));
+            xScale = xScale - 3;
+            xScale = xScale * obstacleScales;
+            //heigth of object
+            float zScale = float.Parse(detector.Substring(4, 1));
+            zScale = zScale - 3;
+            zScale = zScale * obstacleScales;
+
+            wallPos = new Vector3(scaleWidth*left, 385, zScale /obstacleScales);
+            Instantiate(wall, wallPos, Quaternion.Euler(270, 0, 0));
+            wall.transform.localScale = new Vector3(xScale, 500f, zScale);
+
+        }
+        else if (detector[0] == 'R') {
+            float left = float.Parse(detector.Substring(1, 2));
+            //convert to number between 0 and 4
+            //given number is 33 - 67
+            left = left - minLeftValue;
+            left = left / 10;
+            left = (float)(Math.Round((double)left));
+
+            //width of object
+            float yScale = float.Parse(detector.Substring(3, 1));
+            yScale = yScale - 3;
+            yScale = yScale * obstacleScales;
+            //heigth of object
+            float zScale = float.Parse(detector.Substring(4, 1));
+            zScale = zScale - 3;
+            zScale = zScale * obstacleScales;
+            
+            rampPos = new Vector3(scaleWidth * left, 385, zScale / obstacleScales);
+            Instantiate(ramp, rampPos, Quaternion.Euler(270, 270, 0));
+            ramp.transform.localScale = new Vector3(yScale, 200f, zScale);
+
+
+        }
     }
 }
