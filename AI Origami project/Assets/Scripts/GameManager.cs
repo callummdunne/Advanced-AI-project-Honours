@@ -30,9 +30,20 @@ public class GameManager : MonoBehaviour
         GetComponent<GetUserInput>().generatePatterns();
     }
 
+    private int frames = 0;
     // Update is called once per frame
     void Update()
     {
+        // fire danger signals
+        if(frames % 10 == 0)
+        { 
+            Obstacle obstacle = new Obstacle();
+            obstacle.Pattern = GetComponent<wallsNramps>().getNextObstacleString();
+            obstacle.GameObject = GetComponent<wallsNramps>().getNextObstacle();
+
+            obstacle.SendSignal(obstacle, obstacle.Pattern);
+        }
+
         foreach(char c in Input.inputString)
         {
 
@@ -145,19 +156,5 @@ public class GameManager : MonoBehaviour
     {
         return origamis.Remove(origami);
     }
-
-    // Add obstacle from game
-    public void AddObstacle(Obstacle obstacle)
-    {
-        obstacles.Add(obstacle);
-    }
-
-    // Remove obstacle from game
-    public bool RemoveObstacle(Obstacle obstacle)
-    {
-        return obstacles.Remove(obstacle);
-    }
-
-
 
 }

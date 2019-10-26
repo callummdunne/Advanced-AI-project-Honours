@@ -27,7 +27,7 @@ public class Swarm_behaviour : MonoBehaviour
     List<Sphere> detectors;
 
     public bool newObstacle;
-    public striing ObstaclePattern;
+    public string ObstaclePattern;
 
     //The string patterns are 5 characters, with 26 alphabet letters and 10 numbers, thus x ( 0 - 25), y (0 - 9), z = (0 - 4)
     //int Universe_Volume = 1300;
