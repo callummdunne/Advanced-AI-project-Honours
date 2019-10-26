@@ -12,7 +12,7 @@ public class AddOrigamis : MonoBehaviour
     Mesh myMesh;
 
     //creating an array of origamis
-    public Origami[] origamis = new Origami[1];
+    Origami[] origamis = new Origami[1];
 
     public Origami[] origamiArray
     {
