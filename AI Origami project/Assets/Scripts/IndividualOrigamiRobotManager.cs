@@ -47,8 +47,8 @@ namespace A_AI_Individual_Origami_Robots
             List<Origami> robots = GameManager.GetComponent<GameManager>().origamis;
             bool calculated = false;
 
-            if (GameManager.GetComponent<Swarm_mesh>().isSwarmCalculated() &&
-                GameManager.GetComponent<AddOrigamis>().isOrigamisGenerated() && !calculated)
+            if (!calculated && GameManager.GetComponent<Swarm_mesh>().isSwarmCalculated() &&
+                GameManager.GetComponent<AddOrigamis>().isOrigamisGenerated())
             {
                 List<List<Vector3>> coordinatesList = GameManager.GetComponent<Swarm_mesh>().getSwarmCoordinates();
 
@@ -56,6 +56,7 @@ namespace A_AI_Individual_Origami_Robots
 
                 MatchRobotToCoordinates(ref robots, coordinatesList);
                 GameManager.GetComponent<Swarm_mesh>().swarmCalculatedDone();
+                calculated = true;
             }
 
             /*foreach (Origami robot in robots)
