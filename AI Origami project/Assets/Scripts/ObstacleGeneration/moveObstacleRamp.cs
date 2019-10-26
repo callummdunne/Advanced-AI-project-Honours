@@ -31,10 +31,12 @@ public class moveObstacleRamp : MonoBehaviour
         if(gs.CheckPastObstacle(myTransform.position.z))
         {
             wNr.setFlagNext(true);
+            Debug.Log("Setting new obstacle to true");
         }
         if (myTransform.position.z < -100)
         {
-            Destroy(obstacle);
+            //Destroy(obstacle);
+            //Destroy(obstacle);
         }
     }
 }

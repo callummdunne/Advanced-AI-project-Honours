@@ -65,7 +65,6 @@ public class wallsNramps : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
         if (flagCreateNext)
         {
             createNextObstacle();
@@ -277,6 +276,8 @@ public class wallsNramps : MonoBehaviour
     //convert the given detector to an obstacle and instantiate it
     private void detectorToObstacle(string detector)
     {
+        Debug.Log("instantiating obstacle");
+        Debug.Log(detector);
         //create wall or ramp depending on first char
         if (detector[0] == 'W')
         {
@@ -295,10 +296,14 @@ public class wallsNramps : MonoBehaviour
             float zScale = float.Parse(detector.Substring(4, 1));
             zScale = zScale - 3;
             zScale = zScale * obstacleScales;
-
+            
             wallPos = new Vector3(scaleWidth*left, 385, zScale /obstacleScales);
+            Debug.Log("Wall Pos: "+ wallPos);
             Instantiate(wall, wallPos, Quaternion.Euler(270, 0, 0));
             wall.transform.localScale = new Vector3(xScale, 500f, zScale);
+            Debug.Log("Wall object created");
+            Debug.Log(wall);
+            Debug.Log(wall.transform.position);
 
         }
         else if (detector[0] == 'R') {

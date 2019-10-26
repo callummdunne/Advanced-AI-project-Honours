@@ -32,14 +32,14 @@ public class moveObstacle : MonoBehaviour
             return;
         }
         myTransform.Translate(Vector3.up * speed * Time.deltaTime);
-        Debug.Log(gs);
         if (gs.CheckPastObstacle(myTransform.position.z))
         {
             wNr.setFlagNext(true);
+            Debug.Log("Setting new obstacle to true");
         }
         if (myTransform.position.z < -100)
         {
-            Destroy(obstacle);
+            //Destroy(obstacle);
         }
     }
 }
