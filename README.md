@@ -6,7 +6,7 @@ For Obstacles to be generated, the User will need to input is a valid combinatio
 The Valid Combination of characters is described below;
 
 1. W/R -> The first character representing the obstacle
-2. (3-9)
+2. (3-6) 
 3. (3-9)
 4. (3-6)
 5. (3-6)
