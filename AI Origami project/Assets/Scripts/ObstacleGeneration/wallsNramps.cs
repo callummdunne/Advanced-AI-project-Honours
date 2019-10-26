@@ -284,8 +284,7 @@ public class wallsNramps : MonoBehaviour
     //convert the given detector to an obstacle and instantiate it
     private void detectorToObstacle(string detector)
     {
-        Debug.Log("instantiating obstacle");
-        Debug.Log(detector);
+        Debug.Log("instantiating obstacle"+ detector);
         //create wall or ramp depending on first char
         if (detector[0] == 'W')
         {
@@ -305,6 +304,7 @@ public class wallsNramps : MonoBehaviour
             zScale = zScale - 2;
             zScale = zScale * obstacleScales;
 
+            Debug.Log("<color=red>Scales X and Z: "+xScale+" " + zScale+"</color>");
             wallPos = cameraHeadTransform.TransformPoint(scaleWidth * left, zScale/100, 385 );
  
             GameObject newWall = Instantiate(wall, wallPos, Quaternion.Euler(270, 0, 0));
@@ -326,11 +326,11 @@ public class wallsNramps : MonoBehaviour
 
             //width of object
             float yScale = float.Parse(detector.Substring(3, 1));
-            yScale = yScale - 3;
+            yScale = yScale - 2;
             yScale = yScale * obstacleScales;
             //heigth of object
             float zScale = float.Parse(detector.Substring(4, 1));
-            zScale = zScale - 3;
+            zScale = zScale - 2;
             zScale = zScale * obstacleScales;
 
             //create new ramp game object
