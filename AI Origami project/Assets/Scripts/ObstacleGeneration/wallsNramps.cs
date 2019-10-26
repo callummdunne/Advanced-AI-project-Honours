@@ -20,7 +20,7 @@ public class wallsNramps : MonoBehaviour
     public GameObject wall;
 
     private Transform myTransform;
-    private Transform cameraHeadTransform;
+    public Transform cameraHeadTransform;
 
     private float placeRate = 1;
     private float nextPlace = 0;
@@ -51,7 +51,7 @@ public class wallsNramps : MonoBehaviour
     void Start()
     {
         myTransform = transform;
-        cameraHeadTransform = myTransform.Find("Main Camera");
+        Debug.Log("Camera Pos: " + cameraHeadTransform);
         ReadString();
         getDetectors();
         Debug.Log(selfSet.Count);
@@ -297,12 +297,13 @@ public class wallsNramps : MonoBehaviour
             float zScale = float.Parse(detector.Substring(4, 1));
             zScale = zScale - 3;
             zScale = zScale * obstacleScales;
-            
-            wallPos = cameraHeadTransform.TransformPoint(scaleWidth * left, 385, zScale / obstacleScales);
+            Debug.Log("CameraPos: " + cameraHeadTransform.position.x + cameraHeadTransform.position.y + cameraHeadTransform.position.z);
+            Debug.Log("ScaleZ: " + zScale);
+            wallPos = cameraHeadTransform.TransformPoint(scaleWidth * left, 200, 385 );
 
             Debug.Log("Wall Pos: "+ wallPos);
-            Instantiate(wall, wallPos, Quaternion.Euler(270, 0, 0));
-            wall.transform.localScale = new Vector3(xScale, 500f, zScale);
+            GameObject newWall = Instantiate(wall, wallPos, Quaternion.Euler(270, 0, 0));
+            newWall.transform.localScale = new Vector3(xScale, 500, zScale);
             Debug.Log("Wall object created");
             Debug.Log(wall);
             Debug.Log(wall.transform.position);
