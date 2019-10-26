@@ -6,17 +6,14 @@ using UnityEngine.SceneManagement;
 // Kevin Matthew Julius 216007874
 public class Obstacle : DTGameObject
 {
-
-    private GameObject gameObject;
-
     public Obstacle()
     {
     }
 
     public GameObject GameObject
     {
-        get => gameObject;
-        set => gameObject = value;
+        get;
+        set;
     }
 
 }
