@@ -2,12 +2,19 @@
 using System.Collections;
 using System;
 
+//DANIEL OGWOK
+
 public class GetUserInput : MonoBehaviour
 {
-
+    //Variables
+    private ArrayList patternStringsList = new ArrayList();  //List of Strings that Ruan will access
     public ArrayList patterns = null;
-    public int intCounter = 0;  //From Ruan to increase Difficulty
+    private int intCounter = 0;  //From Ruan to increase Difficulty
     public ArrayList userInputs = new ArrayList();
+
+    //Get and Set Counter
+    public int IntCounter { get => intCounter; set => intCounter = value; } //Counter to keep track of how many obstacles generated
+    public ArrayList PatternStringsList { get => patternStringsList; set => patternStringsList = value; } //List of Valid Strings from User Input
 
     void Start()
     {
@@ -16,7 +23,7 @@ public class GetUserInput : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     // ----------------MY FUNCTIONS ---------------------//
@@ -28,7 +35,7 @@ public class GetUserInput : MonoBehaviour
         patterns = new ArrayList();
 
         //Add combinations of W padded with extra characters
-        for (int i = 3; i <= 9; i++)
+        for (int i = 3; i <= 6; i++)
         {
             for (int j = 3; j <= 9; j++)
             {
@@ -38,7 +45,7 @@ public class GetUserInput : MonoBehaviour
                     {
                         //W
                         patterns.Add("W");
-                        //(3-9)
+                        //(3-6)
                         patterns.Add(i);
                         //(3-9)
                         patterns.Add(j);
@@ -52,7 +59,7 @@ public class GetUserInput : MonoBehaviour
         }
 
         //Add combinations of R padded with extra characters
-        for (int i = 3; i <= 9; i++)
+        for (int i = 3; i <= 6; i++)
         {
             for (int j = 3; j <= 9; j++)
             {
@@ -62,7 +69,7 @@ public class GetUserInput : MonoBehaviour
                     {
                         //R
                         patterns.Add("R");
-                        //(3-9)
+                        //(3-6)
                         patterns.Add(i);
                         //(3-9)
                         patterns.Add(j);
@@ -196,4 +203,6 @@ public class GetUserInput : MonoBehaviour
         }
 
     }
+
+
 }

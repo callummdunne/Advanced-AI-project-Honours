@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
                     userInput += userInputs[i];
                 }
                 //print(userInput);
+
                 //Call function to pattern match and send results to Ruan
                 //Match patterns using Rchunk pattern matching
 
@@ -66,6 +67,21 @@ public class GameManager : MonoBehaviour
 
                         //First check difficulty
                         GameManagerObj.GetComponent<GetUserInput>().increaseDifficulty(returnedObstaclesPattern,  intCounter);
+                    }
+                    //Generate List of Strings
+                    GetComponent<GetUserInput>().PatternStringsList = new ArrayList(); //First Reset List
+                    int intCounting = 0;
+                    string strObstacle = "";
+                    for (int j = 0; j < returnedObstaclesPattern.Count; j++)
+                    {
+                        if (intCounting == 5)
+                        {
+                            GetComponent<GetUserInput>().PatternStringsList.Add(strObstacle);
+                            strObstacle = "";
+                            intCounting = 0;
+                        }
+                        strObstacle += returnedObstaclesPattern[j];
+                        intCounting++;
                     }
                 }
                 else
