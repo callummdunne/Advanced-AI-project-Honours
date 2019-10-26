@@ -319,9 +319,13 @@ GameObject:
   m_Component:
   - component: {fileID: 373237103}
   - component: {fileID: 373237102}
+  - component: {fileID: 373237107}
+  - component: {fileID: 373237106}
+  - component: {fileID: 373237105}
+  - component: {fileID: 373237104}
   m_Layer: 0
   m_Name: GameManager
-  m_TagString: Untagged
+  m_TagString: GameManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -338,8 +342,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb34b48e0f37f674cb8c22a40074a702, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  getUserInput: {fileID: 0}
-  addOrigamis: {fileID: 0}
+  GameManagerObj: {fileID: 0}
+  intCounter: 1
 --- !u!4 &373237103
 Transform:
   m_ObjectHideFlags: 0
@@ -354,6 +358,59 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &373237104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373237101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5b555fa0c73c664281d47eb48a054b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MeshStructVertices: []
+  planetMaterial: {fileID: 0}
+  swarmCalculated: 0
+  planetSize: 1
+--- !u!114 &373237105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373237101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 237d3e929ab69364195c55dffb81f823, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &373237106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373237101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 743934bd5772f514088897444fbd65d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  intCounter: 0
+--- !u!114 &373237107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373237101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05fe4f317c0ff654a9a872a91230cf6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &437321011
 GameObject:
   m_ObjectHideFlags: 0

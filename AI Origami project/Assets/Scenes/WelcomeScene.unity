@@ -2144,7 +2144,7 @@ MonoBehaviour:
   m_text: "USER INPUT DESCRIPTION\r\n\r\nFor Obstacles to be generated, the User will
     need to input is a valid combination of characters.\r\nThe Valid Combination of
     characters is described below;\r\n\r\n1. W/R -> The first character representing
-    the obstacle\r\n2. (3-9)\r\n3. (3-9)\r\n4. (3-6)\r\n5. (3-6)\r\n\r\nExample: W3333\r\n\r\nIt
+    the obstacle\r\n2. (3-6)\r\n3. (3-9)\r\n4. (3-6)\r\n5. (3-6)\r\n\r\nExample: W3333\r\n\r\nIt
     is upto the User's discretion to enter as many characters as possible, but only
     valid chunks of contiguous blocks will be considered."
   m_isRightToLeft: 0
