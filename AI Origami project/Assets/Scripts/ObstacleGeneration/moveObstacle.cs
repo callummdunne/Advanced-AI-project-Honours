@@ -16,14 +16,11 @@ public class moveObstacle : MonoBehaviour
     {
         myTransform = transform;
         GameObject manager = GameObject.Find("GameManager");
-        Debug.Log("THis is the managesre");
-        Debug.Log(manager);
        
         wNr = manager.GetComponent<wallsNramps>();
-        Debug.Log("The wnr");
-        Debug.Log(wNr);
+
         gs = manager.GetComponent<GoalSystem>();
-        Debug.Log(gs);
+
 
     }
 
