@@ -332,12 +332,17 @@ public class AddOrigamis : MonoBehaviour
 
 
 
-    //callums code starts here
+    //Callums code starts here
 
     
     private int NumOrigamics;
     private int NumBringBack = 0;
-    private int PastObstacles = 0;
+    public int NumDied
+    {
+        get { return NumDied; }
+        set { NumDied = value; }
+    }
+
 
 
 
