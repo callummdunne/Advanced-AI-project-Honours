@@ -14,6 +14,7 @@ public class Swarm_mesh : MonoBehaviour
 {
     // public List<Vector3> MeshStructVertices = new List<Vector3>();
     public List<Vector3> MeshStructVertices;
+    public List<List<Vector3>> MeshTriangleExtraction;
     public Material planetMaterial;
     public bool swarmCalculated;
     // Start is called before the first frame update
@@ -21,7 +22,10 @@ public class Swarm_mesh : MonoBehaviour
     {
         swarmCalculated = false;
         planetMaterial = new Material(Shader.Find("VR/SpatialMapping/Wireframe"));
-        CreatePlanet();
+
+        MeshTriangleExtraction = new List<List<Vector3>>();
+
+    CreatePlanet();
         
         foreach (int triangle in planetMesh.triangles)
         {
@@ -39,6 +43,10 @@ public class Swarm_mesh : MonoBehaviour
         } 
         print("Vector list obtained");
         swarmCalculated = true;
+
+
+        int CountTriangles = MeshTriangleExtraction.Count;
+        print("Number of triangle obtained" + CountTriangles);
     }
     public bool isSwarmCalculated()
     {
@@ -46,9 +54,9 @@ public class Swarm_mesh : MonoBehaviour
     }
 
 
-    public List<Vector3> getSwarmCoordinates()
+    public List<List<Vector3>> getSwarmCoordinates()
     {
-        return MeshStructVertices;
+        return MeshTriangleExtraction;
     }
 
     // Update is called once per frame
@@ -155,26 +163,38 @@ public class Swarm_mesh : MonoBehaviour
         Dictionary<long, int> middlePointIndexCache = new Dictionary<long, int>();
         //int index = 0;
 
-        int recursionLevel = 1;
+        int recursionLevel = 0;
         float radius = 5f;
 
         // create 12 vertices of a icosahedron
         float t = (1f + Mathf.Sqrt(5f)) / 2f;
 
-        vertList.Add(new Vector3(-1f, t, 0f).normalized * radius);
-        vertList.Add(new Vector3(1f, t, 0f).normalized * radius);
-        vertList.Add(new Vector3(-1f, -t, 0f).normalized * radius);
-        vertList.Add(new Vector3(1f, -t, 0f).normalized * radius);
+        Vector3 Vec0 = new Vector3(-1f, t, 0f);                        
+        Vector3 Vec1 = new Vector3(1f, t, 0f);                          
+        Vector3 Vec2 = new Vector3(-1f, -t, 0f); 
+        Vector3 Vec3 = new Vector3(1f, -t, 0f);   
+        Vector3 Vec4 = new Vector3(0f, -1f, t);  
+        Vector3 Vec5 = new Vector3(0f, 1f, t); 
+        Vector3 Vec6 = new Vector3(0f, -1f, -t);                       
+        Vector3 Vec7 = new Vector3(0f, 1f, -t); 
+        Vector3 Vec8 = new Vector3(t, 0f, -1f);  
+        Vector3 Vec9 = new Vector3(t, 0f, 1f);                         
+        Vector3 Vec10 = new Vector3(-t, 0f, -1f);                         
+        Vector3 Vec11 = new Vector3(-t, 0f, 1f);                       
 
-        vertList.Add(new Vector3(0f, -1f, t).normalized * radius);
-        vertList.Add(new Vector3(0f, 1f, t).normalized * radius);
-        vertList.Add(new Vector3(0f, -1f, -t).normalized * radius);
-        vertList.Add(new Vector3(0f, 1f, -t).normalized * radius);
 
-        vertList.Add(new Vector3(t, 0f, -1f).normalized * radius);
-        vertList.Add(new Vector3(t, 0f, 1f).normalized * radius);
-        vertList.Add(new Vector3(-t, 0f, -1f).normalized * radius);
-        vertList.Add(new Vector3(-t, 0f, 1f).normalized * radius);
+        vertList.Add(new Vector3(-1f, t, 0f).normalized * radius);      //0
+        vertList.Add(new Vector3(1f, t, 0f).normalized * radius);       //1
+        vertList.Add(new Vector3(-1f, -t, 0f).normalized * radius);     //2
+        vertList.Add(new Vector3(1f, -t, 0f).normalized * radius);      //3
+        vertList.Add(new Vector3(0f, -1f, t).normalized * radius);      //4
+        vertList.Add(new Vector3(0f, 1f, t).normalized * radius);       //5
+        vertList.Add(new Vector3(0f, -1f, -t).normalized * radius);     //6
+        vertList.Add(new Vector3(0f, 1f, -t).normalized * radius);      //7
+        vertList.Add(new Vector3(t, 0f, -1f).normalized * radius);      //8
+        vertList.Add(new Vector3(t, 0f, 1f).normalized * radius);       //9
+        vertList.Add(new Vector3(-t, 0f, -1f).normalized * radius);     //10
+        vertList.Add(new Vector3(-t, 0f, 1f).normalized * radius);      //11
 
 
         // create 20 triangles of the icosahedron
@@ -182,37 +202,176 @@ public class Swarm_mesh : MonoBehaviour
 
         // 5 faces around point 0
         faces.Add(new TriangleIndices(0, 11, 5));
+        MeshTriangleExtraction.Add(new List<Vector3>()
+        {
+            Vec0,
+            Vec11,
+            Vec5
+        });
+
         faces.Add(new TriangleIndices(0, 5, 1));
+        MeshTriangleExtraction.Add(new List<Vector3>()
+        {
+            Vec0,
+            Vec5,
+            Vec1
+        });
+
         faces.Add(new TriangleIndices(0, 1, 7));
+        MeshTriangleExtraction.Add(new List<Vector3>()
+        {
+            Vec0,
+            Vec1,
+            Vec7
+        });
+
         faces.Add(new TriangleIndices(0, 7, 10));
+        MeshTriangleExtraction.Add(new List<Vector3>()
+        {
+            Vec0,
+            Vec7,
+            Vec10
+        });
+
         faces.Add(new TriangleIndices(0, 10, 11));
+        MeshTriangleExtraction.Add(new List<Vector3>()
+        {
+            Vec0,
+            Vec10,
+            Vec11
+        });
 
         // 5 adjacent faces 
         faces.Add(new TriangleIndices(1, 5, 9));
+        MeshTriangleExtraction.Add(new List<Vector3>()
+        {
+            Vec1,
+            Vec5,
+            Vec9
+        });
+
         faces.Add(new TriangleIndices(5, 11, 4));
+        MeshTriangleExtraction.Add(new List<Vector3>()
+        {
+            Vec5,
+            Vec11,
+            Vec4
+        });
+
         faces.Add(new TriangleIndices(11, 10, 2));
+        MeshTriangleExtraction.Add(new List<Vector3>()
+        {
+            Vec11,
+            Vec10,
+            Vec2
+        });
+
         faces.Add(new TriangleIndices(10, 7, 6));
+        MeshTriangleExtraction.Add(new List<Vector3>()
+        {
+            Vec10,
+            Vec7,
+            Vec6
+        });
+
         faces.Add(new TriangleIndices(7, 1, 8));
+        MeshTriangleExtraction.Add(new List<Vector3>()
+        {
+            Vec7,
+            Vec1,
+            Vec8
+        });
 
         // 5 faces around point 3
         faces.Add(new TriangleIndices(3, 9, 4));
+        MeshTriangleExtraction.Add(new List<Vector3>()
+        {
+            Vec3,
+            Vec9,
+            Vec4
+        });
+
         faces.Add(new TriangleIndices(3, 4, 2));
+        MeshTriangleExtraction.Add(new List<Vector3>()
+        {
+            Vec3,
+            Vec4,
+            Vec2
+        });
+
         faces.Add(new TriangleIndices(3, 2, 6));
+        MeshTriangleExtraction.Add(new List<Vector3>()
+        {
+            Vec3,
+            Vec2,
+            Vec6
+        });
+
         faces.Add(new TriangleIndices(3, 6, 8));
+        MeshTriangleExtraction.Add(new List<Vector3>()
+        {
+            Vec3,
+            Vec6,
+            Vec8
+        });
+
         faces.Add(new TriangleIndices(3, 8, 9));
+        MeshTriangleExtraction.Add(new List<Vector3>()
+        {
+            Vec3,
+            Vec8,
+            Vec9
+        });
 
         // 5 adjacent faces 
         faces.Add(new TriangleIndices(4, 9, 5));
+        MeshTriangleExtraction.Add(new List<Vector3>()
+        {
+            Vec4,
+            Vec9,
+            Vec5
+        });
+
         faces.Add(new TriangleIndices(2, 4, 11));
+        MeshTriangleExtraction.Add(new List<Vector3>()
+        {
+            Vec2,
+            Vec4,
+            Vec11
+        });
+
         faces.Add(new TriangleIndices(6, 2, 10));
+        MeshTriangleExtraction.Add(new List<Vector3>()
+        {
+            Vec6,
+            Vec2,
+            Vec10
+        });
+
         faces.Add(new TriangleIndices(8, 6, 7));
+        MeshTriangleExtraction.Add(new List<Vector3>()
+        {
+            Vec8,
+            Vec6,
+            Vec7
+        });
+
         faces.Add(new TriangleIndices(9, 8, 1));
+        MeshTriangleExtraction.Add(new List<Vector3>()
+        {
+            Vec9,
+            Vec8,
+            Vec1
+        });
 
 
         // refine triangles
         for (int i = 0; i < recursionLevel; i++)
         {
             List<TriangleIndices> faces2 = new List<TriangleIndices>();
+
+            List<List<Vector3>> MeshTriangleExtraction2 = new List<List<Vector3>>();
+
             foreach (var tri in faces)
             {
                 // replace triangle by 4 triangles
@@ -221,11 +380,39 @@ public class Swarm_mesh : MonoBehaviour
                 int c = getMiddlePoint(tri.v3, tri.v1, ref vertList, ref middlePointIndexCache, radius);
 
                 faces2.Add(new TriangleIndices(tri.v1, a, c));
+                MeshTriangleExtraction2.Add(new List<Vector3>()
+                 {
+                   vertList[tri.v1],
+                   vertList[a],
+                   vertList[c]
+                });
+
                 faces2.Add(new TriangleIndices(tri.v2, b, a));
+                MeshTriangleExtraction2.Add(new List<Vector3>()
+                 {
+                   vertList[tri.v2],
+                   vertList[b],
+                   vertList[a]
+                });
+
                 faces2.Add(new TriangleIndices(tri.v3, c, b));
+                MeshTriangleExtraction2.Add(new List<Vector3>()
+                 {
+                   vertList[tri.v3],
+                   vertList[c],
+                   vertList[b]
+                });
+
                 faces2.Add(new TriangleIndices(a, b, c));
+                MeshTriangleExtraction2.Add(new List<Vector3>()
+                 {
+                   vertList[a],
+                   vertList[b],
+                   vertList[c]
+                });
             }
             faces = faces2;
+            MeshTriangleExtraction = MeshTriangleExtraction2;
         }
 
         mesh.vertices = vertList.ToArray();
