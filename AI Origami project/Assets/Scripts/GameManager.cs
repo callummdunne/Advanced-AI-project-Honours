@@ -59,15 +59,15 @@ public class GameManager : MonoBehaviour
                 if(returnedObstaclesPattern.Count > 0)
                 {
                     print("Returned a matching pattern");
-                    for(int i = 0; i < returnedObstaclesPattern.Count; i++)
-                    {
-                        //Return Matched
-                        print(returnedObstaclesPattern[i]);
-                        //GENERATE OBSTACLES
+                    //for(int i = 0; i < returnedObstaclesPattern.Count; i++)
+                    //{
+                    //    //Return Matched
+                    //    print(returnedObstaclesPattern[i]);
+                      
+                    //    //First check difficulty
+                    //    GetComponent<GetUserInput>().increaseDifficulty(returnedObstaclesPattern,  intCounter);
+                    //}
 
-                        //First check difficulty
-                        GetComponent<GetUserInput>().increaseDifficulty(returnedObstaclesPattern,  intCounter);
-                    }
                     //Generate List of Strings
                     GetComponent<GetUserInput>().PatternStringsList = new ArrayList(); //First Reset List
                     int intCounting = 0;
@@ -82,6 +82,25 @@ public class GameManager : MonoBehaviour
                         }
                         strObstacle += returnedObstaclesPattern[j];
                         intCounting++;
+                    }
+
+                    //Increase difficulty if necessary
+                    for (int i = 0; i < GetComponent<GetUserInput>().PatternStringsList.Count; i++)
+                    {
+                        //ArrayList to Increase Difficulty of
+                        ArrayList toIncrease = new ArrayList();
+                        //Valid String
+                        string validString = (string)GetComponent<GetUserInput>().PatternStringsList[i];
+                        //Current Obstacle Combo
+                        for (int k = 0; k < validString.Length; k++) {
+                            //Return Matched
+                            print(validString[k]);
+                            toIncrease.Add(validString[k]);
+                        }
+
+                        //First check difficulty
+                        ArrayList result = GetComponent<GetUserInput>().increaseDifficulty(toIncrease, intCounter);
+                        GetComponent<GetUserInput>().PatternStringsList[i] = result;
                     }
                 }
                 else

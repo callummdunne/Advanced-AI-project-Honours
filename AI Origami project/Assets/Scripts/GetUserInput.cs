@@ -9,7 +9,7 @@ public class GetUserInput : MonoBehaviour
     //Variables
     private ArrayList patternStringsList = new ArrayList();  //List of Strings that Ruan will access
     public ArrayList patterns = null;
-    private int intCounter = 0;  //From Ruan to increase Difficulty
+    private int intCounter = 1;  //From Ruan to increase Difficulty
     public ArrayList userInputs = new ArrayList();
 
     //Get and Set Counter
@@ -167,7 +167,7 @@ public class GetUserInput : MonoBehaviour
                         matchedPattern.Add(currentString[k]);
                     }
                     //return matchedPattern;
-                    Console.WriteLine(currentString);
+                    //Console.WriteLine(currentString);
                 }
             }
 
@@ -190,18 +190,19 @@ public class GetUserInput : MonoBehaviour
      * starting with the smallest
      * It will mutate values to be sent to obstacle graphics generator
      **/
-    public void increaseDifficulty(ArrayList returnedObstaclesPattern, int frameValue)
+    public ArrayList increaseDifficulty(ArrayList returnedObstaclesPattern, int frameValue)
     {
+        ArrayList newValues = new ArrayList();
         int newSize = 0;
         //Start from index 1 as W/R does not matter
         for (int i = 1; i < returnedObstaclesPattern.Count; i++)
         {
             //Get Value that represents size, eg. 3 - 6 second index[1]
-            newSize = (int)returnedObstaclesPattern[i] * (frameValue / 100);
+            newSize = (int)returnedObstaclesPattern[i] * (frameValue / 10); //Takes about 10 obstacles for it to increase in size
             //Set new value to that index
-            returnedObstaclesPattern[i] = newSize;
+            newValues[i] = newSize;
         }
-
+        return newValues;
     }
 
 
