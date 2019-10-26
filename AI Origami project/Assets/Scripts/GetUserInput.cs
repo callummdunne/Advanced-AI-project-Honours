@@ -4,69 +4,26 @@ using System;
 
 public class GetUserInput : MonoBehaviour
 {
-    static ArrayList patterns = null;
-    static int intCounter = 0;  //From Ruan to increase Difficulty
-    ArrayList userInputs = new ArrayList();
+
+    public ArrayList patterns = null;
+    public int intCounter = 0;  //From Ruan to increase Difficulty
+    public ArrayList userInputs = new ArrayList();
 
     void Start()
     {
-        //Generate Patterns
-        generatePatterns();
+        
     }
 
     void Update()
     {
-        foreach (char c in Input.inputString)
-        {
-           
-            if ((c == '\n') || (c == '\r')) // enter/return
-            {
-                //Create String of User Input
-                String userInput = "";
-                for (int i = 0; i < userInputs.Count; i++) {
-                    //Debug.Log(userInputs[i]);
-                    userInput += userInputs[i];
-                }
-                //print(userInput);
-                //Call function to pattern match and send results to Ruan
-                //Match patterns using Rchunk pattern matching
-
-                ArrayList returnedObstaclesPattern = matchPattern(userInput.ToUpper());
-                if (returnedObstaclesPattern.Count > 0)
-                {
-                    print("Returned a matching pattern");
-                    for (int i = 0; i < returnedObstaclesPattern.Count; i++)
-                    {
-                        //Return Matched
-                        print(returnedObstaclesPattern[i]);
-                        //GENERATE OBSTACLES
-                    
-                        //First check difficulty
-                        increaseDifficulty(returnedObstaclesPattern, intCounter);
-                    }
-                }
-                else
-                {
-                    print("No matching pattern found");
-                }
-
-                //Reset list after sending
-                userInputs = new ArrayList();
-            }
-            else
-            {
-                userInputs.Add(c);
-                //Debug.Log(c);
-            }
-        }
+        
     }
-
 
     // ----------------MY FUNCTIONS ---------------------//
     //Generate a pool of patterns to be used
     //Starts with a character to represent to obstacle type followed by a digit to represent size (sizes 1 to 5, 1 smallest, 5 biggest)
     //R stands for rectangle, S stands for square
-    static private void generatePatterns()
+    public void generatePatterns()
     {
         patterns = new ArrayList();
 
@@ -123,7 +80,7 @@ public class GetUserInput : MonoBehaviour
 
     //Pattern Matching using Rchunks, R is 6.. those are 3 obstacles max at once
     //String patterns are limited to an R-Chunk to prevent the user from bombarding the space with all shapes and sizes
-    static private ArrayList matchPattern(string userInput)
+    public ArrayList matchPattern(string userInput)
     {
         ArrayList matchedPattern = new ArrayList();
 
@@ -226,7 +183,7 @@ public class GetUserInput : MonoBehaviour
      * starting with the smallest
      * It will mutate values to be sent to obstacle graphics generator
      **/
-    static private void increaseDifficulty(ArrayList returnedObstaclesPattern, int frameValue)
+    public void increaseDifficulty(ArrayList returnedObstaclesPattern, int frameValue)
     {
         int newSize = 0;
         //Start from index 1 as W/R does not matter
