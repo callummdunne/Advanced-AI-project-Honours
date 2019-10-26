@@ -5,7 +5,7 @@ using UnityEngine;
 public class moveObstacle : MonoBehaviour
 {
     public Transform myTransform;
-    private float speed = 1f;
+    private float speed = 100f;
     private float lifeTime = 5;
     // Start is called before the first frame update
     void Start()
