@@ -18,6 +18,7 @@ public class wallsNramps : MonoBehaviour
     //vars for internal use; I'll add comments here later but nobody should need to use these directly
     public GameObject ramp;
     public GameObject wall;
+    private GameObject nextObject;
 
     private Transform myTransform;
     public Transform cameraHeadTransform;
@@ -28,6 +29,7 @@ public class wallsNramps : MonoBehaviour
     //ramp position
     private Vector3 rampPos = new Vector3();
     private Vector3 wallPos = new Vector3();
+    private Transform newWallPos;
     private ArrayList selfSet = new ArrayList();
     private Dictionary<System.String, System.Int32> detectors = new Dictionary<System.String, System.Int32>();
     private int detectorRange = 10;
@@ -79,9 +81,14 @@ public class wallsNramps : MonoBehaviour
         flagCreateNext = flag;
     }
 
-    public string getNextObstacle()
+    public string getNextObstacleString()
     {
         return nextObstacle;
+    }
+
+    public GameObject getNextObstacle()
+    {
+
     }
     //----------------end getters and setters
 
@@ -291,22 +298,22 @@ public class wallsNramps : MonoBehaviour
 
             //width of object
             float xScale = float.Parse(detector.Substring(3, 1));
-            xScale = xScale - 3;
+            xScale = xScale - 2;
             xScale = xScale * obstacleScales;
             //heigth of object
             float zScale = float.Parse(detector.Substring(4, 1));
-            zScale = zScale - 3;
+            zScale = zScale - 2;
             zScale = zScale * obstacleScales;
-            Debug.Log("CameraPos: " + cameraHeadTransform.position.x + cameraHeadTransform.position.y + cameraHeadTransform.position.z);
-            Debug.Log("ScaleZ: " + zScale);
-            wallPos = cameraHeadTransform.TransformPoint(scaleWidth * left, 200, 385 );
 
-            Debug.Log("Wall Pos: "+ wallPos);
+            wallPos = cameraHeadTransform.TransformPoint(scaleWidth * left, zScale/100, 385 );
+ 
             GameObject newWall = Instantiate(wall, wallPos, Quaternion.Euler(270, 0, 0));
             newWall.transform.localScale = new Vector3(xScale, 500, zScale);
-            Debug.Log("Wall object created");
-            Debug.Log(wall);
-            Debug.Log(wall.transform.position);
+            newWall.transform.position = new Vector3(scaleWidth * left, zScale/100, 385);
+
+            //store next obstacle as general game object
+            nextObject = newWall;
+
 
         }
         else if (detector[0] == 'R') {
@@ -325,10 +332,17 @@ public class wallsNramps : MonoBehaviour
             float zScale = float.Parse(detector.Substring(4, 1));
             zScale = zScale - 3;
             zScale = zScale * obstacleScales;
-            
+
+            //create new ramp game object
             rampPos = new Vector3(scaleWidth * left, 385, zScale / obstacleScales);
-            Instantiate(ramp, rampPos, Quaternion.Euler(270, 270, 0));
             ramp.transform.localScale = new Vector3(yScale, 200f, zScale);
+            GameObject newRamp = Instantiate(ramp, rampPos, Quaternion.Euler(270, 270, 0));
+
+
+            //store as newest game object
+            nextObject = newRamp;
+            
+            
 
 
         }
