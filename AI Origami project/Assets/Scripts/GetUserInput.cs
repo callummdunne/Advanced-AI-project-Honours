@@ -4,6 +4,7 @@ using System;
 
 public class GetUserInput : MonoBehaviour
 {
+    public ArrayList patternStringsList = new ArrayList();
     static ArrayList patterns = null;
     static int intCounter = 0;  //From Ruan to increase Difficulty
     ArrayList userInputs = new ArrayList();
@@ -44,6 +45,21 @@ public class GetUserInput : MonoBehaviour
                         //First check difficulty
                         increaseDifficulty(returnedObstaclesPattern, intCounter);
                     }
+
+                    //Generate List of Strings
+                    patternStringsList = new ArrayList(); //First Reset List
+                    int intCounting = 0;
+                    string strObstacle = "";
+                    for (int j = 0; j < returnedObstaclesPattern.Count; j++) {
+                        if (intCounting == 5) {
+                            patternStringsList.Add(strObstacle);
+                            strObstacle = "";
+                            intCounting = 0;
+                        }
+                        strObstacle += returnedObstaclesPattern[j];
+                        intCounting++;
+                    }
+
                 }
                 else
                 {
@@ -81,7 +97,7 @@ public class GetUserInput : MonoBehaviour
                     {
                         //W
                         patterns.Add("W");
-                        //(3-9)
+                        //(3-6)
                         patterns.Add(i);
                         //(3-9)
                         patterns.Add(j);
@@ -105,7 +121,7 @@ public class GetUserInput : MonoBehaviour
                     {
                         //R
                         patterns.Add("R");
-                        //(3-9)
+                        //(3-6)
                         patterns.Add(i);
                         //(3-9)
                         patterns.Add(j);
@@ -239,4 +255,6 @@ public class GetUserInput : MonoBehaviour
         }
 
     }
+
+
 }
