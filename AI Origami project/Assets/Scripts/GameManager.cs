@@ -73,15 +73,16 @@ public class GameManager : MonoBehaviour
                     int intCounting = 0;
                     string strObstacle = "";
                     for(int j = 0; j < returnedObstaclesPattern.Count; j++)
+                    //for (int j = 0; j < 5; j++)
                     {
-                        if(intCounting == 5)
-                        {
-                            GetComponent<GetUserInput>().PatternStringsList.Add(strObstacle);
-                            strObstacle = "";
-                            intCounting = 0;
-                        }
+                        //if (intCounting >= 5)
+                        //{
+                        //    GetComponent<GetUserInput>().PatternStringsList.Add(strObstacle);
+                        //    strObstacle = "";
+                        //    intCounting = 0;
+                        //}
                         strObstacle += returnedObstaclesPattern[j];
-                        intCounting++;
+                        //intCounting++;
                     }
 
                     //Increase difficulty if necessary
@@ -104,7 +105,8 @@ public class GameManager : MonoBehaviour
                     //}
 
                     //Send List
-                    GameManagerObj.GetComponent<wallsNramps>().setObstacleListOfObstacles(GetComponent<GetUserInput>().PatternStringsList);
+                    //GameManagerObj.GetComponent<wallsNramps>().setObstacleListOfObstacles(GetComponent<GetUserInput>().PatternStringsList);
+                    GameManagerObj.GetComponent<wallsNramps>().setObstacleListOfObstacles(strObstacle);
                 }
                 else
                 {
