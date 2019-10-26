@@ -5,7 +5,7 @@ using System;
 using Random = System.Random;
 
 
-public class NewBehaviourScript : MonoBehaviour
+public class Swarm_behaviour : MonoBehaviour
 {
     string[] arr_Self_Cells = { "1A120","1A011","2C102","0B212","2C022","0B102","1B110","1C022","2B000","1C202","0B220","1A001","0B110","1B221",
         "2A201","2B111","0A121","2B001","0A011","2C122","1A201","2A012","0C020","0A202","1C210","A122","1C102","2B210","0C100","1B111","1C020",
@@ -129,7 +129,7 @@ public class NewBehaviourScript : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         print("Swarm behaviour is running");
         self_space = new List<Sphere>();

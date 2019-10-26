@@ -332,12 +332,20 @@ public class AddOrigamis : MonoBehaviour
 
 
 
-    //callums code starts here
+
+
+    //Callums code starts here
 
     
     private int NumOrigamics;
     private int NumBringBack = 0;
-    private int PastObstacles = 0;
+    public int NumDied
+    {
+        get { return NumDied; }
+        set { NumDied = value; }
+    }
+    private int PastObstacles = 0; 
+
 
 
 
@@ -438,7 +446,7 @@ public class AddOrigamis : MonoBehaviour
 
 
 
-    bool CheckPastObstacle(string NextObstacle) //Checks if all origamis are past a obstacle to see if we should add origamis
+    public bool CheckPastObstacle(string NextObstacle) //Checks if all origamis are past a obstacle to see if we should add origamis
     {
         
 
