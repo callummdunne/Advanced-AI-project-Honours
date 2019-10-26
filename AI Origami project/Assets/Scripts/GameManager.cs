@@ -102,6 +102,9 @@ public class GameManager : MonoBehaviour
                         string result = GetComponent<GetUserInput>().increaseDifficulty(toIncrease, intCounter);
                         GetComponent<GetUserInput>().PatternStringsList[i] = result;
                     }
+
+                    //Send List
+                    GameManagerObj.GetComponent<wallsNramps>().setObstacleListOfObstacles(GetComponent<GetUserInput>().PatternStringsList);
                 }
                 else
                 {
