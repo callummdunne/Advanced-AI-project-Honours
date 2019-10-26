@@ -10,6 +10,9 @@ using System.Collections.Generic;
 
 public class wallsNramps : MonoBehaviour
 {
+    // Counter for increase diffuculty functionality
+    //this shows how many obstacles have been generated so far
+    public int numObstaclesGenerated;
 
     //vars
     public GameObject ramp;
@@ -40,6 +43,7 @@ public class wallsNramps : MonoBehaviour
         {
             Debug.Log(detector.ToString());
         }
+        numObstaclesGenerated = 0;
     }
 
     // Update is called once per frame
@@ -196,5 +200,43 @@ public class wallsNramps : MonoBehaviour
         returnString += ave.ToString();
         returnString += ave2.ToString();
         return returnString;
+    }
+
+
+    //this method accepts an arraylist of strings representing obstacles to be generated
+    public createListOfObstacles(ArrayList obstacleStrings)
+    {
+        foreach (string d in obstacleStrings){
+            createObstacleWithCode(d);
+        }
+    }
+
+    //call this method to create a new obstacle based on a given code
+    public createObstacleWithCode(string obstacleCode)
+    {
+        //find closest matching detector
+        //set min distance to first detector in list   
+        //get the first detector in the set
+        string detector = (string)selfSet[0];
+        int minDistance = calcDistance(detector, obstacleCode);
+        string bestDetector = detector;
+        for (int d = 1; d < selfSet.Count; d++)
+        {
+            detector = (string)selfSet[d];
+            int tempDistance = calcDistance(detector, obstacleCode);
+            if (minDistance > tempDistance){
+                minDistance = tempDistance;
+                bestDetector = detector;
+            }
+        }
+
+        //create obstacle using best detector pattern
+
+    }
+
+    //convert the given detector to an obstacle and instantiate it
+    private detectorToObstacle(string detector)
+    {
+
     }
 }
