@@ -69,14 +69,14 @@ public class GameManager : MonoBehaviour
                         GetComponent<GetUserInput>().increaseDifficulty(returnedObstaclesPattern,  intCounter);
                     }
                     //Generate List of Strings
-                    GetComponent<GetUserInput>().patternStringsList = new ArrayList(); //First Reset List
+                    GetComponent<GetUserInput>().PatternStringsList = new ArrayList(); //First Reset List
                     int intCounting = 0;
                     string strObstacle = "";
                     for (int j = 0; j < returnedObstaclesPattern.Count; j++)
                     {
                         if (intCounting == 5)
                         {
-                            GetComponent<GetUserInput>().patternStringsList.Add(strObstacle);
+                            GetComponent<GetUserInput>().PatternStringsList.Add(strObstacle);
                             strObstacle = "";
                             intCounting = 0;
                         }

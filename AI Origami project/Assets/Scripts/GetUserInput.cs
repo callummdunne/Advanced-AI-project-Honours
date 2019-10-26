@@ -2,14 +2,19 @@
 using System.Collections;
 using System;
 
+//DANIEL OGWOK
+
 public class GetUserInput : MonoBehaviour
 {
-
-    public ArrayList patternStringsList = new ArrayList();  //List of Strings that Ruan will access
+    //Variables
+    private ArrayList patternStringsList = new ArrayList();  //List of Strings that Ruan will access
     public ArrayList patterns = null;
-    public int intCounter = 0;  //From Ruan to increase Difficulty
+    private int intCounter = 0;  //From Ruan to increase Difficulty
     public ArrayList userInputs = new ArrayList();
 
+    //Get and Set Counter
+    public int IntCounter { get => intCounter; set => intCounter = value; } //Counter to keep track of how many obstacles generated
+    public ArrayList PatternStringsList { get => patternStringsList; set => patternStringsList = value; } //List of Valid Strings from User Input
 
     void Start()
     {
@@ -198,4 +203,6 @@ public class GetUserInput : MonoBehaviour
         }
 
     }
+
+
 }
