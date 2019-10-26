@@ -4,7 +4,7 @@ using System;
 
 public class GetUserInput : MonoBehaviour
 {
-    private ArrayList patternStringsList = new ArrayList();
+    public ArrayList patternStringsList = new ArrayList();
     static ArrayList patterns = null;
     static int intCounter = 0;  //From Ruan to increase Difficulty
     ArrayList userInputs = new ArrayList();
