@@ -50,7 +50,7 @@ public class AddOrigamis : MonoBehaviour
     int highestMatch = 0;
 
     void Awake()
-    {        
+    {
         initializePatterns();
     }
 
@@ -60,6 +60,7 @@ public class AddOrigamis : MonoBehaviour
         {
             addNewOrigami(i);
         }
+
     }
 
     //this function should be called in awake to initialise the random patterns
