@@ -8,7 +8,7 @@ public class Origami : DTGameObject
 {
     public Origami()
     {
-
+       
     }
 
     public GameObject GameObject
