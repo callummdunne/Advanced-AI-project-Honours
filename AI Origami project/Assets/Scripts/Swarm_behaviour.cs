@@ -28,6 +28,8 @@ public class Swarm_behaviour : MonoBehaviour
 
     public bool newObstacle;
     public string ObstaclePattern;
+    
+    public List<Detector_Response> Respons_Detector_Map;
 
     //The string patterns are 5 characters, with 26 alphabet letters and 10 numbers, thus x ( 0 - 25), y (0 - 9), z = (0 - 4)
     //int Universe_Volume = 1300;
@@ -69,6 +71,18 @@ public class Swarm_behaviour : MonoBehaviour
         public Sphere Detector { get; set; }
         public bool Activated { get; set; }
         public AssociatedResponce Responce { get; set; }
+
+        public Detector_Response(Sphere newDetector, bool Triggered)
+        {
+            Detector = newDetector;
+            Activated = Triggered;
+            Responce = new AssociatedResponce(0, 0);
+        }
+
+        public void ActivateThis()
+        {
+            Activated = true;
+        }
     }
 
     public class AssociatedResponce
@@ -99,7 +113,7 @@ public class Swarm_behaviour : MonoBehaviour
         }
     }
 
-   
+
 
     public class Move_Info
     {
@@ -140,7 +154,7 @@ public class Swarm_behaviour : MonoBehaviour
          newObstacle = false;
          ObstaclePattern = "00000";
 
-    print("Swarm behaviour is running");
+        print("Swarm behaviour is running");
         self_space = new List<Sphere>();
         detectors = new List<Sphere>();
 
@@ -252,6 +266,13 @@ public class Swarm_behaviour : MonoBehaviour
         sizeOfList = detectors.Count;
         print("Number of detectors: " + sizeOfList);
 
+        Respons_Detector_Map = new List<Detector_Response>();
+        foreach(Sphere d in detectors)
+        {
+            Detector_Response newMap = new Detector_Response(d,false);
+            Respons_Detector_Map.Add(newMap);
+        }
+
     }
 
     // Update is called once per frame
@@ -259,7 +280,20 @@ public class Swarm_behaviour : MonoBehaviour
     {
         if(newObstacle)
         {
-                
+            int i = 0;
+            foreach(char c in ObstaclePattern)
+            {
+                i++;
+                Sphere Obstacle_Mapping = mapToPoint(c, i);
+                foreach(Detector_Response DR in  Respons_Detector_Map)
+                {
+                    if (Obstacle_Detector_Distance(DR.Detector, Obstacle_Mapping) < 1.5)
+                    {
+                        DR.ActivateThis();
+                        print("----------------- Detector ACTIVATED!!!!");
+                    }
+                }
+            }
         }
     }
 
@@ -288,6 +322,16 @@ public class Swarm_behaviour : MonoBehaviour
         {
             print("Detector: x-" + d.x + " y-" + d.y + " z-" + d.z);
         }
+    }
+
+    public double Obstacle_Detector_Distance(Sphere Obstacle, Sphere Detector)
+    {
+        double x_dist = Detector.x - Obstacle.x;
+        double y_dist = Detector.y - Obstacle.y;
+        double z_dist = Detector.z - Obstacle.z;
+
+        double distance = Math.Sqrt(Math.Pow(x_dist, 2) + Math.Pow(y_dist, 2) + Math.Pow(z_dist, 2));
+        return distance;
     }
 
     Move_Info sample_distance_overlaps(Sphere Detector, Sphere Sample)
@@ -372,5 +416,3 @@ public class Swarm_behaviour : MonoBehaviour
     }
 
 }
-
-
