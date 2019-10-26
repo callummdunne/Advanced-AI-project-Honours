@@ -337,7 +337,8 @@ public class wallsNramps : MonoBehaviour
             rampPos = new Vector3(scaleWidth * left, 385, zScale / obstacleScales);
             ramp.transform.localScale = new Vector3(yScale, 200f, zScale);
             GameObject newRamp = Instantiate(ramp, rampPos, Quaternion.Euler(270, 270, 0));
-
+            newRamp.transform.localScale = new Vector3(yScale, 500, zScale);
+            newRamp.transform.position = new Vector3(scaleWidth * left, zScale / 100, 385);
 
             //store as newest game object
             nextObject = newRamp;
