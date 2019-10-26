@@ -7,19 +7,26 @@ public class moveObstacle : MonoBehaviour
     public Transform myTransform;
     private float speed = 100f;
     private float lifeTime = 5;
+    GameObject manager;
+    wallsNramps wNr;
+    GoalSystem gs;
     // Start is called before the first frame update
     void Start()
     {
         myTransform = transform;
+        GameObject manager = GameObject.Find("GameManager");
+        wNr = manager.GetComponent<wallsNramps>();
+        gs = manager.GetComponent<GoalSystem>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
         myTransform.Translate(Vector3.up * speed * Time.deltaTime);
-        if (GoalSystem.CheckPastObstacle(myTransform.position.z))
+        if (gs.CheckPastObstacle(myTransform.position.z))
         {
-            wallsNramps.setFlagNext(true);
+            wNr.setFlagNext(true);
         }
         if (myTransform.position.z < -100)
         {

@@ -13,8 +13,7 @@ public class wallsNramps : MonoBehaviour
     // Counter for increase diffuculty functionality
     //this shows how many obstacles have been generated so far
     public int numObstaclesGenerated;
-
-    //lsit 
+ 
 
     //vars for internal use; I'll add comments here later but nobody should need to use these directly
     public GameObject ramp;
@@ -45,6 +44,9 @@ public class wallsNramps : MonoBehaviour
     //Flag to indicate when next obstacle can be generated
     private bool flagCreateNext = false;
 
+    //string of next obstacle
+    private string nextObstacle;
+
     // Use this for initialization
     void Start()
     {
@@ -72,11 +74,17 @@ public class wallsNramps : MonoBehaviour
         
     }
 
-    //getters and setters
+    //----------------getters and setters
     public void setFlagNext(bool flag)
     {
         flagCreateNext = flag;
     }
+
+    public string getNextObstacle()
+    {
+        return nextObstacle;
+    }
+    //----------------end getters and setters
 
     void getDetectors()
     {
@@ -252,6 +260,7 @@ public class wallsNramps : MonoBehaviour
             return;
         }
         string detector = (string)nextObstacles[0];
+        nextObstacle = detector;
         detectorToObstacle(detector);
         //remove from list
         nextObstacles.RemoveAt(0);

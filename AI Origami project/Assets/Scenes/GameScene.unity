@@ -323,6 +323,7 @@ GameObject:
   - component: {fileID: 373237106}
   - component: {fileID: 373237105}
   - component: {fileID: 373237104}
+  - component: {fileID: 373237108}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameManager
@@ -343,7 +344,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameManagerObj: {fileID: 0}
+  TIMESPLAYED: 0
   intCounter: 1
+  origamis: []
+  obstacles: []
 --- !u!4 &373237103
 Transform:
   m_ObjectHideFlags: 0
@@ -410,6 +414,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05fe4f317c0ff654a9a872a91230cf6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  origamis:
+  - {fileID: 0}
+--- !u!114 &373237108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373237101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d495c4e3e004fbe47ada64be3bef61b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numObstaclesGenerated: 0
+  ramp: {fileID: 2028753860}
+  wall: {fileID: 908500800}
 --- !u!1 &437321011
 GameObject:
   m_ObjectHideFlags: 0
@@ -2052,7 +2073,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: c4fbf04dc0ab51f4eaddd199f3ef6c52,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 385.5
+      value: 377.6
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: c4fbf04dc0ab51f4eaddd199f3ef6c52,
         type: 3}
