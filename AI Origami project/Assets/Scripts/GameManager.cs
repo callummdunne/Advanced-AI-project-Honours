@@ -72,24 +72,24 @@ public class GameManager : MonoBehaviour
                     GetComponent<GetUserInput>().PatternStringsList = new ArrayList(); //First Reset List
                     int intCounting = 0;
                     string strObstacle = "";
-                    for(int j = 0; j < returnedObstaclesPattern.Count; j++)
-                    {
-                        if (intCounting < 5)
-                        {
-                            strObstacle += returnedObstaclesPattern[j];
-                            intCounting++;
-                        }
-                        else {
-                            GetComponent<GetUserInput>().PatternStringsList.Add(strObstacle);
-                            strObstacle = "";
-                            intCounting = 0;
-                        }                        
-                    }
-
-                    //for (int j = 0; j < returnedObstaclesPattern.Count; j++)
+                    //for(int j = 0; j < returnedObstaclesPattern.Count; j++)
                     //{
-                    //   strObstacle += returnedObstaclesPattern[j];                       
+                    //    if (intCounting < 5)
+                    //    {
+                    //        strObstacle += returnedObstaclesPattern[j];
+                    //        intCounting++;
+                    //    }
+                    //    else {
+                    //        GetComponent<GetUserInput>().PatternStringsList.Add(strObstacle);
+                    //        strObstacle = "";
+                    //        intCounting = 0;
+                    //    }                        
                     //}
+
+                    for (int j = 0; j < returnedObstaclesPattern.Count; j++)
+                    {
+                        strObstacle += returnedObstaclesPattern[j];
+                    }
 
                     //Increase difficulty if necessary
                     for (int i = 0; i < GetComponent<GetUserInput>().PatternStringsList.Count; i++)
@@ -112,8 +112,8 @@ public class GameManager : MonoBehaviour
                     }
 
                     //Send List
-                    GameManagerObj.GetComponent<wallsNramps>().setObstacleListOfObstacles(GetComponent<GetUserInput>().PatternStringsList);
-                    //GameManagerObj.GetComponent<wallsNramps>().setObstacleListOfObstacles(strObstacle);
+                    //GameManagerObj.GetComponent<wallsNramps>().setObstacleListOfObstacles(GetComponent<GetUserInput>().PatternStringsList);
+                    GameManagerObj.GetComponent<wallsNramps>().setObstacleListOfObstacles(strObstacle);
                 }
                 else
                 {
