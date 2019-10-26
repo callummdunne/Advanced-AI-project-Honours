@@ -67,6 +67,11 @@ public class AddOrigamis : MonoBehaviour
         {
             addNewOrigami(i);
         }
+        
+        CalcGoal();
+        
+
+
     }
 
     //this function should be called in awake to initialise the random patterns
@@ -351,11 +356,14 @@ public class AddOrigamis : MonoBehaviour
 
     public void CalcGoal() //will be called as i will need data on if part of mesh could call in update if morne has function for me to get part of mesh 
     {
-        NumOrigamics = origamis.Length; //todo check that this has the right number 
+        NumOrigamics = origamis.Length -1 ; //todo check that this has the right number 
+        Debug.Log("Number of origamis " + Convert.ToString(NumOrigamics));
 
+        Debug.Log("Position of first origami " + Convert.ToString(origamis[0].myObject.transform.position));
 
         Vector3 Average = AverageLocation(origamis);
 
+        Debug.Log("The average location: " + Convert.ToString(Average));
 
         double AverageDistance = 0.00;
         double[] Distances = new double[NumOrigamics]; //storing distances so i dont have to calculate again later 
@@ -368,10 +376,14 @@ public class AddOrigamis : MonoBehaviour
 
         AverageDistance /= NumOrigamics;
 
+        Debug.Log("Average distance " + Convert.ToString(AverageDistance));
+
+
         int Leeway = 5; //This is how much leeway to give on the average distance
         int MaxAge = 5; //This is the maximum age that an origami can get to
         for(int O = 0; O < NumOrigamics; O++)
         {
+            Debug.Log("Distances for origami " + Convert.ToString(O) + "Length" + Convert.ToString(Distances[0]));
             if(Distances[O] > (AverageDistance + Leeway))
             {
                 if(origamis[O].age >= MaxAge) 
@@ -385,13 +397,20 @@ public class AddOrigamis : MonoBehaviour
                 else
                 {
                     origamis[O].age += 2;
+                    Debug.Log("added to age of " + origamis[O].myObject.tag);
                 }
             }
             else
-            {   
+            {
+                
                 if (origamis[O].age > 0)
                 {
                     origamis[O].age -= 1;
+                    Debug.Log("Lowered the age of " + origamis[O].myObject.tag);
+                }
+                else
+                {
+                    Debug.Log("Age at 0" + origamis[O].myObject.tag);
                 }
             }
 
