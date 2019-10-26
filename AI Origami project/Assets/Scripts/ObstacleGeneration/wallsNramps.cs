@@ -18,9 +18,10 @@ public class wallsNramps : MonoBehaviour
     //vars for internal use; I'll add comments here later but nobody should need to use these directly
     public GameObject ramp;
     public GameObject wall;
+    private GameObject nextObject;
 
     private Transform myTransform;
-    private Transform cameraHeadTransform;
+    public Transform cameraHeadTransform;
 
     private float placeRate = 1;
     private float nextPlace = 0;
@@ -28,6 +29,7 @@ public class wallsNramps : MonoBehaviour
     //ramp position
     private Vector3 rampPos = new Vector3();
     private Vector3 wallPos = new Vector3();
+    private Transform newWallPos;
     private ArrayList selfSet = new ArrayList();
     private Dictionary<System.String, System.Int32> detectors = new Dictionary<System.String, System.Int32>();
     private int detectorRange = 10;
@@ -51,7 +53,7 @@ public class wallsNramps : MonoBehaviour
     void Start()
     {
         myTransform = transform;
-        cameraHeadTransform = myTransform.Find("PlayerCamera");
+        Debug.Log("Camera Pos: " + cameraHeadTransform);
         ReadString();
         getDetectors();
         Debug.Log(selfSet.Count);
@@ -79,9 +81,14 @@ public class wallsNramps : MonoBehaviour
         flagCreateNext = flag;
     }
 
-    public string getNextObstacle()
+    public string getNextObstacleString()
     {
         return nextObstacle;
+    }
+
+    public GameObject getNextObstacle()
+    {
+        return nextObject;
     }
     //----------------end getters and setters
 
@@ -224,13 +231,14 @@ public class wallsNramps : MonoBehaviour
     //this method accepts an arraylist of strings representing obstacles to be generated
     public void setObstacleListOfObstacles(string obstacleStrings)
     {
-        //Debug.Log(obstacleStrings.Count);
         createObstacleWithCode(obstacleStrings);
         /*
-        foreach (string d in obstacleStrings){
-            createObstacleWithCode(d);
+        Debug.Log(obstacleStrings.Count);
+        foreach (object d in obstacleStrings){
+            createObstacleWithCode((string)d);
         }
         */
+        
     }
 
     //call this method to create a new obstacle based on a given code
@@ -290,20 +298,22 @@ public class wallsNramps : MonoBehaviour
 
             //width of object
             float xScale = float.Parse(detector.Substring(3, 1));
-            xScale = xScale - 3;
+            xScale = xScale - 2;
             xScale = xScale * obstacleScales;
             //heigth of object
             float zScale = float.Parse(detector.Substring(4, 1));
-            zScale = zScale - 3;
+            zScale = zScale - 2;
             zScale = zScale * obstacleScales;
-            
-            wallPos = new Vector3(scaleWidth*left, 385, zScale /obstacleScales);
-            Debug.Log("Wall Pos: "+ wallPos);
-            Instantiate(wall, wallPos, Quaternion.Euler(270, 0, 0));
-            wall.transform.localScale = new Vector3(xScale, 500f, zScale);
-            Debug.Log("Wall object created");
-            Debug.Log(wall);
-            Debug.Log(wall.transform.position);
+
+            wallPos = cameraHeadTransform.TransformPoint(scaleWidth * left, zScale/100, 385 );
+ 
+            GameObject newWall = Instantiate(wall, wallPos, Quaternion.Euler(270, 0, 0));
+            newWall.transform.localScale = new Vector3(xScale, 500, zScale);
+            newWall.transform.position = new Vector3(scaleWidth * left, zScale/100, 385);
+
+            //store next obstacle as general game object
+            nextObject = newWall;
+
 
         }
         else if (detector[0] == 'R') {
@@ -322,10 +332,17 @@ public class wallsNramps : MonoBehaviour
             float zScale = float.Parse(detector.Substring(4, 1));
             zScale = zScale - 3;
             zScale = zScale * obstacleScales;
-            
+
+            //create new ramp game object
             rampPos = new Vector3(scaleWidth * left, 385, zScale / obstacleScales);
-            Instantiate(ramp, rampPos, Quaternion.Euler(270, 270, 0));
             ramp.transform.localScale = new Vector3(yScale, 200f, zScale);
+            GameObject newRamp = Instantiate(ramp, rampPos, Quaternion.Euler(270, 270, 0));
+
+
+            //store as newest game object
+            nextObject = newRamp;
+            
+            
 
 
         }

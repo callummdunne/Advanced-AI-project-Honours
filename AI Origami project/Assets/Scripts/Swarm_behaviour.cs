@@ -28,6 +28,7 @@ public class Swarm_behaviour : MonoBehaviour
 
     public bool newObstacle;
     public string ObstaclePattern;
+    
     public List<Detector_Response> Respons_Detector_Map;
 
     //The string patterns are 5 characters, with 26 alphabet letters and 10 numbers, thus x ( 0 - 25), y (0 - 9), z = (0 - 4)
@@ -112,7 +113,7 @@ public class Swarm_behaviour : MonoBehaviour
         }
     }
 
-   
+
 
     public class Move_Info
     {
@@ -415,5 +416,3 @@ public class Swarm_behaviour : MonoBehaviour
     }
 
 }
-
-

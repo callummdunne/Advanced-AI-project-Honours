@@ -374,9 +374,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5b555fa0c73c664281d47eb48a054b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MeshStructVertices: []
   planetMaterial: {fileID: 0}
   swarmCalculated: 0
+  z_adj: 0
+  SwarmSpacing: 0
   planetSize: 1
 --- !u!114 &373237105
 MonoBehaviour:
@@ -431,6 +432,7 @@ MonoBehaviour:
   numObstaclesGenerated: 0
   ramp: {fileID: 2028753860}
   wall: {fileID: 908500800}
+  cameraHeadTransform: {fileID: 785973911}
 --- !u!114 &373237109
 MonoBehaviour:
   m_ObjectHideFlags: 0

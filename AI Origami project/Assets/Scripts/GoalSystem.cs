@@ -190,13 +190,10 @@ public class GoalSystem : MonoBehaviour
         else {
             NumBringBack = 0;
         }
-
-
-
         
     }
 
-
+ // todo test for collision
 
 }
 
