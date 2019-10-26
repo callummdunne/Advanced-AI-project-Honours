@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
 
                     //Generate List of Strings
                     GetComponent<GetUserInput>().PatternStringsList = new ArrayList(); //First Reset List
-                    int intCounting = 0;
+                    //int intCounting = 0;
                     string strObstacle = "";
                     //for(int j = 0; j < returnedObstaclesPattern.Count; j++)
                     //{
@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
                     //    }                        
                     //}
 
-                    for (int j = 0; j < returnedObstaclesPattern.Count; j++)
+                    for (int j = 0; j < 5; j++)
                     {
                         strObstacle += returnedObstaclesPattern[j];
                     }
