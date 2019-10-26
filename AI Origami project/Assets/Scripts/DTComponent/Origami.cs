@@ -9,6 +9,7 @@ public class Origami : DTGameObject
 
     private GameObject gameObject;
     private int age;
+    private string pattern;
 
     public Origami()
     {
@@ -26,5 +27,11 @@ public class Origami : DTGameObject
     {
         get => age;
         set => age = value;
+    }
+
+    public string Pattern
+    {
+        get => pattern;
+        set => pattern = value;
     }
 }

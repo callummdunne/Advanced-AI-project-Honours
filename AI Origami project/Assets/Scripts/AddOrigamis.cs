@@ -6,13 +6,6 @@ using UnityEditor;
 
 public class AddOrigamis : MonoBehaviour
 {
-    //the structure for a single origami
-    public struct Origami
-    {
-        public GameObject myObject;
-        public string pattern;
-        public int age;
-    }
 
     //declaring a new game and mesh object
     GameObject origami;
@@ -57,7 +50,7 @@ public class AddOrigamis : MonoBehaviour
     int highestMatch = 0;
 
     void Awake()
-    {        
+    {
         initializePatterns();
     }
 
@@ -67,6 +60,7 @@ public class AddOrigamis : MonoBehaviour
         {
             addNewOrigami(i);
         }
+
     }
 
     //this function should be called in awake to initialise the random patterns
@@ -123,9 +117,9 @@ public class AddOrigamis : MonoBehaviour
 
 
 
-        origamis[iFromLoop].myObject = origami;
-        origamis[iFromLoop].pattern = newRobot;
-        origamis[iFromLoop].age = 0;
+        origamis[iFromLoop].GameObject = origami;
+        origamis[iFromLoop].Pattern = newRobot;
+        origamis[iFromLoop].Age = 0;
 
         Array.Resize(ref origamis, origamis.Length + 1);
 
@@ -362,7 +356,7 @@ public class AddOrigamis : MonoBehaviour
 
         for(int j = 0; j < NumOrigamics; j++) //Calculate average distance from average point 
         {
-            Distances[j] = EuclidianDistance(origamis[j].myObject.transform.position, Average);
+            Distances[j] = EuclidianDistance(origamis[j].GameObject.transform.position, Average);
             AverageDistance += Distances[j];
         }
 
@@ -374,7 +368,7 @@ public class AddOrigamis : MonoBehaviour
         {
             if(Distances[O] > (AverageDistance + Leeway))
             {
-                if(origamis[O].age >= MaxAge) 
+                if(origamis[O].Age >= MaxAge) 
                 {
                     //todo check if the origami is part of a mesh 
                     
@@ -384,14 +378,14 @@ public class AddOrigamis : MonoBehaviour
                 }
                 else
                 {
-                    origamis[O].age += 2;
+                    origamis[O].Age += 2;
                 }
             }
             else
             {   
-                if (origamis[O].age > 0)
+                if (origamis[O].Age > 0)
                 {
-                    origamis[O].age -= 1;
+                    origamis[O].Age -= 1;
                 }
             }
 
@@ -413,7 +407,7 @@ public class AddOrigamis : MonoBehaviour
         Vector3 Average = new Vector3(0, 0, 0);
         for(int a = 0; a < NumOrigamics; a++)
         {
-            Average = Average + Origamis[a].myObject.transform.position;
+            Average = Average + Origamis[a].GameObject.transform.position;
         }
 
         Average = Average / NumOrigamics;
@@ -452,11 +446,11 @@ public class AddOrigamis : MonoBehaviour
 
         for(int i = 0; i < NumOrigamics; i++)
         {
-            if(GetLocationObstacle(NextObstacle)[0] < origamis[i].myObject.transform.position[0]) //todo change these once we know direction
+            if(GetLocationObstacle(NextObstacle)[0] < origamis[i].GameObject.transform.position[0]) //todo change these once we know direction
             {
-                if(GetLocationObstacle(NextObstacle)[1] < origamis[i].myObject.transform.position[1])
+                if(GetLocationObstacle(NextObstacle)[1] < origamis[i].GameObject.transform.position[1])
                 {
-                    if(GetLocationObstacle(NextObstacle)[2] < origamis[i].myObject.transform.position[2])
+                    if(GetLocationObstacle(NextObstacle)[2] < origamis[i].GameObject.transform.position[2])
                     {
                         return false;
                     }

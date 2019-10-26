@@ -51,7 +51,7 @@ public class DTGameObject
         string name = "ORI" + GameManager.NumberOrigami;
         ++GameManager.NumberOrigami;
         this.name = name;
-        GameManager.AddOrigami((Origami) this);
+        GameManager.AddOrigami((Origami)this);
     }
 
     public void SetToObstacle()
@@ -59,7 +59,7 @@ public class DTGameObject
         string name = "OBS" + GameManager.NumberObstacles;
         ++GameManager.NumberObstacles;
         this.name = name;
-        GameManager.AddObstacle((Obstacle) this);
+        GameManager.AddObstacle((Obstacle)this);
     }
 
     public void AddSignal(string signal)
@@ -133,28 +133,30 @@ public class DTGameObject
     // and send the message to the origami
     public static void SendSignal(DTGameObject gameObject, string signal)
     {
-        foreach(DTGameObject o in GameManager.origamis)
+        if(!gameObject.Equals(null))
         {
-            if(o.Name.Contains("ORI"))
+            foreach(DTGameObject o in GameManager.origamis)
             {
-                Origami origami = (Origami)o;
-                if(gameObject is Origami otherOrigami)
+                if(o.Name.Contains("ORI"))
                 {
-                    if(IsInRange(otherOrigami.GameObject, origami.GameObject, GameManager.OrigamiDZRADIUS) && (!gameObject.Name.Equals(origami.Name)))
+                    Origami origami = (Origami)o;
+                    if(gameObject is Origami otherOrigami)
                     {
-                        origami.AddSignal(signal);
+                        if(IsInRange(otherOrigami.GameObject, origami.GameObject, GameManager.OrigamiDZRADIUS) && (!gameObject.Name.Equals(origami.Name)))
+                        {
+                            origami.AddSignal(signal);
+                        }
                     }
-                }
-                else if(gameObject is Obstacle obstacle)
-                {
-                    if(IsInRange(origami.GameObject, obstacle.GameObject, GameManager.ObstacleDZRADIUS))
+                    else if(gameObject is Obstacle obstacle)
                     {
-                        o.AddSignal(signal);
+                        if(IsInRange(origami.GameObject, obstacle.GameObject, GameManager.ObstacleDZRADIUS))
+                        {
+                            o.AddSignal(signal);
+                        }
                     }
                 }
             }
         }
-
     }
 
 }
