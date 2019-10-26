@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 // Kevin Matthew Julius 216007874
-public class DTGameObject: MonoBehaviour
+public class DTGameObject : MonoBehaviour
 {
     /// Danger Theory Model Classification
     /// ========================================
@@ -24,32 +24,30 @@ public class DTGameObject: MonoBehaviour
     /// should mean the antigen is non-self) then the immune response can commence.
 
     public GameObject GameManagerObj;
-    private string name;
-    private bool signal1;
     private bool sentasignal;
     private List<string> receivedSignals;
+
+    public string Name
+    {
+        get; set;
+    }
+    public bool Awake
+    {
+        get; set;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
 
         GameManagerObj = GameObject.FindWithTag("GameManager");
-       
-    }
 
-    public string Name
-    {
-        get => name;
-    }
-    public bool Awake
-    {
-        get => signal1;
     }
 
     public DTGameObject()
     {
-        name = "";
-        signal1 = false;
+        Name = "";
+        Awake = false;
         sentasignal = true;
         receivedSignals = new List<string>();
     }
@@ -58,13 +56,13 @@ public class DTGameObject: MonoBehaviour
     {
         if(signal.Equals("Awake"))
         {
-            signal1 = true;
+            Awake = true;
             sentasignal = false;
         }
-        else if(signal1)
+        else if(Awake)
         {
             receivedSignals.Add(signal);
-            signal1 = false;
+            Awake = false;
             if(!sentasignal)
             {
                 sentasignal = true;
