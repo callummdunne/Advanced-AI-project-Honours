@@ -96,6 +96,11 @@ public class AddOrigamis : MonoBehaviour
         } while (initializationList.Count < 20);
     }
 
+    public List<Origami> getOrigamis()
+    {
+        return new List<Origami>(origamis);
+    }
+
     //function used to generate a single origami robot.. call in a loop to create many
     public void addNewOrigami(int iFromLoop)
     {
