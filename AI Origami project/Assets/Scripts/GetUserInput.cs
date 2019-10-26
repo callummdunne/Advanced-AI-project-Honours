@@ -87,7 +87,7 @@ public class GetUserInput : MonoBehaviour
         patterns = new ArrayList();
 
         //Add combinations of W padded with extra characters
-        for (int i = 3; i <= 9; i++)
+        for (int i = 3; i <= 6; i++)
         {
             for (int j = 3; j <= 9; j++)
             {
@@ -111,7 +111,7 @@ public class GetUserInput : MonoBehaviour
         }
 
         //Add combinations of R padded with extra characters
-        for (int i = 3; i <= 9; i++)
+        for (int i = 3; i <= 6; i++)
         {
             for (int j = 3; j <= 9; j++)
             {
