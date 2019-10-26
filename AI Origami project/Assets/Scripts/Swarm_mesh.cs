@@ -25,22 +25,22 @@ public class Swarm_mesh : MonoBehaviour
 
         MeshTriangleExtraction = new List<List<Vector3>>();
 
-    CreatePlanet();
-        
-        foreach (int triangle in planetMesh.triangles)
+        CreatePlanet();
+
+        foreach(int triangle in planetMesh.triangles)
         {
             print(triangle);
         }
 
         // Small swarm 42 triangle origamis
         //
-        
 
-        
-        foreach (Vector3 tri in MeshStructVertices)
+
+
+        foreach(Vector3 tri in MeshStructVertices)
         {
             print("Vectors " + tri.x + " " + tri.y + " " + tri.z);
-        } 
+        }
         print("Vector list obtained");
         swarmCalculated = true;
 
@@ -128,7 +128,7 @@ public class Swarm_mesh : MonoBehaviour
         long key = (smallerIndex << 32) + greaterIndex;
 
         int ret;
-        if (cache.TryGetValue(key, out ret))
+        if(cache.TryGetValue(key, out ret))
         {
             return ret;
         }
@@ -169,18 +169,18 @@ public class Swarm_mesh : MonoBehaviour
         // create 12 vertices of a icosahedron
         float t = (1f + Mathf.Sqrt(5f)) / 2f;
 
-        Vector3 Vec0 = new Vector3(-1f, t, 0f);                        
-        Vector3 Vec1 = new Vector3(1f, t, 0f);                          
-        Vector3 Vec2 = new Vector3(-1f, -t, 0f); 
-        Vector3 Vec3 = new Vector3(1f, -t, 0f);   
-        Vector3 Vec4 = new Vector3(0f, -1f, t);  
-        Vector3 Vec5 = new Vector3(0f, 1f, t); 
-        Vector3 Vec6 = new Vector3(0f, -1f, -t);                       
-        Vector3 Vec7 = new Vector3(0f, 1f, -t); 
-        Vector3 Vec8 = new Vector3(t, 0f, -1f);  
-        Vector3 Vec9 = new Vector3(t, 0f, 1f);                         
-        Vector3 Vec10 = new Vector3(-t, 0f, -1f);                         
-        Vector3 Vec11 = new Vector3(-t, 0f, 1f);                       
+        Vector3 Vec0 = new Vector3(-1f, t, 0f);
+        Vector3 Vec1 = new Vector3(1f, t, 0f);
+        Vector3 Vec2 = new Vector3(-1f, -t, 0f);
+        Vector3 Vec3 = new Vector3(1f, -t, 0f);
+        Vector3 Vec4 = new Vector3(0f, -1f, t);
+        Vector3 Vec5 = new Vector3(0f, 1f, t);
+        Vector3 Vec6 = new Vector3(0f, -1f, -t);
+        Vector3 Vec7 = new Vector3(0f, 1f, -t);
+        Vector3 Vec8 = new Vector3(t, 0f, -1f);
+        Vector3 Vec9 = new Vector3(t, 0f, 1f);
+        Vector3 Vec10 = new Vector3(-t, 0f, -1f);
+        Vector3 Vec11 = new Vector3(-t, 0f, 1f);
 
 
         vertList.Add(new Vector3(-1f, t, 0f).normalized * radius);      //0
@@ -366,13 +366,13 @@ public class Swarm_mesh : MonoBehaviour
 
 
         // refine triangles
-        for (int i = 0; i < recursionLevel; i++)
+        for(int i = 0; i < recursionLevel; i++)
         {
             List<TriangleIndices> faces2 = new List<TriangleIndices>();
 
             List<List<Vector3>> MeshTriangleExtraction2 = new List<List<Vector3>>();
 
-            foreach (var tri in faces)
+            foreach(var tri in faces)
             {
                 // replace triangle by 4 triangles
                 int a = getMiddlePoint(tri.v1, tri.v2, ref vertList, ref middlePointIndexCache, radius);
@@ -418,7 +418,7 @@ public class Swarm_mesh : MonoBehaviour
         mesh.vertices = vertList.ToArray();
 
         List<int> triList = new List<int>();
-        for (int i = 0; i < faces.Count; i++)
+        for(int i = 0; i < faces.Count; i++)
         {
             triList.Add(faces[i].v1);
             triList.Add(faces[i].v2);
@@ -428,7 +428,7 @@ public class Swarm_mesh : MonoBehaviour
         mesh.uv = new Vector2[vertices.Length];
 
         Vector3[] normales = new Vector3[vertList.Count];
-        for (int i = 0; i < normales.Length; i++)
+        for(int i = 0; i < normales.Length; i++)
             normales[i] = vertList[i].normalized;
 
 

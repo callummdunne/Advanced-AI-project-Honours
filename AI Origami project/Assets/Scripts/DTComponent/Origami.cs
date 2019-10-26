@@ -13,8 +13,7 @@ public class Origami : DTGameObject
 
     public Origami()
     {
-        SetToOrigami();
-        GameObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+
     }
 
     public GameObject GameObject
