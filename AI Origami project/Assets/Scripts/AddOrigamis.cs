@@ -332,6 +332,8 @@ public class AddOrigamis : MonoBehaviour
 
 
 
+
+
     //Callums code starts here
 
     
@@ -342,6 +344,7 @@ public class AddOrigamis : MonoBehaviour
         get { return NumDied; }
         set { NumDied = value; }
     }
+    private int PastObstacles = 0; 
 
 
 
@@ -443,7 +446,7 @@ public class AddOrigamis : MonoBehaviour
 
 
 
-    bool CheckPastObstacle(string NextObstacle) //Checks if all origamis are past a obstacle to see if we should add origamis
+    public bool CheckPastObstacle(string NextObstacle) //Checks if all origamis are past a obstacle to see if we should add origamis
     {
         
 
