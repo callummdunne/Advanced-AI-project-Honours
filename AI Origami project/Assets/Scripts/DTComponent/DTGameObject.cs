@@ -39,9 +39,7 @@ public class DTGameObject : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         GameManagerObj = GameObject.FindWithTag("GameManager");
-
     }
 
     public DTGameObject()
@@ -66,7 +64,7 @@ public class DTGameObject : MonoBehaviour
             if(!sentasignal)
             {
                 sentasignal = true;
-                List<Origami> origamis = GameManagerObj.GetComponent<GameManager>().origamis;
+                List<Origami> origamis = GetComponent<GameManager>().origamis;
                 foreach(DTGameObject o in origamis)
                 {
                     if(o.Name.Contains("ORI") && this is Origami)

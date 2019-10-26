@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44824815, g: 0.49827522, b: 0.5755823, a: 1}
+  m_IndirectSpecularColor: {r: 0.44824833, g: 0.49827534, b: 0.57558256, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -318,9 +318,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 373237103}
-  - component: {fileID: 373237102}
   - component: {fileID: 373237107}
+  - component: {fileID: 373237102}
   - component: {fileID: 373237106}
+  - component: {fileID: 373237108}
   - component: {fileID: 373237105}
   - component: {fileID: 373237104}
   m_Layer: 0
@@ -343,7 +344,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameManagerObj: {fileID: 0}
+  TIMESPLAYED: 0
   intCounter: 1
+  origamis: []
+  obstacles: []
 --- !u!4 &373237103
 Transform:
   m_ObjectHideFlags: 0
@@ -408,6 +412,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 05fe4f317c0ff654a9a872a91230cf6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  origamis:
+  - {fileID: 0}
+--- !u!114 &373237108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373237101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 486570f441278e54a855e1181b5df782, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &437321011
