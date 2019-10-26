@@ -132,7 +132,7 @@ public class wallsNramps : MonoBehaviour
     //read from file containing self set
     void ReadString()
     {
-        string path = "Assets/Scripts/Data/selfSet.txt";
+        string path = "Assets/Scripts/ObstacleGeneration/Data/selfSet.txt";
 
         //Read the text from directly from the test.txt file
         StreamReader sr = new StreamReader(path);

@@ -6,28 +6,13 @@ using UnityEditor;
 
 public class AddOrigamis : MonoBehaviour
 {
-    //the structure for a single origami
-    public struct Origami
-    {
-        public GameObject myObject;
-        public string pattern;
-        public int age;
-        public bool inPosition;
-    }
+
+    public GameObject GameManagerObj;
 
     //declaring a new game and mesh object
     Mesh myMesh;
 
-    //creating an array of origamis
-    Origami[] origamis = new Origami[1];
-
     public bool origamisGenerated = false;
-
-    public Origami[] origamiArray
-    {
-        get { return origamis; }
-        set { origamis = value; }
-    }
 
     //Arrays used in the creation of the object
     Vector3[] myVertices;
@@ -65,12 +50,13 @@ public class AddOrigamis : MonoBehaviour
 
     void Start()
     {
+        GameManagerObj = GameObject.FindWithTag("GameManager");
+
         for (int i = 0; i < 5; i++)
         {
             addNewOrigami(i);
         }
 
-        Array.Resize(ref origamis, origamis.Length - 1);
         origamisGenerated = true;
     }
 
@@ -101,11 +87,6 @@ public class AddOrigamis : MonoBehaviour
         } while (initializationList.Count < 20);
     }
 
-    public List<Origami> getOrigamis()
-    {
-        return new List<Origami>(origamis);
-    }
-
     public bool isOrigamisGenerated()
     {
         return origamisGenerated;
@@ -116,16 +97,16 @@ public class AddOrigamis : MonoBehaviour
     {
         myMesh = new Mesh();
 
-        origamis[iFromLoop] = new Origami();
+        Origami origami = new Origami();
 
-        origamis[iFromLoop].GameObject = new GameObject("origami " + Convert.ToString(iFromLoop + 1));
-        origamis[iFromLoop].GameObject.AddComponent<MeshFilter>().mesh = myMesh;
+        origami.GameObject = new GameObject("origami " + Convert.ToString(iFromLoop + 1));
+        origami.GameObject.AddComponent<MeshFilter>().mesh = myMesh;
 
         Material mat = AssetDatabase.GetBuiltinExtraResource<Material>("Sprites-Default.mat");
 
-        origamis[iFromLoop].GameObject.AddComponent<MeshRenderer>().material = mat;
+        origami.GameObject.AddComponent<MeshRenderer>().material = mat;
 
-        origamis[iFromLoop].GameObject.transform.position = new Vector3(iFromLoop * 5, iFromLoop * 5, iFromLoop * 3);
+        origami.GameObject.transform.position = new Vector3(iFromLoop * 5, iFromLoop * 5, iFromLoop * 3);
 
         string newRobot = "";
 
@@ -138,11 +119,10 @@ public class AddOrigamis : MonoBehaviour
             newRobot = initializationList[iFromLoop];
         }
 
-        origamis[iFromLoop].pattern = newRobot;
-        origamis[iFromLoop].age = 0;
+        origami.Pattern = newRobot;
+        origami.Age = 0;
         //origamis[iFromLoop].inPosition = origami.transform.position;
-
-        Array.Resize(ref origamis, origamis.Length + 1);
+        GameManagerObj.GetComponent<GameManager>().AddOrigami(origami);
 
         StringMatcher(newRobot);
 
@@ -168,6 +148,33 @@ public class AddOrigamis : MonoBehaviour
             0, 3, 1,
             2, 1, 4,
             2, 5, 0
+        };
+
+        colors = new Color[myVertices.Length];
+
+        for (int i = 0; i < myVertices.Length; i += 3)
+        {
+            colors[i] = Color.yellow;
+            colors[i + 1] = Color.green;
+            colors[i + 2] = Color.blue;
+        }
+    }
+
+    //one triangle origami function
+    void makeModelOneTriangle(int main, char po, int one, int two, int three)
+    {
+        myVertices = new Vector3[]
+        {
+            new Vector3(0, main, 1), new Vector3(3, main, 4), new Vector3(4, main, 0),
+            //new Vector3(-1, one, 5), new Vector3(7, two, 3), new Vector3(1, three, -3)
+        };
+
+        myTriangles = new int[]
+        {
+            0, 1, 2
+            //0, 3, 1,
+            //2, 1, 4,
+            //2, 5, 0
         };
 
         colors = new Color[myVertices.Length];
@@ -273,7 +280,7 @@ public class AddOrigamis : MonoBehaviour
         int two = Convert.ToInt32(splitMatch[3]);
         int three = Convert.ToInt32(splitMatch[4]);
 
-        makeModel(main, po, one, two, three);
+        makeModelOneTriangle(main, po, one, two, three);
     }
 
     //this function is used to get the current position (x, y, z) of the robot

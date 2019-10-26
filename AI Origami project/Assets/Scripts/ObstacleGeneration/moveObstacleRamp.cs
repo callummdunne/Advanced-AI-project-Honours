@@ -7,6 +7,7 @@ public class moveObstacleRamp : MonoBehaviour
     public Transform myTransform;
     private float speed = 100f;
     private float lifeTime = 5;
+    public GameObject obstacle;
     GameObject manager;
     wallsNramps wNr;
     GoalSystem gs;
@@ -22,6 +23,10 @@ public class moveObstacleRamp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (myTransform == null)
+        {
+            return;
+        }
         myTransform.Translate(Vector3.left * speed * Time.deltaTime);
         if(gs.CheckPastObstacle(myTransform.position.z))
         {
@@ -29,7 +34,7 @@ public class moveObstacleRamp : MonoBehaviour
         }
         if (myTransform.position.z < -100)
         {
-            Destroy(myTransform);
+            Destroy(obstacle);
         }
     }
 }
