@@ -107,13 +107,13 @@ namespace A_AI_Individual_Origami_Robots
                     if (CollidingWithObject(robot, nearestObject))
                     {
                         //Send danger signal!
-                        Console.WriteLine("Collided with object, sending danger signal.");
+                        print("Collided with object, sending danger signal.");
                     }
                 }
                 else
                 {
                     //Continue convergence or do nothing
-                    Console.WriteLine("Object is Self cell");
+                    print("Object is Self cell");
                 }
             }
         }
@@ -159,7 +159,7 @@ namespace A_AI_Individual_Origami_Robots
                 int closestNeighbourDistance = nearestValues[0];
 
                 double normality = (double) (closestNeighbourDistance == 0 ? 1 : closestNeighbourDistance) / (totalDistance == 0 ? 1 : totalDistance);
-                Console.WriteLine("Level of normality for index " + i + ": " + normality);
+                print("Level of normality for index " + i + ": " + normality);
 
                 if (normality < threshold)
                 {
