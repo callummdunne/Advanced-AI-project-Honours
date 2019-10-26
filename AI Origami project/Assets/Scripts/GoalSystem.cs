@@ -15,6 +15,7 @@ public class GoalSystem : MonoBehaviour
         GameManager MasterScript = ManagerOfTheSystem.GetComponent<GameManager>();
         //origamis = MasterScript.origamis;
         //origamis = GameManager.origamis;
+        Debug.Log(Convert.ToString(MasterScript));
         Debug.Log("It worked");
     }
 
@@ -39,7 +40,7 @@ public class GoalSystem : MonoBehaviour
     }
     private int PastObstacles = 0; //how many obstacles we have pasted 
 
-
+    private float ObstacleLocation = 390;
 
 
     public void CalcGoal() //will be called as i will need data on if part of mesh could call in update if morne has function for me to get part of mesh 
@@ -133,7 +134,7 @@ public class GoalSystem : MonoBehaviour
         }
         else
         {
-            if (CheckPastObstacle("")) //get string or change once we know how getting the data 
+            if (CheckPastObstacle(ObstacleLocation)) //get string or change once we know how getting the data 
             {
                 PastObstacles += 1;
             }
@@ -142,11 +143,11 @@ public class GoalSystem : MonoBehaviour
 
 
 
-    public bool CheckPastObstacle(string NextObstacle) //Checks if all origamis are past a obstacle to see if we should add origamis
+    public bool CheckPastObstacle(float  NextObstacle) //Checks if all origamis are past a obstacle to see if we should add origamis
     {
         //get the location of the next obstacle
-
-        if(GetLocationObstacle(NextObstacle)[0] < 0)
+        ObstacleLocation = NextObstacle;
+        if(NextObstacle < 0) // get the location of the obstacle 
         {
             return true;
         }
@@ -157,10 +158,6 @@ public class GoalSystem : MonoBehaviour
     }
 
 
-    private Vector3 GetLocationObstacle(string str) //look at the naming scheme of obstacles and get location
-    {
-        return new Vector3(0, 0, 0); //todo get the location of the obstacle so i can check
-    }
 
 }
 
