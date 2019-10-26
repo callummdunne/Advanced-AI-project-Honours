@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+      
         GameManagerObj = GameObject.FindWithTag("GameManager");
         //Generate Patterns
         GameManagerObj.GetComponent<GetUserInput>().generatePatterns();
@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
 
             if((c == '\n') || (c == '\r')) // enter/return
             {
-                ArrayList userInputs = GetComponent<GetUserInput>().userInputs;
+                ArrayList userInputs = GameManagerObj.GetComponent<GetUserInput>().userInputs;
                 //Create String of User Input
                 string userInput = "";
                 for(int i = 0; i < userInputs.Count; i++)
@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
                 //Call function to pattern match and send results to Ruan
                 //Match patterns using Rchunk pattern matching
 
-                ArrayList returnedObstaclesPattern = GetComponent<GetUserInput>().matchPattern(userInput.ToUpper());
+                ArrayList returnedObstaclesPattern = GameManagerObj.GetComponent<GetUserInput>().matchPattern(userInput.ToUpper());
                 if(returnedObstaclesPattern.Count > 0)
                 {
                     print("Returned a matching pattern");
@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
                         //GENERATE OBSTACLES
 
                         //First check difficulty
-                        GetComponent<GetUserInput>().increaseDifficulty(returnedObstaclesPattern,  intCounter);
+                        GameManagerObj.GetComponent<GetUserInput>().increaseDifficulty(returnedObstaclesPattern,  intCounter);
                     }
                 }
                 else
@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                GetComponent<GetUserInput>().userInputs.Add(c);
+                GameManagerObj.GetComponent<GetUserInput>().userInputs.Add(c);
                 //Debug.Log(c);
             }
         }
