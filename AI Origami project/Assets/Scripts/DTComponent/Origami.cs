@@ -11,6 +11,8 @@ public class Origami : DTGameObject
 
     GameObject gameObject;
 
+    public bool hasMoved;
+
     public Origami()
     {
        Name = "Ori" + intName;
