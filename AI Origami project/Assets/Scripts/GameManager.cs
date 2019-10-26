@@ -85,23 +85,23 @@ public class GameManager : MonoBehaviour
                     }
 
                     //Increase difficulty if necessary
-                    for (int i = 0; i < GetComponent<GetUserInput>().PatternStringsList.Count; i++)
-                    {
-                        //ArrayList to Increase Difficulty of
-                        ArrayList toIncrease = new ArrayList();
-                        //Valid String
-                        string validString = (string)GetComponent<GetUserInput>().PatternStringsList[i];
-                        //Current Obstacle Combo
-                        for (int k = 0; k < validString.Length; k++) {
-                            //Return Matched
-                            print(validString[k]);
-                            toIncrease.Add(validString[k]);
-                        }
+                    //for (int i = 0; i < GetComponent<GetUserInput>().PatternStringsList.Count; i++)
+                    //{
+                    //    //ArrayList to Increase Difficulty of
+                    //    ArrayList toIncrease = new ArrayList();
+                    //    //Valid String
+                    //    string validString = (string)GetComponent<GetUserInput>().PatternStringsList[i];
+                    //    //Current Obstacle Combo
+                    //    for (int k = 0; k < validString.Length; k++) {
+                    //        //Return Matched
+                    //        print(validString[k]);
+                    //        toIncrease.Add(validString[k]);
+                    //    }
 
-                        //First check difficulty
-                        string result = GetComponent<GetUserInput>().increaseDifficulty(toIncrease, intCounter);
-                        GetComponent<GetUserInput>().PatternStringsList[i] = result;
-                    }
+                    //    //First check difficulty
+                    //    string result = GetComponent<GetUserInput>().increaseDifficulty(toIncrease, intCounter);
+                    //    GetComponent<GetUserInput>().PatternStringsList[i] = result;
+                    //}
 
                     //Send List
                     GameManagerObj.GetComponent<wallsNramps>().setObstacleListOfObstacles(GetComponent<GetUserInput>().PatternStringsList);
