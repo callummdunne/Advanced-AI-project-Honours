@@ -8,7 +8,6 @@ public class AddOrigamis : MonoBehaviour
 {
 
     //declaring a new game and mesh object
-    GameObject origami;
     Mesh myMesh;
 
     //creating an array of origamis
@@ -95,14 +94,16 @@ public class AddOrigamis : MonoBehaviour
     {
         myMesh = new Mesh();
 
-        origami = new GameObject("origami " + Convert.ToString(iFromLoop + 1));
-        origami.AddComponent<MeshFilter>().mesh = myMesh;
+        origamis[iFromLoop] = new Origami();
+
+        origamis[iFromLoop].GameObject = new GameObject("origami " + Convert.ToString(iFromLoop + 1));
+        origamis[iFromLoop].GameObject.AddComponent<MeshFilter>().mesh = myMesh;
 
         Material mat = AssetDatabase.GetBuiltinExtraResource<Material>("Sprites-Default.mat");
 
-        origami.AddComponent<MeshRenderer>().material = mat;
+        origamis[iFromLoop].GameObject.AddComponent<MeshRenderer>().material = mat;
 
-        origami.transform.position = new Vector3(iFromLoop * 5, iFromLoop * 5, iFromLoop * 3);
+        origamis[iFromLoop].GameObject.transform.position = new Vector3(iFromLoop * 5, iFromLoop * 5, iFromLoop * 3);
 
         string newRobot = "";
 
@@ -116,8 +117,6 @@ public class AddOrigamis : MonoBehaviour
         }
 
 
-
-        origamis[iFromLoop].GameObject = origami;
         origamis[iFromLoop].Pattern = newRobot;
         origamis[iFromLoop].Age = 0;
 
