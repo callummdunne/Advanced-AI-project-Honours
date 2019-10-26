@@ -160,6 +160,33 @@ public class AddOrigamis : MonoBehaviour
         }
     }
 
+    //one triangle origami function
+    void makeModelOneTriangle(int main, char po, int one, int two, int three)
+    {
+        myVertices = new Vector3[]
+        {
+            new Vector3(0, main, 1), new Vector3(3, main, 4), new Vector3(4, main, 0),
+            //new Vector3(-1, one, 5), new Vector3(7, two, 3), new Vector3(1, three, -3)
+        };
+
+        myTriangles = new int[]
+        {
+            0, 1, 2
+            //0, 3, 1,
+            //2, 1, 4,
+            //2, 5, 0
+        };
+
+        colors = new Color[myVertices.Length];
+
+        for (int i = 0; i < myVertices.Length; i += 3)
+        {
+            colors[i] = Color.yellow;
+            colors[i + 1] = Color.green;
+            colors[i + 2] = Color.blue;
+        }
+    }
+
     //this function generates a new pattern each time it is called
     string generateRandomPatterns()
     {
@@ -253,7 +280,7 @@ public class AddOrigamis : MonoBehaviour
         int two = Convert.ToInt32(splitMatch[3]);
         int three = Convert.ToInt32(splitMatch[4]);
 
-        makeModel(main, po, one, two, three);
+        makeModelOneTriangle(main, po, one, two, three);
     }
 
     //this function is used to get the current position (x, y, z) of the robot
