@@ -302,6 +302,43 @@ public class AddOrigamis : MonoBehaviour
         robot.transform.position = newPosition;
     }
 
+    public void changePositionAnimation(Origami robot)
+    {
+        Vector3 nextPosition = new Vector3();
+        float xDiff = 0.0f;
+        float yDiff = 0.0f;
+        float zDiff = 0.0f;
+        
+        if (robot.oldPosition.x > robot.newPosition.x)
+        {
+            xDiff = robot.oldPosition.x - robot.newPosition.x;
+        }
+        else
+        {
+            xDiff = robot.newPosition.x - robot.oldPosition.x;
+        }
+
+        if (robot.oldPosition.x > robot.newPosition.x)
+        {
+            xDiff = robot.oldPosition.x - robot.newPosition.x;
+        }
+        else
+        {
+            xDiff = robot.newPosition.x - robot.oldPosition.x;
+        }
+
+        if (robot.oldPosition.x > robot.newPosition.x)
+        {
+            xDiff = robot.oldPosition.x - robot.newPosition.x;
+        }
+        else
+        {
+            xDiff = robot.newPosition.x - robot.oldPosition.x;
+        }
+
+        robot.transform.position = robot.oldPosition;
+    }
+
     //this function gets the current orientation of the robot
     public Quaternion getCurrentOrientation(GameObject robot)
     {
