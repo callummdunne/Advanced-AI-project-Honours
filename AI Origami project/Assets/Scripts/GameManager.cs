@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 // Kevin Matthew Julius 216007874
 public class GameManager : MonoBehaviour
 {
-    public GameObject GameManagerObj;
     // Game variables
     public double TIMESPLAYED = 0;
     public int intCounter = 1;
@@ -27,11 +26,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-        GameManagerObj = GameObject.FindWithTag("GameManager");
         //Generate Patterns
-        GameManagerObj.GetComponent<GetUserInput>().generatePatterns();
-
+        GetComponent<GetUserInput>().generatePatterns();
     }
 
     // Update is called once per frame
@@ -42,7 +38,7 @@ public class GameManager : MonoBehaviour
 
             if((c == '\n') || (c == '\r')) // enter/return
             {
-                ArrayList userInputs = GameManagerObj.GetComponent<GetUserInput>().userInputs;
+                ArrayList userInputs = GetComponent<GetUserInput>().userInputs;
                 //Create String of User Input
                 string userInput = "";
                 for(int i = 0; i < userInputs.Count; i++)
@@ -55,7 +51,7 @@ public class GameManager : MonoBehaviour
                 //Call function to pattern match and send results to Ruan
                 //Match patterns using Rchunk pattern matching
 
-                ArrayList returnedObstaclesPattern = GameManagerObj.GetComponent<GetUserInput>().matchPattern(userInput.ToUpper());
+                ArrayList returnedObstaclesPattern = GetComponent<GetUserInput>().matchPattern(userInput.ToUpper());
                 if(returnedObstaclesPattern.Count > 0)
                 {
                     print("Returned a matching pattern");
@@ -104,7 +100,7 @@ public class GameManager : MonoBehaviour
                     }
 
                     //Send List
-                    GameManagerObj.GetComponent<wallsNramps>().setObstacleListOfObstacles(GetComponent<GetUserInput>().PatternStringsList);
+                    GetComponent<wallsNramps>().setObstacleListOfObstacles(GetComponent<GetUserInput>().PatternStringsList);
                 }
                 else
                 {
@@ -116,7 +112,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                GameManagerObj.GetComponent<GetUserInput>().userInputs.Add(c);
+                GetComponent<GetUserInput>().userInputs.Add(c);
                 //Debug.Log(c);
             }
         }

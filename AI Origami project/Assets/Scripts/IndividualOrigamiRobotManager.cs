@@ -46,7 +46,7 @@ namespace A_AI_Individual_Origami_Robots
         void Update()
         {
             if (GameManager.GetComponent<Swarm_mesh>().isSwarmCalculated() &&
-                GameManager.GetComponent<AddOrigamis>().isOrigamisGenerated() && current < max)
+                GameManager.GetComponent<AddOrigamis>().isOrigamisGenerated())
             {
                 List<List<Vector3>> coordinatesList = GameManager.GetComponent<Swarm_mesh>().getSwarmCoordinates();
                 List<Origami> robots = GameManager.GetComponent<GameManager>().origamis;
