@@ -278,7 +278,8 @@ public class Swarm_behaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(newObstacle)
+        
+        if(newObstacle && ObstaclePattern != null)
         {
             //print("there is a new obstacle" + ObstaclePattern);
             int i = 0;
@@ -297,6 +298,7 @@ public class Swarm_behaviour : MonoBehaviour
             }
             newObstacle = false;
         }
+
     }
 
     Sphere mapToPoint(char C, int i)
