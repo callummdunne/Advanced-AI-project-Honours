@@ -17,6 +17,14 @@ public class moveObstacleRamp : MonoBehaviour
     void Update()
     {
         myTransform.Translate(Vector3.left * speed * Time.deltaTime);
+        if(GoalSystem.CheckPastObstacle(myTransform.position.z))
+        {
+            wallsNramps.setFlagNext(true);
+        }
+        if (myTransform.position.z < -100)
+        {
+            Destroy(myTransform);
+        }
     }
 }
 
