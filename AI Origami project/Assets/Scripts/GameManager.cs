@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
                 ArrayList returnedObstaclesPattern = GetComponent<GetUserInput>().matchPattern(userInput.ToUpper());
                 if(returnedObstaclesPattern.Count > 0)
                 {
-                    print("Returned a matching pattern");
+                   // print("Returned a matching pattern");
                     //for(int i = 0; i < returnedObstaclesPattern.Count; i++)
                     //{
                     //    //Return Matched
@@ -112,7 +112,7 @@ public class GameManager : MonoBehaviour
                         for (int k = 0; k < validString.Length; k++)
                         {
                             //Return Matched
-                            print(validString[k]);
+                            //print(validString[k]);
                             toIncrease.Add(validString[k]);
                         }
 

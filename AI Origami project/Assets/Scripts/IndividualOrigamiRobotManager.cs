@@ -52,7 +52,7 @@ namespace A_AI_Individual_Origami_Robots
             {
                 List<List<Vector3>> coordinatesList = GameManager.GetComponent<Swarm_mesh>().getSwarmCoordinates();
 
-                print("Robots Count: " + robots.Count);
+                //print("Robots Count: " + robots.Count);
 
                 MatchRobotToCoordinates(ref robots, coordinatesList);
                 GameManager.GetComponent<Swarm_mesh>().swarmCalculatedDone();
@@ -107,13 +107,13 @@ namespace A_AI_Individual_Origami_Robots
                     if (CollidingWithObject(robot, nearestObject))
                     {
                         //Send danger signal!
-                        print("Collided with object, sending danger signal.");
+                        Console.WriteLine("Collided with object, sending danger signal.");
                     }
                 }
                 else
                 {
                     //Continue convergence or do nothing
-                    print("Object is Self cell");
+                    Console.WriteLine("Object is Self cell");
                 }
             }
         }
@@ -159,7 +159,7 @@ namespace A_AI_Individual_Origami_Robots
                 int closestNeighbourDistance = nearestValues[0];
 
                 double normality = (double) (closestNeighbourDistance == 0 ? 1 : closestNeighbourDistance) / (totalDistance == 0 ? 1 : totalDistance);
-                print("Level of normality for index " + i + ": " + normality);
+                Console.WriteLine("Level of normality for index " + i + ": " + normality);
 
                 if (normality < threshold)
                 {
@@ -216,8 +216,8 @@ namespace A_AI_Individual_Origami_Robots
 
                 //RobotClones.Remove(closestRobot);
 
-                print("Closest robot that has coordinates to center coordinate " + centerCoordinate.ToString() + " : (" + Robots[closestRobotIndex].myObject.transform.position.x +
-                ", " + Robots[closestRobotIndex].myObject.transform.position.y + ", " + Robots[closestRobotIndex].myObject.transform.position.z + ")");
+               /* print("Closest robot that has coordinates to center coordinate " + centerCoordinate.ToString() + " : (" + Robots[closestRobotIndex].myObject.transform.position.x +
+                ", " + Robots[closestRobotIndex].myObject.transform.position.y + ", " + Robots[closestRobotIndex].myObject.transform.position.z + ")"); */
 
                 //Origami origami = Robots.Find(x => x.Equals(closestRobot));
 
