@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour
             Obstacle obstacle = new Obstacle();
             obstacle.Pattern = GetComponent<wallsNramps>().getNextObstacleString();
             obstacle.GameObject = GetComponent<wallsNramps>().getNextObstacle();
+            GetComponent<Swarm_behaviour>().newObstacle = true;
+            GetComponent<Swarm_behaviour>().ObstaclePattern = obstacle.Pattern;
             obstacle.SendSignal(obstacle, obstacle.Pattern);
 
         }
