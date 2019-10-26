@@ -34,28 +34,35 @@ namespace A_AI_Individual_Origami_Robots
     {
         private Dictionary<int, List<byte>> RobotModel;
         public GameObject GameManager;
-
-        int max = 1;
-        int current = 0;
+        public Transform myTransform;
 
         void Start()
         {
             GameManager = GameObject.FindWithTag("GameManager");
+            myTransform = transform;
         }
 
         void Update()
         {
-            if (GameManager.GetComponent<Swarm_mesh>().isSwarmCalculated() &&
+            List<Origami> robots = GameManager.GetComponent<GameManager>().origamis;
+            bool calculated = false;
+
+            if (!calculated && GameManager.GetComponent<Swarm_mesh>().isSwarmCalculated() &&
                 GameManager.GetComponent<AddOrigamis>().isOrigamisGenerated())
             {
                 List<List<Vector3>> coordinatesList = GameManager.GetComponent<Swarm_mesh>().getSwarmCoordinates();
-                List<Origami> robots = GameManager.GetComponent<GameManager>().origamis;
 
                 print("Robots Count: " + robots.Count);
 
                 MatchRobotToCoordinates(ref robots, coordinatesList);
-                current++;
+                GameManager.GetComponent<Swarm_mesh>().swarmCalculatedDone();
+                calculated = true;
             }
+
+            /*foreach (Origami robot in robots)
+            {
+                GameManager.GetComponent<AddOrigamis>().changePositionAnimation(robot);
+            }*/
         }
 
         public void TrainRobotModel(List<string> ModelIdentifiers)
@@ -171,10 +178,10 @@ namespace A_AI_Individual_Origami_Robots
         public void MatchRobotToCoordinates(ref List<Origami> Robots, List<List<Vector3>> CoordinatesList)
         {
 
-            foreach(Origami robot in Robots)
+            /*foreach(Origami robot in Robots)
             {
                 print("Robot myObject: " + robot.myObject);
-            }
+            }*/
 
             //Origami[] temp = new Origami[Robots.Count];
             //Robots.CopyTo(temp);
@@ -188,7 +195,7 @@ namespace A_AI_Individual_Origami_Robots
                 print("Before center v2: x = " + coordinates[1].x + ", y = " + coordinates[1].y + ", z = " + coordinates[1].z);
                 print("Before center v3: x = " + coordinates[2].x + ", y = " + coordinates[2].y + ", z = " + coordinates[2].z);*/
                 Vector3 centerCoordinate = GetCentroid(coordinates);
-                print("After center v3: x = " + centerCoordinate.x + ", y = " + centerCoordinate.y + ", z = " + centerCoordinate.z);
+                //print("After center v3: x = " + centerCoordinate.x + ", y = " + centerCoordinate.y + ", z = " + centerCoordinate.z);
 
                 /*if (RobotClones.Count == 0)
                 {
@@ -214,12 +221,13 @@ namespace A_AI_Individual_Origami_Robots
 
                 //Origami origami = Robots.Find(x => x.Equals(closestRobot));
 
-
-                print(Robots[closestRobotIndex].myObject);
-                print("Positions before: " + Robots[closestRobotIndex].myObject.transform.position.x + " " + Robots[closestRobotIndex].myObject.transform.position.y + " " + Robots[closestRobotIndex].myObject.transform.position.z);
+                //print(Robots[closestRobotIndex].myObject);
+                //print("Positions before: " + Robots[closestRobotIndex].myObject.transform.position.x + " " + Robots[closestRobotIndex].myObject.transform.position.y + " " + Robots[closestRobotIndex].myObject.transform.position.z);
+                /*Robots[closestRobotIndex].oldPosition = Robots[closestRobotIndex].transform.position;
+                Robots[closestRobotIndex].newPosition = centerCoordinate;*/
                 GameManager.GetComponent<AddOrigamis>().changePosition(Robots[closestRobotIndex].myObject, centerCoordinate.x, centerCoordinate.y, centerCoordinate.z);
                 Robots[closestRobotIndex].hasMoved = true;
-                print("Positions after: " + Robots[closestRobotIndex].myObject.transform.position.x + " " + Robots[closestRobotIndex].myObject.transform.position.y + " " + Robots[closestRobotIndex].myObject.transform.position.z);
+                //print("Positions after: " + Robots[closestRobotIndex].myObject.transform.position.x + " " + Robots[closestRobotIndex].myObject.transform.position.y + " " + Robots[closestRobotIndex].myObject.transform.position.z);
             }
         }
 

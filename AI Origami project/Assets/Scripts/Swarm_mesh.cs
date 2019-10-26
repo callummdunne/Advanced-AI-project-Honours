@@ -58,6 +58,10 @@ public class Swarm_mesh : MonoBehaviour
         return swarmCalculated;
     }
 
+    public void swarmCalculatedDone()
+    {
+        this.swarmCalculated = false;
+    }
 
     public List<List<Vector3>> getSwarmCoordinates()
     {

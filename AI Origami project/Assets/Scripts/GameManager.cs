@@ -34,14 +34,17 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        frames++;
         // fire danger signals
         if(frames % 10 == 0)
         { 
             Obstacle obstacle = new Obstacle();
             obstacle.Pattern = GetComponent<wallsNramps>().getNextObstacleString();
             obstacle.GameObject = GetComponent<wallsNramps>().getNextObstacle();
-
+            GetComponent<Swarm_behaviour>().newObstacle = true;
+            GetComponent<Swarm_behaviour>().ObstaclePattern = obstacle.Pattern;
             obstacle.SendSignal(obstacle, obstacle.Pattern);
+
         }
 
         foreach(char c in Input.inputString)

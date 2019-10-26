@@ -280,6 +280,7 @@ public class Swarm_behaviour : MonoBehaviour
     {
         if(newObstacle)
         {
+            print("there is a new obstacle" + ObstaclePattern);
             int i = 0;
             foreach(char c in ObstaclePattern)
             {
