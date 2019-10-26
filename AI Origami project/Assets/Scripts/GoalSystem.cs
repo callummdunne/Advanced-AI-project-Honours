@@ -8,15 +8,15 @@ public class GoalSystem : MonoBehaviour
 
     //Origami origamis;
     // Start is called before the first frame update
-    private GameManager MasterScript;
-    private GameObject ManagerOfTheSystem;
+    private GameManager MasterScript; //Kevins script
+    private GameObject ManagerOfTheSystem; //access to all other scripts
      private int NumOrigamics; //how many origamis 
     private int NumBringBack = 0; //how many will be brought back after next obstacle 
-    //public int NumDied { get; set; } = 0;
+    public int NumDied { get; set; } = 0; //How many are set you die
     
-    private int PastObstacles = 0; //how many obstacles we have pasted 
+    private int PastObstacles = 3; //how many obstacles we have passed 
 
-    private float ObstacleLocation = 390;
+    private float ObstacleLocation = 380; 
 
     void Start()
     {
@@ -32,6 +32,9 @@ public class GoalSystem : MonoBehaviour
     void Update()
     {
         CalcGoal();
+        
+        CreateMoreOrigamis();
+        
     }
 
 
@@ -67,13 +70,9 @@ public class GoalSystem : MonoBehaviour
             {
                 if (Ori.Age >= MaxAge)
                 {
-                    //todo check if the origami is part of a mesh 
-
-                    //myObject.GetComponent<MyScript>().MyFunction(); create a destroy function for the origamis
-                    //todo call the destroy function
-                    ToBedestroyed.Add(Ori);
-                    //MasterScript.RemoveOrigami(Ori);
-                    //NumDied += 1;
+                    
+                    ToBedestroyed.Add(Ori); //add to list to be destroyed all as one
+                    
                     Debug.Log("Killed Origami");
                 }
                 else
@@ -96,6 +95,7 @@ public class GoalSystem : MonoBehaviour
         for (int i = 0 ; i< ToBedestroyed.Count; i++)
         {
             MasterScript.RemoveOrigami(ToBedestroyed[i]);
+            NumDied +=1;
         }
         ToBedestroyed = null;
     }
@@ -128,6 +128,8 @@ public class GoalSystem : MonoBehaviour
         int NumberOfObstaclesBeforeAdd = 3;
         if (PastObstacles >= NumberOfObstaclesBeforeAdd)
         {
+            NumDied =0;
+            CalcAddOrigamis();
             PastObstacles = 0;
             for (int i = 0; i < NumBringBack; i++)
             {
@@ -143,6 +145,7 @@ public class GoalSystem : MonoBehaviour
         {
             if (CheckPastObstacle(ObstacleLocation)) //get string or change once we know how getting the data 
             {
+                Debug.Log("Passed obstacle");
                 PastObstacles += 1;
             }
         }
@@ -162,6 +165,35 @@ public class GoalSystem : MonoBehaviour
         {
             return false;
         }
+    }
+
+    void CalcAddOrigamis()
+    {
+        int BallsDied = NumDied / 40; 
+
+        if (BallsDied  < 2) 
+        {
+            NumBringBack = 30;
+        }
+        else if(BallsDied < 3)
+        {
+            NumBringBack =20;
+        }
+        else if(BallsDied < 4)
+        {
+            NumBringBack =10;
+        }
+        else if (BallsDied < 1 )
+        {
+            NumBringBack =40;
+        }
+        else {
+            NumBringBack = 0;
+        }
+
+
+
+        
     }
 
 
