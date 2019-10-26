@@ -11,8 +11,6 @@ public class Obstacle : DTGameObject
 
     public Obstacle()
     {
-        SetToObstacle();
-        GameObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
     }
 
     public GameObject GameObject

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 // Kevin Matthew Julius 216007874
-public class DTGameObject
+public class DTGameObject: MonoBehaviour
 {
     /// Danger Theory Model Classification
     /// ========================================
@@ -23,11 +23,19 @@ public class DTGameObject
     /// signal. If the T cell recognises the antigen (which, if negative selection has worked, 
     /// should mean the antigen is non-self) then the immune response can commence.
 
-
+    public GameObject GameManagerObj;
     private string name;
     private bool signal1;
     private bool sentasignal;
     private List<string> receivedSignals;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
+        GameManagerObj = GameObject.FindWithTag("GameManager");
+       
+    }
 
     public string Name
     {
@@ -46,22 +54,6 @@ public class DTGameObject
         receivedSignals = new List<string>();
     }
 
-    public void SetToOrigami()
-    {
-        string name = "ORI" + GameManager.NumberOrigami;
-        ++GameManager.NumberOrigami;
-        this.name = name;
-        GameManager.AddOrigami((Origami)this);
-    }
-
-    public void SetToObstacle()
-    {
-        string name = "OBS" + GameManager.NumberObstacles;
-        ++GameManager.NumberObstacles;
-        this.name = name;
-        GameManager.AddObstacle((Obstacle)this);
-    }
-
     public void AddSignal(string signal)
     {
         if(signal.Equals("Awake"))
@@ -76,7 +68,8 @@ public class DTGameObject
             if(!sentasignal)
             {
                 sentasignal = true;
-                foreach(DTGameObject o in GameManager.origamis)
+                List<Origami> origamis = GameManagerObj.GetComponent<GameManager>().origamis;
+                foreach(DTGameObject o in origamis)
                 {
                     if(o.Name.Contains("ORI") && this is Origami)
                     {
@@ -117,9 +110,10 @@ public class DTGameObject
         return (distance <= range);
     }
 
-    public static void AwakeOrigami()
+    public void AwakeOrigami()
     {
-        foreach(DTGameObject o in GameManager.origamis)
+        List<Origami> origamis = GameManagerObj.GetComponent<GameManager>().origamis;
+        foreach(DTGameObject o in origamis)
         {
             if(o.Name.Contains("ORI"))
             {
@@ -131,11 +125,12 @@ public class DTGameObject
 
     // find all origami close to the given origami
     // and send the message to the origami
-    public static void SendSignal(DTGameObject gameObject, string signal)
+    public void SendSignal(DTGameObject gameObject, string signal)
     {
         if(!gameObject.Equals(null))
         {
-            foreach(DTGameObject o in GameManager.origamis)
+            List<Origami> origamis = GameManagerObj.GetComponent<GameManager>().origamis;
+            foreach(DTGameObject o in origamis)
             {
                 if(o.Name.Contains("ORI"))
                 {
