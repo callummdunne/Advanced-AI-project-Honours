@@ -51,7 +51,7 @@ public class wallsNramps : MonoBehaviour
     void Start()
     {
         myTransform = transform;
-        cameraHeadTransform = myTransform.Find("PlayerCamera");
+        cameraHeadTransform = myTransform.Find("Main Camera");
         ReadString();
         getDetectors();
         Debug.Log(selfSet.Count);
@@ -224,10 +224,13 @@ public class wallsNramps : MonoBehaviour
     //this method accepts an arraylist of strings representing obstacles to be generated
     public void setObstacleListOfObstacles(ArrayList obstacleStrings)
     {
+        createObstacleWithCode("W3333");
+        /*
         Debug.Log(obstacleStrings.Count);
         foreach (object d in obstacleStrings){
             createObstacleWithCode((string)d);
         }
+        */
         
     }
 
@@ -295,7 +298,8 @@ public class wallsNramps : MonoBehaviour
             zScale = zScale - 3;
             zScale = zScale * obstacleScales;
             
-            wallPos = new Vector3(scaleWidth*left, 385, zScale /obstacleScales);
+            wallPos = cameraHeadTransform.TransformPoint(scaleWidth * left, 385, zScale / obstacleScales);
+
             Debug.Log("Wall Pos: "+ wallPos);
             Instantiate(wall, wallPos, Quaternion.Euler(270, 0, 0));
             wall.transform.localScale = new Vector3(xScale, 500f, zScale);
