@@ -208,6 +208,7 @@ namespace A_AI_Individual_Origami_Robots
 
                 Origami origami = Robots.Find(x => x.Equals(closestRobot));
 
+                print(origami.Name);
                 print("Positions before: " + origami.myObject.transform.position.x + " " + origami.myObject.transform.position.y + " " + origami.myObject.transform.position.z);
                 GameManager.GetComponent<AddOrigamis>().changePosition(origami.myObject, centerCoordinate.x, centerCoordinate.y, centerCoordinate.z);
                 print("Positions after: " + origami.myObject.transform.position.x + " " + origami.myObject.transform.position.y + " " + origami.myObject.transform.position.z);
