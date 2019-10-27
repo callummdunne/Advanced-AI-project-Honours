@@ -27,14 +27,11 @@ public class moveObstacleRamp : MonoBehaviour
         {
             return;
         }
-        myTransform.Translate(Vector3.left * speed * Time.deltaTime);
-        /*
-        if(gs.CheckPastObstacle(myTransform.position.z))
-        {
-            wNr.setFlagNext(true);
-            Debug.Log("Setting new obstacle to true");
-        }*/
-        if (myTransform.position.z < -100)
+        if (myTransform.position.z > -100){
+            myTransform.Translate(Vector3.left * speed * Time.deltaTime);
+        }
+        
+        if ((myTransform.position.z < -100) && (myTransform.position.z > -200))
         {
             wNr.setFlagNext(true);
             Destroy(obstacle);

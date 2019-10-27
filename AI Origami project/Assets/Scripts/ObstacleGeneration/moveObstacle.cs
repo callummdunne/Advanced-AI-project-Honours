@@ -16,7 +16,6 @@ public class moveObstacle : MonoBehaviour
     {
         myTransform = transform;
         GameObject manager = GameObject.Find("GameManager");
-       
         wNr = manager.GetComponent<wallsNramps>();
 
         gs = manager.GetComponent<GoalSystem>();
@@ -31,14 +30,11 @@ public class moveObstacle : MonoBehaviour
         {
             return;
         }
-        myTransform.Translate(Vector3.up * speed * Time.deltaTime);
-        /*
-        if (gs.CheckPastObstacle(myTransform.position.z))
-        {
-            wNr.setFlagNext(true);
-            Debug.Log("Setting new obstacle to true");
-        }*/
-        if (myTransform.position.z < -100)
+        if (myTransform.position.z > -100){
+            myTransform.Translate(Vector3.up * speed * Time.deltaTime);
+        }
+        //this allows us to keeep a copy of the obstacle at < -200 that does not move but allows others to be created
+        if ((myTransform.position.z < -100) && (myTransform.position.z > -200))
         {
             wNr.setFlagNext(true);
             Destroy(obstacle);

@@ -13,7 +13,6 @@ public class wallsNramps : MonoBehaviour
     // Counter for increase diffuculty functionality
     //this shows how many obstacles have been generated so far
     public int numObstaclesGenerated;
- 
 
     //vars for internal use; I'll add comments here later but nobody should need to use these directly
     public GameObject ramp;
@@ -44,7 +43,7 @@ public class wallsNramps : MonoBehaviour
     private ArrayList nextObstacles = new ArrayList();
 
     //Flag to indicate when next obstacle can be generated
-    private bool flagCreateNext = false;
+    private bool flagCreateNext = true;
 
     //string of next obstacle
     private string nextObstacle;
@@ -53,7 +52,6 @@ public class wallsNramps : MonoBehaviour
     void Start()
     {
         myTransform = transform;
-        Debug.Log("Camera Pos: " + cameraHeadTransform);
         ReadString();
         getDetectors();
         Debug.Log(selfSet.Count);
@@ -62,6 +60,12 @@ public class wallsNramps : MonoBehaviour
             Debug.Log(detector.ToString());
         }
         numObstaclesGenerated = 0;
+        ArrayList tempObjects = new ArrayList(new string[] {"W3453","R5433","R3454","W6654","R4564","W4533"});
+        // call create obstacle method with a list of different obstaceles
+        foreach (object s in tempObjects){
+            string inputString = (string)s;
+            setObstacleListOfObstacles(inputString);
+        }
     }
 
     // Update is called once per frame
@@ -69,8 +73,9 @@ public class wallsNramps : MonoBehaviour
     {
         if (flagCreateNext)
         {
-            createNextObstacle();
-            flagCreateNext = false;
+            if(createNextObstacle()){
+                flagCreateNext = false;
+            }
         }
         
     }
@@ -143,6 +148,9 @@ public class wallsNramps : MonoBehaviour
         //Read the text from directly from the test.txt file
         StreamReader sr = new StreamReader(path);
         string line;
+        DateTime dt = new DateTime();
+        int tempSeed = (int)dt.Ticks;
+        UnityEngine.Random.seed = tempSeed;
         do
         {
             line = sr.ReadLine();
@@ -185,7 +193,7 @@ public class wallsNramps : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.Log("NaN");
+            Debug.LogException(e);
         }
 
         return distance;
@@ -231,6 +239,7 @@ public class wallsNramps : MonoBehaviour
     //this method accepts an arraylist of strings representing obstacles to be generated
     public void setObstacleListOfObstacles(string obstacleStrings)
     {
+        Debug.Log("create this obstacle: "+obstacleStrings);
         createObstacleWithCode(obstacleStrings);
         /*
         Debug.Log(obstacleStrings.Count);
@@ -244,8 +253,6 @@ public class wallsNramps : MonoBehaviour
     //call this method to create a new obstacle based on a given code
     public void createObstacleWithCode(string obstacleCode)
     {
-        Debug.Log("Creating Obstacle with Code");
-        Debug.Log(obstacleCode);
         //find closest matching detector
         //set min distance to first detector in list   
         //get the first detector in the set
@@ -263,22 +270,23 @@ public class wallsNramps : MonoBehaviour
         }
 
         //add detector to queue for next obstacle to be generated
-        Debug.Log("Creating Obstacle");
-        Debug.Log(detector);
-        nextObstacles.Add(detector);
+        
+        Debug.Log("Next Obstacle List ADDed: "+ bestDetector);
+        nextObstacles.Add(bestDetector);
     }
 
     //call this method to add next obstacle in the list
-    public void createNextObstacle() {
+    public bool createNextObstacle() {
         if (nextObstacles.Count == 0)
         {
-            return;
+            return false;
         }
         string detector = (string)nextObstacles[0];
         nextObstacle = detector;
         detectorToObstacle(detector);
         //remove from list
         nextObstacles.RemoveAt(0);
+        return true;
     }
 
     //convert the given detector to an obstacle and instantiate it
@@ -304,9 +312,7 @@ public class wallsNramps : MonoBehaviour
             zScale = zScale - 2;
             zScale = zScale * obstacleScales;
 
-            Debug.Log("<color=red>Scales X and Z: "+xScale+" " + zScale+"</color>");
             wallPos = cameraHeadTransform.TransformPoint(scaleWidth * left, zScale/100, 385 );
- 
             GameObject newWall = Instantiate(wall, wallPos, Quaternion.Euler(270, 0, 0));
             newWall.transform.localScale = new Vector3(xScale, 500, zScale);
             newWall.transform.position = new Vector3(scaleWidth * left, zScale/100, 385);
@@ -332,12 +338,11 @@ public class wallsNramps : MonoBehaviour
             float zScale = float.Parse(detector.Substring(4, 1));
             zScale = zScale - 2;
             zScale = zScale * obstacleScales;
-
             //create new ramp game object
-            rampPos = new Vector3(scaleWidth * left, 385, zScale / obstacleScales);
-            ramp.transform.localScale = new Vector3(yScale, 200f, zScale);
+            rampPos = cameraHeadTransform.TransformPoint(scaleWidth * left, zScale/100, 385 );
             GameObject newRamp = Instantiate(ramp, rampPos, Quaternion.Euler(270, 270, 0));
-            newRamp.transform.localScale = new Vector3(yScale, 500, zScale);
+            
+            newRamp.transform.localScale = new Vector3(1000, yScale, zScale);
             newRamp.transform.position = new Vector3(scaleWidth * left, zScale / 100, 385);
 
             //store as newest game object
