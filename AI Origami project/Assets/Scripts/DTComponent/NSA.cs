@@ -18,16 +18,19 @@ public class NSA : MonoBehaviour
     // Non-Self Initial Detectors
     private Detector[,] initialDetectors;
     // Non-Self Final Detectors
-    private List<Detector> finalDetectors = new List<Detector>();
+    private static List<Detector> finalDetectors = new List<Detector>();
 
     // Origami space
-    public Detector SelfSpace = new Detector();
+    public static Detector SelfSpace = new Detector();
     // Self Space width and height
     int Width = 20;
     int Height = 20;
 
     public void Start()
     {
+        print("Negative Selection Algorithm");
+        print("==========================================================================");
+
         // create a 10 by 10 array of detectors 
         initialDetectors = new Detector[XSpace / athreshold, YSpace / athreshold];
 
@@ -36,17 +39,19 @@ public class NSA : MonoBehaviour
         SelfSpace.topleftY = GetRandomNumber(YSpace, 0 + Height);
         SelfSpace.bottomrightX = SelfSpace.topleftX + Width;
         SelfSpace.bottomrightY = SelfSpace.topleftY - Height;
+        print("===== Self Space");
         SelfSpace.PRINT();
-        //
-        GenerateInitialDetectors();
-        //
-        RemoveSelfDetectors();
-        //
-        JoinDetectors();
-        //
-        PopulateListOfDetectors();
 
-        print("NS Final Detector Count: " + finalDetectors.Count);
+        // Step 1
+        GenerateInitialDetectors();
+        // Step 2
+        RemoveSelfDetectors();
+        // Step 3
+        print("===== Non Self Detectors");
+        JoinDetectors();
+        // Step 4
+        PopulateListOfDetectors();
+        print("==========================================================================");
     }
 
     public void Update()
@@ -65,7 +70,7 @@ public class NSA : MonoBehaviour
 
         public void PRINT()
         {
-            print("TL = " + topleftX + ":" + topleftY + " BR = " + bottomrightX + ":" + bottomrightY);
+            print("TopLeftPoint = " + topleftX + ":" + topleftY + " BottomRightPoint = " + bottomrightX + ":" + bottomrightY);
         }
     }
 
@@ -104,10 +109,9 @@ public class NSA : MonoBehaviour
                 }
             }
         }
-        print("NS Self Detector Count: " + numSelfDetectors);
     }
 
-    public bool CheckDetector(Detector d1, Detector d2)
+    public static bool CheckDetector(Detector d1, Detector d2)
     {
         int t1x1 = d1.topleftX;
         int t1y1 = d1.bottomrightY;
@@ -120,13 +124,15 @@ public class NSA : MonoBehaviour
         return (t2x2 >= t1x1 && t2x1 <= t1x2) && (t2y2 >= t1y1 && t2y1 <= t1y2);
     }
 
-    public bool CheckPoint(Detector d1, int X, int Y)
+    public static bool CheckPoint(Detector d1,Point p)
     {
-        Detector d2 = new Detector();
-        d2.topleftX = X;
-        d2.topleftY = Y;
-        d2.bottomrightX = X;
-        d2.bottomrightY = Y;
+        Detector d2 = new Detector
+        {
+            topleftX = p.X,
+            topleftY = p.Y,
+            bottomrightX = p.X,
+            bottomrightY = p.Y
+        };
         return CheckDetector(d1, d2);
     }
 
@@ -162,8 +168,7 @@ public class NSA : MonoBehaviour
                 Detector detector2 = initialDetectors[x, y + 1];
                 if(detector1 != null && detector2 != null)
                 {
-                    if(detector1.topleftY == detector2.bottomrightY
-                        && detector1.topleftX == detector2.topleftX)
+                    if(detector1.topleftY == detector2.bottomrightY && detector1.topleftX == detector2.topleftX)
                     {
                         detector2.bottomrightX = detector1.bottomrightX;
                         detector2.bottomrightY = detector1.bottomrightY;
@@ -197,4 +202,28 @@ public class NSA : MonoBehaviour
         return ((int)(Random.Range(min, max) / 10)) * 10;
     }
 
+    public static Point GenSelfCell()
+    {
+        Point p = new Point();
+        p.X = Random.Range(SelfSpace.topleftX, SelfSpace.bottomrightX);
+        p.Y = Random.Range(SelfSpace.bottomrightY, SelfSpace.topleftY);
+        return p;
+    }
+
+    public static Point GenNonSelfCell()
+    {
+        foreach(Detector d in finalDetectors)
+        {
+            Point p = new Point();
+            p.X = Random.Range(d.topleftX, d.bottomrightX);
+            p.Y = Random.Range(d.bottomrightY, d.topleftY);
+            return p;
+        }
+        return null;
+    }
+
+    public static bool CheckIfSelfCell(Point p)
+    {
+        return CheckPoint(SelfSpace, p);
+    }
 }
