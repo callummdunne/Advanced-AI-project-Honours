@@ -19,6 +19,7 @@ public class Swarm_mesh : MonoBehaviour
     public bool swarmCalculated;
     public int z_adj;
     public int SwarmSpacing;
+    public int counter;
     // Start is called before the first frame update
     void Start()
     {
@@ -58,6 +59,10 @@ public class Swarm_mesh : MonoBehaviour
         return swarmCalculated;
     }
 
+    public void swarmCalculatedDone()
+    {
+        this.swarmCalculated = false;
+    }
 
     public List<List<Vector3>> getSwarmCoordinates()
     {
@@ -67,7 +72,18 @@ public class Swarm_mesh : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       /* counter++;
 
+            if(counter == 60)
+            {
+            setSwarmResponce(planet, 30, 2, 0);
+            }
+            else if (counter == 120)
+            {
+            setSwarmResponce(planet, 10, 2, 0);
+            counter = 0;
+        } */
+ 
     }
 
     // y_adj -> 0 left , 10 middle_left , 20 middle right , 30 right
