@@ -23,7 +23,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //// TEST CODE Starts Here
         Obstacle obstacle1 = new Obstacle();
         obstacle1.GameObject.transform.position = new Vector3(0, 0, 10);
         obstacle1.GameObject.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
@@ -58,12 +57,14 @@ public class GameManager : MonoBehaviour
         origami7.GameObject.transform.position = new Vector3(1.5f, 0, 0);
 
         // test origami communication
-        print("Origami communication");
+        print("");
+        print("===== Origami communication");
+        print("==========================================================================");
 
         DTGameObject.SendSignal(origami1, "Hello, I am " + origami1.Name);
 
         // test obstacle communication
-        DTGameObject.AwakeOrigami();
+        AwakeOrigami();
         DTGameObject.SendSignal(obstacle1, obstacle1.Name + " is coming for you!!");
 
         //AwakeOrigami();
@@ -72,7 +73,7 @@ public class GameManager : MonoBehaviour
         // get signals
         foreach(DTGameObject o in origamis)
         {
-            if(o.Name.Contains("ORI"))
+            if(NSA.CheckIfSelfCell(o.nsaPoint))
             {
                 Origami origami = (Origami)o;
                 List<string> signals = o.GetSignals();
@@ -97,8 +98,7 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-        //// TEST CODE Ends Here
-
+        print("==========================================================================");
     }
 
     // Update is called once per frame
@@ -121,9 +121,9 @@ public class GameManager : MonoBehaviour
     }
 
     // Remove origami
-    public static bool RemoveOrigami(Origami origami)
+    public static void RemoveOrigami(Origami origami)
     {
-        return origamis.Remove(origami);
+        origamis.Remove(origami);
     }
 
     // Add obstacle from game
@@ -133,11 +133,21 @@ public class GameManager : MonoBehaviour
     }
 
     // Remove obstacle from game
-    public static bool RemoveObstacle(Obstacle obstacle)
+    public static void RemoveObstacle(Obstacle obstacle)
     {
-        return obstacles.Remove(obstacle);
+        obstacles.Remove(obstacle);
     }
 
-
+    public void AwakeOrigami()
+    {
+        foreach(DTGameObject o in origamis)
+        {
+            if(o.Name.Contains("ORI"))
+            {
+                Origami origami = (Origami)o;
+                origami.AddSignal("Awake");
+            }
+        }
+    }
 
 }

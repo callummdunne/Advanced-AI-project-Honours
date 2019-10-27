@@ -8,12 +8,12 @@ public class Origami : DTGameObject
 {
 
     private GameObject gameObject;
-    private int age;
+
 
     public Origami()
     {
-        SetToOrigami();
         GameObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        SetToOrigami();
     }
 
     public GameObject GameObject
@@ -22,9 +22,4 @@ public class Origami : DTGameObject
         set => gameObject = value;
     }
 
-    public int Age
-    {
-        get => age;
-        set => age = value;
-    }
 }

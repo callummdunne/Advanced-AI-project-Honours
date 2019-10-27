@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 // Kevin Matthew Julius 216007874
-public class DTGameObject
+public class DTGameObject : MonoBehaviour
 {
     /// Danger Theory Model Classification
     /// ========================================
@@ -23,11 +23,19 @@ public class DTGameObject
     /// signal. If the T cell recognises the antigen (which, if negative selection has worked, 
     /// should mean the antigen is non-self) then the immune response can commence.
 
+    
 
     private string name;
     private bool signal1;
     private bool sentasignal;
     private List<string> receivedSignals;
+    // NSA variables
+    public Point nsaPoint;
+
+    void Start()
+    {
+
+    }
 
     public string Name
     {
@@ -51,7 +59,9 @@ public class DTGameObject
         string name = "ORI" + GameManager.NumberOrigami;
         ++GameManager.NumberOrigami;
         this.name = name;
-        GameManager.AddOrigami((Origami) this);
+        GameManager.AddOrigami((Origami)this);
+        // set to self cell
+        nsaPoint = NSA.GenSelfCell();
     }
 
     public void SetToObstacle()
@@ -59,7 +69,9 @@ public class DTGameObject
         string name = "OBS" + GameManager.NumberObstacles;
         ++GameManager.NumberObstacles;
         this.name = name;
-        GameManager.AddObstacle((Obstacle) this);
+        GameManager.AddObstacle((Obstacle)this);
+        // set to non self cell
+        nsaPoint = NSA.GenNonSelfCell();
     }
 
     public void AddSignal(string signal)
@@ -78,11 +90,11 @@ public class DTGameObject
                 sentasignal = true;
                 foreach(DTGameObject o in GameManager.origamis)
                 {
-                    if(o.Name.Contains("ORI") && this is Origami)
+                    if(NSA.CheckIfSelfCell(o.nsaPoint))
                     {
                         Origami otherOrigami = (Origami)o;
                         Origami origami = (Origami)this;
-                        if(IsInRange(origami.GameObject, otherOrigami.GameObject, GameManager.OrigamiDZRADIUS) && (!origami.Equals(otherOrigami)))
+                        if(IsInRange(origami.GameObject, otherOrigami.GameObject, GameManager.OrigamiDZRADIUS) && (!origami.Name.Equals(otherOrigami.Name)))
                         {
                             otherOrigami.AddSignal(signal);
                         }
@@ -117,17 +129,7 @@ public class DTGameObject
         return (distance <= range);
     }
 
-    public static void AwakeOrigami()
-    {
-        foreach(DTGameObject o in GameManager.origamis)
-        {
-            if(o.Name.Contains("ORI"))
-            {
-                Origami origami = (Origami)o;
-                origami.AddSignal("Awake");
-            }
-        }
-    }
+
 
     // find all origami close to the given origami
     // and send the message to the origami
@@ -135,7 +137,7 @@ public class DTGameObject
     {
         foreach(DTGameObject o in GameManager.origamis)
         {
-            if(o.Name.Contains("ORI"))
+            if(NSA.CheckIfSelfCell(o.nsaPoint))
             {
                 Origami origami = (Origami)o;
                 if(gameObject is Origami otherOrigami)

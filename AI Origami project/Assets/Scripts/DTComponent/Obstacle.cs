@@ -9,10 +9,11 @@ public class Obstacle : DTGameObject
 
     private GameObject gameObject;
 
+
     public Obstacle()
     {
-        SetToObstacle();
         GameObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        SetToObstacle();
     }
 
     public GameObject GameObject
