@@ -154,7 +154,7 @@ public class Swarm_behaviour : MonoBehaviour
          newObstacle = false;
          ObstaclePattern = "00000";
 
-        print("Swarm behaviour is running");
+        //print("Swarm behaviour is running");
         self_space = new List<Sphere>();
         detectors = new List<Sphere>();
 
@@ -173,7 +173,7 @@ public class Swarm_behaviour : MonoBehaviour
             i = 0;
         }
         int count_self_space = self_space.Count;
-        print("Self space cells: " + count_self_space);
+        //print("Self space cells: " + count_self_space);
 
         // Generate random detector
         Random rnd = new System.Random();
@@ -262,9 +262,9 @@ public class Swarm_behaviour : MonoBehaviour
         }
 
         //print_detectors();
-        print("Detector coverage: " + Detector_coverage);
+        //print("Detector coverage: " + Detector_coverage);
         sizeOfList = detectors.Count;
-        print("Number of detectors: " + sizeOfList);
+        //print("Number of detectors: " + sizeOfList);
 
         Respons_Detector_Map = new List<Detector_Response>();
         foreach(Sphere d in detectors)
@@ -278,8 +278,10 @@ public class Swarm_behaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(newObstacle)
+        
+        if(newObstacle && ObstaclePattern != null)
         {
+            //print("there is a new obstacle" + ObstaclePattern);
             int i = 0;
             foreach(char c in ObstaclePattern)
             {
@@ -296,6 +298,7 @@ public class Swarm_behaviour : MonoBehaviour
             }
             newObstacle = false;
         }
+
     }
 
     Sphere mapToPoint(char C, int i)
@@ -321,7 +324,7 @@ public class Swarm_behaviour : MonoBehaviour
     {
         foreach (Sphere d in detectors)
         {
-            print("Detector: x-" + d.x + " y-" + d.y + " z-" + d.z);
+            //print("Detector: x-" + d.x + " y-" + d.y + " z-" + d.z);
         }
     }
 

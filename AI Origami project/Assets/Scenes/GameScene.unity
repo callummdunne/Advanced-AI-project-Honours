@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44824833, g: 0.49827534, b: 0.57558256, a: 1}
+  m_IndirectSpecularColor: {r: 0.44824868, g: 0.49827552, b: 0.5755828, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -326,9 +326,7 @@ GameObject:
   - component: {fileID: 373237104}
   - component: {fileID: 373237109}
   - component: {fileID: 373237114}
-  - component: {fileID: 373237113}
   - component: {fileID: 373237112}
-  - component: {fileID: 373237111}
   - component: {fileID: 373237110}
   m_Layer: 0
   m_Name: GameManager
@@ -383,6 +381,7 @@ MonoBehaviour:
   swarmCalculated: 0
   z_adj: 0
   SwarmSpacing: 0
+  counter: 0
   planetSize: 1
 --- !u!114 &373237105
 MonoBehaviour:
@@ -452,6 +451,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameManager: {fileID: 0}
+  myTransform: {fileID: 0}
 --- !u!114 &373237110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -466,22 +466,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myTransform: {fileID: 0}
   obstacle: {fileID: 0}
---- !u!114 &373237111
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 373237101}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 653c877ebca263744bc8f0042a8bf9d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mouseXInputName: 
-  mouseYInputName: 
-  mouseSensitivity: 0
-  playerBody: {fileID: 0}
 --- !u!114 &373237112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -496,29 +480,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myTransform: {fileID: 0}
   obstacle: {fileID: 0}
---- !u!114 &373237113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 373237101}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b181e71c8c75c0478d9fcaffe8409d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  horizontalInputName: 
-  verticalInputName: 
-  movementSpeed: 0
-  jumpFallOff:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  jumpMultiplier: 0
-  jumpKey: 0
 --- !u!114 &373237114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -532,9 +493,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numObstaclesGenerated: 0
-  ramp: {fileID: 0}
-  wall: {fileID: 0}
-  cameraHeadTransform: {fileID: 0}
+  ramp: {fileID: 2028753860}
+  wall: {fileID: 908500800}
+  cameraHeadTransform: {fileID: 785973911}
 --- !u!1 &437321011
 GameObject:
   m_ObjectHideFlags: 0
@@ -1519,7 +1480,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 785973908}
   m_LocalRotation: {x: 0.3287947, y: -0, z: -0, w: 0.94440144}
-  m_LocalPosition: {x: 0, y: 100, z: -40}
+  m_LocalPosition: {x: 30, y: 100, z: -70}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1623,7 +1584,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 3c09776d207db8942a412328d081cd8c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 384.2
+      value: -250
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 3c09776d207db8942a412328d081cd8c,
         type: 3}
@@ -2178,7 +2139,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: c4fbf04dc0ab51f4eaddd199f3ef6c52,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 377.6
+      value: -250
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: c4fbf04dc0ab51f4eaddd199f3ef6c52,
         type: 3}

@@ -11,6 +11,9 @@ public class Origami : DTGameObject
 
     GameObject gameObject;
 
+    public Vector3 oldPosition;
+    public Vector3 newPosition;
+
     public bool hasMoved;
 
     public Origami()
