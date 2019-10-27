@@ -14,3 +14,11 @@ The Valid Combination of characters is described below;
 Example: W3333
 
 It is upto the User's discretion to enter as many characters as possible, but only valid chunks of contiguous blocks will be considered.
+
+
+GOAL SYSTEM 
+
+INPUT- Origamis, Obstacles
+
+OUTPUT - Destroying of origamis, adding of origamis, collision detection
+
