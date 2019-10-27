@@ -13,15 +13,24 @@ public class GoalSystem : MonoBehaviour
      private int NumOrigamics; //how many origamis 
     private int NumBringBack = 0; //how many will be brought back after next obstacle 
     public int NumDied { get; set; } = 0; //How many are set you die
+    private int NumDiedStub;
     
     private int PastObstacles = 3; //how many obstacles we have passed 
 
     private float ObstacleLocation = 380; 
 
+    private List<StubOrigami>  StubOrigamis; 
+    private int NumOrigamicstub;
+    
+    
+
+    
+
     void Start()
     {
         ManagerOfTheSystem = GameObject.Find("GameManager");
         MasterScript = ManagerOfTheSystem.GetComponent<GameManager>();
+        //stubs();
         //origamis = MasterScript.origamis;
         //origamis = GameManager.origamis;
         
@@ -31,6 +40,7 @@ public class GoalSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //CalcGoalStub();
         CalcGoal();
         
         CreateMoreOrigamis();
@@ -73,12 +83,12 @@ public class GoalSystem : MonoBehaviour
                     
                     ToBedestroyed.Add(Ori); //add to list to be destroyed all as one
                     
-                    Debug.Log("Killed Origami");
+                    Debug.Log("<color=red>" +"Killed Origami" + "</color>");
                 }
                 else
                 {
                     Ori.Age += 2;
-                    Debug.Log("Added to age");
+                    Debug.Log("<color=orange>"+"Added to age" + "</color>");
                 }
             }
             else
@@ -86,7 +96,7 @@ public class GoalSystem : MonoBehaviour
                 if (Ori.Age > 0)
                 {
                     Ori.Age -= 1;
-                    Debug.Log("Took away from Age");
+                    Debug.Log("<color=green>"+ "decreased Age" +"</color>");
                 }
             }
         position +=1;
@@ -136,7 +146,7 @@ public class GoalSystem : MonoBehaviour
 
                 //addNewOrigami(i); call nsikas addOrigami function 
                 ManagerOfTheSystem.GetComponent<AddOrigamis>().addNewOrigami(i);
-                Debug.Log("Added new Origami");
+                Debug.Log("<color=green>"+"Added new Origami" + "</color>");
             }
 
             NumOrigamics = MasterScript.origamis.Count;
@@ -145,7 +155,7 @@ public class GoalSystem : MonoBehaviour
         {
             if (CheckPastObstacle(ObstacleLocation)) //get string or change once we know how getting the data 
             {
-                Debug.Log("Passed obstacle");
+                Debug.Log("<color=green>"+"Passed obstacle" +"</color>");
                 PastObstacles += 1;
             }
         }
@@ -193,7 +203,148 @@ public class GoalSystem : MonoBehaviour
         
     }
 
+
+    void stubs() 
+    {
+        int NumOrigamisStub = 160; 
+        StubOrigamis = new List<StubOrigami>(); 
+        System.Random rnd = new System.Random();
+        
+        for (int i = 0; i <NumOrigamisStub -3; i++)
+        {
+            StubOrigamis.Add(new StubOrigami(new Vector3(rnd.Next(1,100),rnd.Next(1,100),rnd.Next(1,100)), 0));
+            
+        }
+        StubOrigamis.Add(new StubOrigami(AverageLocationStub(), 0));
+        StubOrigamis.Add(new StubOrigami(AverageLocationStub(), 0));
+        StubOrigamis.Add(new StubOrigami(AverageLocationStub(), 0));
+
+        Debug.Log("Stub origamis made");
+        Debug.Log(StubOrigamis.Count);
+
+        
+
+    }
+
+
+
+
+    public void CalcGoalStub() //will be called as i will need data on if part of mesh could call in update if morne has function for me to get part of mesh 
+    {
+        
+        NumOrigamicstub = StubOrigamis.Count; 
+
+
+        Vector3 Average = AverageLocationStub();
+        System.Random rnd = new System.Random();
+
+        double AverageDistance = 0.00;
+        double[] Distances = new double[NumOrigamicstub]; //storing distances so i dont have to calculate again later 
+        int position = 0;
+        foreach (StubOrigami Ori in StubOrigamis) //Calculate average distance from average point 
+        {
+            Distances[position] = EuclidianDistance(Ori.Location, Average);
+            AverageDistance += Distances[position];
+            position +=1;
+        }
+
+        AverageDistance /= NumOrigamicstub;
+        
+        int Leeway = 10; //This is how much leeway to give on the average distance
+        int MaxAge = 5; //This is the maximum age that an origami can get to
+        position = 0; 
+        List<StubOrigami> ToBedestroyed = new List<StubOrigami>();
+        int ageDescrease = 0;
+        int AgeIncrease = 0; 
+        int deleted = 0;
+        int ageZero = 0;
+        for (int i = 0 ; i<NumOrigamicstub;i++)
+        {
+            if (Distances[position] > (AverageDistance + Leeway))
+            {
+                if (StubOrigamis[i].Age >= MaxAge)
+                {
+                    
+                    ToBedestroyed.Add(StubOrigamis[i]); //add to list to be destroyed all as one
+                    deleted+= 1;
+                    
+                }
+                else
+                {   
+                    AgeIncrease +=1;
+                    StubOrigamis[i].Age += 2;
+                    
+                }
+            }
+            else
+            {
+                if (StubOrigamis[i].Age > 0)
+                {
+                    ageDescrease += 1;
+                    StubOrigamis[i].Age -= 1;
+                    
+                }else 
+                {
+                    ageZero +=1; 
+                    
+                    Debug.Log(StubOrigamis[i].Location);
+                    StubOrigamis[i].Location =  new Vector3(rnd.Next(1,1000),rnd.Next(1,1000),rnd.Next(1,1000));
+                    Debug.Log(StubOrigamis[i].Location);
+                }
+
+            }
+            Debug.Log("<color=green>"+ "Age descreased " +ageDescrease +"</color>");
+            Debug.Log("<color=orange>"+ "Age increased " +AgeIncrease + "</color>");
+            Debug.Log("<color=red>" + "Deleted " +deleted + "</color>");
+            Debug.Log("<color=green>" + "Age at zero " +ageZero + "</color>");
+            ageDescrease = 0;
+            AgeIncrease = 0; 
+            deleted = 0;
+            ageZero = 0; 
+
+        position +=1;
+        }
+
+        for (int i = 0 ; i< ToBedestroyed.Count; i++)
+        {
+            
+            StubOrigamis.Remove(ToBedestroyed[i]);
+            NumDiedStub +=1;
+        }
+        NumOrigamicstub -= ToBedestroyed.Count;
+        ToBedestroyed = null;
+    }
+
+    Vector3 AverageLocationStub() //calculate the average location to find a center point
+    {
+        Vector3 Average = new Vector3(0, 0, 0);
+        foreach (StubOrigami Ori in StubOrigamis)
+        {
+            Average = Average + Ori.Location;
+            //Average[1] = Average[1] + Ori.Location[1];
+            //Average[2] = Average[2] + Ori.Location[2];
+            
+        }
+        
+        Average = Average / NumOrigamicstub;
+        //Average[1] = Average[1] / NumOrigamicstub;
+        //Average[2] = Average[2] / NumOrigamicstub;
+        
+        return Average;
+    }
  // todo test for collision
 
+}
+
+public class StubOrigami
+{
+        public Vector3 Location;
+        public int Age;
+
+        public StubOrigami(Vector3 vect, int age)
+        {
+            Location = vect; 
+            Age = age;
+        }
 }
 
