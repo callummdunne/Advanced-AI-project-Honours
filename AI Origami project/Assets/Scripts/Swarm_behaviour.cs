@@ -35,7 +35,7 @@ public class Swarm_behaviour : MonoBehaviour
     //int Universe_Volume = 1300;
 
     //Cover atleast 80% of the space between self samples and detectors, thus 80% of 1300 = 1040
-    int Coverage_Threshold = 1040;
+    int Coverage_Threshold = 1100;
 
     //The detector spheres of variable size add up to a coverage volume, ths must be greater than the Coverage_Threshold
     double Detector_coverage = 0;
@@ -45,7 +45,7 @@ public class Swarm_behaviour : MonoBehaviour
     //double allowed_detetor_overlap = 2;
 
     //The threshold for overlap with self space samples
-    double allowed_samples_overlap = 0.5;
+    double allowed_samples_overlap = 0;
 
     //How many movements are allowed until it is time to terminate the detector
     int iteration_cap = 5;
@@ -62,7 +62,7 @@ public class Swarm_behaviour : MonoBehaviour
             x = X;
             y = Y;
             z = Z;
-            radius = 1;
+            radius = 0.5;
         }
     }
 
@@ -97,19 +97,64 @@ public class Swarm_behaviour : MonoBehaviour
         // [move left, centre, move right]
         int[] MovementChoice { get; set; }
 
+        public string configuration { get; set; }
+        public string location { get; set; }
+
         public AssociatedResponce(int SwarmReward_Index, int MoveReward_Index)
         {
-            SwarmChoice = new int[3] { 0, 1, 2 };
-            MovementChoice = new int[3] { 0, 1, 0 };
+            Random rnd = new System.Random();
+            int x1 = rnd.Next(5);
+            int x2 = rnd.Next(5);
+            int x3 = rnd.Next(5);
+            SwarmChoice = new int[3] { x1, x3, x2 };
+            MovementChoice = new int[3] { x2, x1, x3 };
 
             SwarmChoice[SwarmReward_Index] += 1;
             MovementChoice[MoveReward_Index] += 1;
+
+            setresponse();
         }
 
         public void Reinforcement_learning(int S_index, int S_Reward, int M_index, int M_Reward)
         {
             SwarmChoice[S_index] += S_Reward;
             MovementChoice[M_index] += M_Reward;
+        }
+
+        public void setresponse()
+        {
+            if(SwarmChoice[0] > SwarmChoice[1] && SwarmChoice[0] > SwarmChoice[2])
+            {
+                configuration = "Large swarm";
+            }
+            else
+            {
+                if(SwarmChoice[1] > SwarmChoice[2])
+                {
+                    configuration = "Swarm side by side";
+                }
+                else
+                {
+                    configuration = "Swarm behind one another";
+                }
+            }
+
+            if (MovementChoice[0] > MovementChoice[1] && MovementChoice[0] > MovementChoice[2])
+            {
+                location = "Move left";
+            }
+            else
+            {
+                if (MovementChoice[1] > MovementChoice[2])
+                {
+                    location = "Move right";
+                }
+                else
+                {
+                    location = "Centre";
+                }
+            }
+
         }
     }
 
@@ -180,7 +225,7 @@ public class Swarm_behaviour : MonoBehaviour
 
         while (Detector_coverage < Coverage_Threshold)
         {
-            int radius = 1;
+            double radius = 0.5;
             int x = rnd.Next(25);  // creates a number between and including 0 and 25
             int y = rnd.Next(10);   // creates a number between and including 0 and 9
             int z = rnd.Next(5);     // creates a number between and including 0 and 4
@@ -261,7 +306,7 @@ public class Swarm_behaviour : MonoBehaviour
 
         }
 
-        //print_detectors();
+        
         //print("Detector coverage: " + Detector_coverage);
         sizeOfList = detectors.Count;
         //print("Number of detectors: " + sizeOfList);
@@ -279,20 +324,20 @@ public class Swarm_behaviour : MonoBehaviour
     void Update()
     {
         
-        if(newObstacle && ObstaclePattern != null)
+        if(newObstacle == true && ObstaclePattern != null)
         {
-            //print("there is a new obstacle" + ObstaclePattern);
+            print("there is a new obstacle" + ObstaclePattern);
             int i = 0;
             foreach(char c in ObstaclePattern)
             {
                 i++;
-                Sphere Obstacle_Mapping = mapToPoint(c, i);
+                Sphere Obstacle_Mapping = mapObstacleToPoint(c, i);
                 foreach(Detector_Response DR in  Respons_Detector_Map)
                 {
-                    if (Obstacle_Detector_Distance(DR.Detector, Obstacle_Mapping) < 1.5)
+                    if (Obstacle_Detector_Distance(DR.Detector, Obstacle_Mapping) < 1.0)
                     {
-                        DR.ActivateThis();
-                        print("----------------- Detector ACTIVATED!!!!");
+                        //DR.ActivateThis();
+                        print("--------------------------------------RESPONSE ACTIVATED by Detector x:" + DR.Detector.x + " y:" + DR.Detector.y + " z " + DR.Detector.z + " Response: " + DR.Responce.configuration + " " + DR.Responce.location);
                     }
                 }
             }
@@ -301,21 +346,36 @@ public class Swarm_behaviour : MonoBehaviour
 
     }
 
+    Sphere mapObstacleToPoint(char C, int i)
+    {
+        if (48 <= (int)C && (int)C <= 57)
+        {
+           //rint("Creating point for number" + C + " as " + (int)C + " at x:0 y:" + ((int)C - 48)  + " z:" + i);
+            return new Sphere(0, (int)C - 48, i);
+        }
+        else
+        {
+            // thus x( 0 - 25), y(0 - 9), z = (0 - 4)
+           //rint("Creating point for Alphabet" + C + " as " + (int)C + " at x:"+ ((int)C - 65) + " y:0"  + " z:" + i);
+            return new Sphere(((int)C - 65), 0, i);
+        }
+    }
+
     Sphere mapToPoint(char C, int i)
     {
         if (48 <= (int)C && (int)C <= 57)
         {
             //print("Creating point for" + C + " as " + (int)C + " at x:" + ((int)C - 48) + " y:0" + " z:" + 2 * i);
-            return new Sphere((int)C - 48, 0, 2 * i);
+            return new Sphere((int)C - 48, 0,i);
         }
         else
         {
            // print("Creating point for" + C + " as " + (int)C + " at x:0" + " y:" + ((int)C - 55) + " z:" + 2 * i);
-            return new Sphere(0, ((int)C - 55), 2 * i);
+            return new Sphere(0, ((int)C - 65), i);
         }
     }
 
-    double volume_of_sphere(int r)
+    double volume_of_sphere(double r)
     {
         return (4 / 3) * Math.PI * Math.Pow(r, 3);
     }

@@ -813,6 +813,8 @@ public class Swarm_mesh : MonoBehaviour
         mesh.RecalculateBounds();
         mesh.RecalculateTangents();
         mesh.RecalculateNormals();
+
+      
         //mesh.Optimize();
 
 

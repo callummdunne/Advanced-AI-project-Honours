@@ -293,6 +293,12 @@ public class wallsNramps : MonoBehaviour
     private void detectorToObstacle(string detector)
     {
         Debug.Log("instantiating obstacle"+ detector);
+
+        //////////////////////////////////////////////////////////////// Morne added the signal
+        GetComponent<Swarm_behaviour>().newObstacle = true;
+        GetComponent<Swarm_behaviour>().ObstaclePattern = detector;
+        ////////////////////////////////////////////////////////////////
+
         //create wall or ramp depending on first char
         if (detector[0] == 'W')
         {
