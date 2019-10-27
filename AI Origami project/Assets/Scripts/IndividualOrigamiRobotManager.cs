@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using System.Text;
+using UnityEngine;
 
 namespace A_AI_Individual_Origami_Robots
 {
@@ -30,9 +30,40 @@ namespace A_AI_Individual_Origami_Robots
         }
     }
 
-    class IndividualOrigamiRobotManager
+    public class IndividualOrigamiRobotManager : MonoBehaviour
     {
         private Dictionary<int, List<byte>> RobotModel;
+        public GameObject GameManager;
+        public Transform myTransform;
+
+        void Start()
+        {
+            GameManager = GameObject.FindWithTag("GameManager");
+            myTransform = transform;
+        }
+
+        void Update()
+        {
+            List<Origami> robots = GameManager.GetComponent<GameManager>().origamis;
+            bool calculated = false;
+
+            if (!calculated && GameManager.GetComponent<Swarm_mesh>().isSwarmCalculated() &&
+                GameManager.GetComponent<AddOrigamis>().isOrigamisGenerated())
+            {
+                List<List<Vector3>> coordinatesList = GameManager.GetComponent<Swarm_mesh>().getSwarmCoordinates();
+
+                //print("Robots Count: " + robots.Count);
+
+                MatchRobotToCoordinates(ref robots, coordinatesList);
+                GameManager.GetComponent<Swarm_mesh>().swarmCalculatedDone();
+                calculated = true;
+            }
+
+            /*foreach (Origami robot in robots)
+            {
+                GameManager.GetComponent<AddOrigamis>().changePositionAnimation(robot);
+            }*/
+        }
 
         public void TrainRobotModel(List<string> ModelIdentifiers)
         {
@@ -63,7 +94,7 @@ namespace A_AI_Individual_Origami_Robots
             RobotModel = Model;
         }
 
-        public void DetectIncomingObject(List<OrigamiRobot> Robots)
+        void DetectIncomingObject(List<OrigamiRobot> Robots)
         {
             foreach (OrigamiRobot robot in Robots)
             {
@@ -144,53 +175,74 @@ namespace A_AI_Individual_Origami_Robots
             return false;
         }
 
-        public void MatchRobotToCoordinates(List<OrigamiRobot> Robots, List<List<Vector3>> CoordinatesList)
+        public void MatchRobotToCoordinates(ref List<Origami> Robots, List<List<Vector3>> CoordinatesList)
         {
-            int radius = 10;
 
-            OrigamiRobot[] temp = new OrigamiRobot[Robots.Count];
-            Robots.CopyTo(temp);
-            List<OrigamiRobot> RobotClones = temp.ToList();
+            /*foreach(Origami robot in Robots)
+            {
+                print("Robot myObject: " + robot.myObject);
+            }*/
+
+            //Origami[] temp = new Origami[Robots.Count];
+            //Robots.CopyTo(temp);
+            //List<Origami> RobotClones = temp.ToList();
 
             foreach (List<Vector3> coordinates in CoordinatesList)
             {
                 double smallestDistance = double.MaxValue;
-                OrigamiRobot closestRobot = null;
+                int closestRobotIndex = -1;
+                /*print("Before center v1: x = " + coordinates[0].x + ", y = " + coordinates[0].y + ", z = " + coordinates[0].z);
+                print("Before center v2: x = " + coordinates[1].x + ", y = " + coordinates[1].y + ", z = " + coordinates[1].z);
+                print("Before center v3: x = " + coordinates[2].x + ", y = " + coordinates[2].y + ", z = " + coordinates[2].z);*/
                 Vector3 centerCoordinate = GetCentroid(coordinates);
+                //print("After center v3: x = " + centerCoordinate.x + ", y = " + centerCoordinate.y + ", z = " + centerCoordinate.z);
 
-                foreach (OrigamiRobot robot in RobotClones)
+                /*if (RobotClones.Count == 0)
                 {
-                    double distance = GetEuclideanDistance(robot.CurrentCoordinates, centerCoordinate);
-                    Console.WriteLine("Distance: " + distance);
+                    break;
+                }*/
 
-                    if (distance < radius && distance < smallestDistance)
+                for (int i = 0; i < Robots.Count; i++)
+                {
+                    double distance = GetEuclideanDistance(Robots[i].myObject.transform.position, centerCoordinate);
+                    //print("Robot Distance: " + distance);
+
+                    if (!Robots[i].hasMoved && distance < smallestDistance)
                     {
                         smallestDistance = distance;
-                        closestRobot = robot;
+                        closestRobotIndex = i;
                     }
                 }
 
-                RobotClones.Remove(closestRobot);
+                //RobotClones.Remove(closestRobot);
 
-                Console.WriteLine("Closest robot that has coordinates to center coordinate " + centerCoordinate.ToString() + " : (" + closestRobot.CurrentCoordinates.X +
-                ", " + closestRobot.CurrentCoordinates.Y + ", " + closestRobot.CurrentCoordinates.Z + ")");
+               /* print("Closest robot that has coordinates to center coordinate " + centerCoordinate.ToString() + " : (" + Robots[closestRobotIndex].myObject.transform.position.x +
+                ", " + Robots[closestRobotIndex].myObject.transform.position.y + ", " + Robots[closestRobotIndex].myObject.transform.position.z + ")"); */
+
+                //Origami origami = Robots.Find(x => x.Equals(closestRobot));
+
+                //print(Robots[closestRobotIndex].myObject);
+                //print("Positions before: " + Robots[closestRobotIndex].myObject.transform.position.x + " " + Robots[closestRobotIndex].myObject.transform.position.y + " " + Robots[closestRobotIndex].myObject.transform.position.z);
+                /*Robots[closestRobotIndex].oldPosition = Robots[closestRobotIndex].transform.position;
+                Robots[closestRobotIndex].newPosition = centerCoordinate;*/
+                GameManager.GetComponent<AddOrigamis>().changePosition(Robots[closestRobotIndex].myObject, centerCoordinate.x, centerCoordinate.y, centerCoordinate.z);
+                Robots[closestRobotIndex].hasMoved = true;
+                //print("Positions after: " + Robots[closestRobotIndex].myObject.transform.position.x + " " + Robots[closestRobotIndex].myObject.transform.position.y + " " + Robots[closestRobotIndex].myObject.transform.position.z);
             }
-
-            Console.WriteLine("Test Complete.");
         }
 
         private Vector3 GetCentroid(List<Vector3> Coordinates)
         {
-            int centerX = (int)(Coordinates[0].X + Coordinates[1].X + Coordinates[2].Z) / 3;
-            int centerY = (int)(Coordinates[0].Y + Coordinates[1].Y + Coordinates[2].Y) / 3;
-            int centerZ = (int)(Coordinates[0].Z + Coordinates[1].Z + Coordinates[2].Z) / 3;
+            float centerX = (Coordinates[0].x + Coordinates[1].x + Coordinates[2].x) / 3;
+            float centerY = (Coordinates[0].y + Coordinates[1].y + Coordinates[2].y) / 3;
+            float centerZ = (Coordinates[0].z + Coordinates[1].z + Coordinates[2].z) / 3;
 
             return new Vector3(centerX, centerY, centerZ);
         }
 
         private double GetEuclideanDistance(Vector3 C1, Vector3 C2)
         {
-            double squaredDistance = Math.Pow((C1.X - C2.X), 2) + Math.Pow((C1.Y - C2.Y), 2) + Math.Pow((C1.Z - C2.Z), 2);
+            double squaredDistance = Math.Pow((C1.x - C2.x), 2) + Math.Pow((C1.y - C2.y), 2) + Math.Pow((C1.z - C2.z), 2);
 
             return Math.Sqrt(squaredDistance);
         }

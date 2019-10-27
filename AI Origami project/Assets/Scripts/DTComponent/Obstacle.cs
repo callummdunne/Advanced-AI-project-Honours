@@ -7,18 +7,24 @@ using UnityEngine.SceneManagement;
 public class Obstacle : DTGameObject
 {
 
-    private GameObject gameObject;
+    static int intName = 0;
+
+    private string pattern;
 
     public Obstacle()
     {
-        SetToObstacle();
-        GameObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        Name = "Obs" + intName;
+        intName += 1;
     }
 
     public GameObject GameObject
     {
-        get => gameObject;
-        set => gameObject = value;
+        get;
+        set;
     }
-
+    public string Pattern
+    {
+        get;
+        set;
+    }
 }

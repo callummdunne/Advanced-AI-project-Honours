@@ -6,26 +6,13 @@ using UnityEditor;
 
 public class AddOrigamis : MonoBehaviour
 {
-    //the structure for a single origami
-    public struct Origami
-    {
-        public GameObject myObject;
-        public string pattern;
-        public int age;
-    }
+
+    public GameObject GameManagerObj;
 
     //declaring a new game and mesh object
-    GameObject origami;
     Mesh myMesh;
 
-    //creating an array of origamis
-    public Origami[] origamis = new Origami[1];
-
-    public Origami[] origamiArray
-    {
-        get { return origamis; }
-        set { origamis = value; }
-    }
+    public bool origamisGenerated = false;
 
     //Arrays used in the creation of the object
     Vector3[] myVertices;
@@ -57,21 +44,20 @@ public class AddOrigamis : MonoBehaviour
     int highestMatch = 0;
 
     void Awake()
-    {        
+    {
         initializePatterns();
     }
 
     void Start()
     {
-        for (int i = 0; i < 5; i++)
+        GameManagerObj = GameObject.FindWithTag("GameManager");
+
+        for (int i = 0; i < 160; i++)
         {
             addNewOrigami(i);
         }
-        
-        CalcGoal();
-        
 
-
+        origamisGenerated = true;
     }
 
     //this function should be called in awake to initialise the random patterns
@@ -101,19 +87,26 @@ public class AddOrigamis : MonoBehaviour
         } while (initializationList.Count < 20);
     }
 
+    public bool isOrigamisGenerated()
+    {
+        return origamisGenerated;
+    }
+
     //function used to generate a single origami robot.. call in a loop to create many
     public void addNewOrigami(int iFromLoop)
     {
         myMesh = new Mesh();
 
-        origami = new GameObject("origami " + Convert.ToString(iFromLoop + 1));
-        origami.AddComponent<MeshFilter>().mesh = myMesh;
+        Origami origami = new Origami();
+
+        origami.GameObject = new GameObject("Origami " + Convert.ToString(iFromLoop + 1));
+        origami.GameObject.AddComponent<MeshFilter>().mesh = myMesh;
 
         Material mat = AssetDatabase.GetBuiltinExtraResource<Material>("Sprites-Default.mat");
 
-        origami.AddComponent<MeshRenderer>().material = mat;
+        origami.GameObject.AddComponent<MeshRenderer>().material = mat;
 
-        origami.transform.position = new Vector3(iFromLoop * 5, iFromLoop * 5, iFromLoop * 3);
+        origami.GameObject.transform.position = new Vector3(5, iFromLoop * 5, iFromLoop * 5);
 
         string newRobot = "";
 
@@ -126,13 +119,10 @@ public class AddOrigamis : MonoBehaviour
             newRobot = initializationList[iFromLoop];
         }
 
-
-
-        origamis[iFromLoop].myObject = origami;
-        origamis[iFromLoop].pattern = newRobot;
-        origamis[iFromLoop].age = 0;
-
-        Array.Resize(ref origamis, origamis.Length + 1);
+        origami.Pattern = newRobot;
+        origami.Age = 0;
+        //origamis[iFromLoop].inPosition = origami.transform.position;
+        GameManagerObj.GetComponent<GameManager>().AddOrigami(origami);
 
         StringMatcher(newRobot);
 
@@ -158,6 +148,34 @@ public class AddOrigamis : MonoBehaviour
             0, 3, 1,
             2, 1, 4,
             2, 5, 0
+        };
+
+        colors = new Color[myVertices.Length];
+
+        for (int i = 0; i < myVertices.Length; i += 3)
+        {
+            colors[i] = Color.yellow;
+            colors[i + 1] = Color.green;
+            colors[i + 2] = Color.blue;
+        }
+    }
+
+    //one triangle origami function
+    void makeModelOneTriangle(int main, char po, int one, int two, int three)
+    {
+        main = 0; 
+        myVertices = new Vector3[]
+        {
+            new Vector3(-1, 1, 0), new Vector3(1, 1, 0), new Vector3(-1, -1, 0),
+            //new Vector3(-1, one, 5), new Vector3(7, two, 3), new Vector3(1, three, -3)
+        };
+
+        myTriangles = new int[]
+        {
+            0, 1, 2
+            //0, 3, 1,
+            //2, 1, 4,
+            //2, 5, 0
         };
 
         colors = new Color[myVertices.Length];
@@ -263,7 +281,7 @@ public class AddOrigamis : MonoBehaviour
         int two = Convert.ToInt32(splitMatch[3]);
         int three = Convert.ToInt32(splitMatch[4]);
 
-        makeModel(main, po, one, two, three);
+        makeModelOneTriangle(main, po, one, two, three);
     }
 
     //this function is used to get the current position (x, y, z) of the robot
@@ -284,6 +302,35 @@ public class AddOrigamis : MonoBehaviour
         robot.transform.position = newPosition;
     }
 
+    public void changePositionAnimation(Origami robot)
+    {
+        float stepSize = 3.0f;
+        float xDiff = 0.0f;
+        
+        if (robot.oldPosition.x > robot.newPosition.x)
+        {
+            xDiff = robot.oldPosition.x - robot.newPosition.x;
+        }
+        else
+        {
+            xDiff = robot.newPosition.x - robot.oldPosition.x;
+        }
+
+        if (xDiff < stepSize)
+        {
+            robot.transform.position = newPosition;
+        }
+
+        Vector3 nextPosition = new Vector3
+        {
+            x = robot.oldPosition.x + stepSize,
+            y = robot.oldPosition.y + stepSize,
+            z = robot.oldPosition.z + stepSize
+        };
+
+        robot.transform.position = nextPosition;
+    }
+
     //this function gets the current orientation of the robot
     public Quaternion getCurrentOrientation(GameObject robot)
     {
@@ -300,195 +347,6 @@ public class AddOrigamis : MonoBehaviour
         newOrientation.z = zUpdate;
 
         robot.transform.rotation = newOrientation;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //Callums code starts here
-
-    
-    private int NumOrigamics;
-    private int NumBringBack = 0;
-    public int NumDied
-    {
-        get { return NumDied; }
-        set { NumDied = value; }
-    }
-    private int PastObstacles = 0; 
-
-
-
-
-    public void CalcGoal() //will be called as i will need data on if part of mesh could call in update if morne has function for me to get part of mesh 
-    {
-        NumOrigamics = origamis.Length -1 ; //todo check that this has the right number 
-        Debug.Log("Number of origamis " + Convert.ToString(NumOrigamics));
-
-        Debug.Log("Position of first origami " + Convert.ToString(origamis[0].myObject.transform.position));
-
-        Vector3 Average = AverageLocation(origamis);
-
-        Debug.Log("The average location: " + Convert.ToString(Average));
-
-        double AverageDistance = 0.00;
-        double[] Distances = new double[NumOrigamics]; //storing distances so i dont have to calculate again later 
-
-        for(int j = 0; j < NumOrigamics; j++) //Calculate average distance from average point 
-        {
-            Distances[j] = EuclidianDistance(origamis[j].myObject.transform.position, Average);
-            AverageDistance += Distances[j];
-        }
-
-        AverageDistance /= NumOrigamics;
-
-        Debug.Log("Average distance " + Convert.ToString(AverageDistance));
-
-
-        int Leeway = 5; //This is how much leeway to give on the average distance
-        int MaxAge = 5; //This is the maximum age that an origami can get to
-        for(int O = 0; O < NumOrigamics; O++)
-        {
-            Debug.Log("Distances for origami " + Convert.ToString(O) + "Length" + Convert.ToString(Distances[0]));
-            if(Distances[O] > (AverageDistance + Leeway))
-            {
-                if(origamis[O].age >= MaxAge) 
-                {
-                    //todo check if the origami is part of a mesh 
-                    
-                    //myObject.GetComponent<MyScript>().MyFunction(); create a destroy function for the origamis
-                    //todo call the destroy function
-
-                }
-                else
-                {
-                    origamis[O].age += 2;
-                    Debug.Log("added to age of " + origamis[O].myObject.tag);
-                }
-            }
-            else
-            {
-                
-                if (origamis[O].age > 0)
-                {
-                    origamis[O].age -= 1;
-                    Debug.Log("Lowered the age of " + origamis[O].myObject.tag);
-                }
-                else
-                {
-                    Debug.Log("Age at 0" + origamis[O].myObject.tag);
-                }
-            }
-
-        }
-    }
-
-
-        double EuclidianDistance(Vector3 first, Vector3 second) //calculate the distance between 2 vectors
-    {
-        float X = first.x - second.x;
-        float Y = first.y - second.y;
-        float Z = first.z - second.z;
-
-        return Math.Sqrt((X * X) + (Y * Y) + (Z * Z));
-    }
-
-    Vector3 AverageLocation(Origami[] Origamis) //calculate the average location to find a center point
-    {
-        Vector3 Average = new Vector3(0, 0, 0);
-        for(int a = 0; a < NumOrigamics; a++)
-        {
-            Average = Average + Origamis[a].myObject.transform.position;
-        }
-
-        Average = Average / NumOrigamics;
-        return Average;
-    }
-
-    
-    void CreateMoreOrigamis()//function to call to create more origamis as is required 
-    {
-        int NumberOfObstaclesBeforeAdd = 3;
-        if(PastObstacles >= NumberOfObstaclesBeforeAdd)
-        {
-            PastObstacles = 0;
-            for(int i = 0; i < NumBringBack; i++)
-            {
-
-                addNewOrigami(i);
-            }
-
-            NumOrigamics = origamis.Length;
-        }
-        else
-        {
-            if(CheckPastObstacle("")) //get string or change once we know how getting the data 
-            {
-                PastObstacles += 1;
-            }
-        }
-    }
-
-
-
-    public bool CheckPastObstacle(string NextObstacle) //Checks if all origamis are past a obstacle to see if we should add origamis
-    {
-        
-
-        for(int i = 0; i < NumOrigamics; i++)
-        {
-            if(GetLocationObstacle(NextObstacle)[0] < origamis[i].myObject.transform.position[0]) //todo change these once we know direction
-            {
-                if(GetLocationObstacle(NextObstacle)[1] < origamis[i].myObject.transform.position[1])
-                {
-                    if(GetLocationObstacle(NextObstacle)[2] < origamis[i].myObject.transform.position[2])
-                    {
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
-    }
-
-
-    private Vector3 GetLocationObstacle(string str) //look at the naming scheme of obstacles and get location
-    {
-        return new Vector3(0, 0, 0); //todo get the location of the obstacle so i can check
     }
 
 }

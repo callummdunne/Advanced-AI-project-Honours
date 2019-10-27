@@ -6,138 +6,158 @@ using UnityEngine.SceneManagement;
 // Kevin Matthew Julius 216007874
 public class GameManager : MonoBehaviour
 {
-
     // Game variables
-    public static double TIMESPLAYED = 0;
+    public double TIMESPLAYED = 0;
+    public int intCounter = 1;
 
     // Danger Zones
     public const double ObstacleDZRADIUS = 10;
     public const double OrigamiDZRADIUS = 2;
 
     // Global Variables
-    public static List<Origami> origamis = new List<Origami>();
-    public static List<Obstacle> obstacles = new List<Obstacle>();
+    public List<Origami> origamis = new List<Origami>();
+    public List<Obstacle> obstacles = new List<Obstacle>();
     public static int NumberOrigami = 100;
     public static int NumberObstacles = 100;
+
+    // 
+
 
     // Start is called before the first frame update
     void Start()
     {
-        //// TEST CODE Starts Here
-        Obstacle obstacle1 = new Obstacle();
-        obstacle1.GameObject.transform.position = new Vector3(0, 0, 10);
-        obstacle1.GameObject.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
-
-        Obstacle obstacle2 = new Obstacle();
-        obstacle2.GameObject.transform.position = new Vector3(4, 0, 10);
-        obstacle2.GameObject.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
-
-        Obstacle obstacle3 = new Obstacle();
-        obstacle3.GameObject.transform.position = new Vector3(-4, 0, 10);
-        obstacle3.GameObject.GetComponent<Renderer>().material.SetColor("_Color", Color.green);
-
-        Origami origami1 = new Origami();
-        origami1.GameObject.transform.position = new Vector3(0, 0, 0);
-
-        Origami origami2 = new Origami();
-        origami2.GameObject.transform.position = new Vector3(0, 0, -2);
-
-        Origami origami3 = new Origami();
-        origami3.GameObject.transform.position = new Vector3(0, 0, -4);
-
-        Origami origami4 = new Origami();
-        origami4.GameObject.transform.position = new Vector3(4, 0, 0);
-
-        Origami origami5 = new Origami();
-        origami5.GameObject.transform.position = new Vector3(4, 0, -2);
-
-        Origami origami6 = new Origami();
-        origami6.GameObject.transform.position = new Vector3(-4, 0, -4);
-
-        Origami origami7 = new Origami();
-        origami7.GameObject.transform.position = new Vector3(1.5f, 0, 0);
-
-        // test origami communication
-        print("Origami communication");
-
-        DTGameObject.SendSignal(origami1, "Hello, I am " + origami1.Name);
-
-        // test obstacle communication
-        DTGameObject.AwakeOrigami();
-        DTGameObject.SendSignal(obstacle1, obstacle1.Name + " is coming for you!!");
-
-        //AwakeOrigami();
-        DTGameObject.SendSignal(obstacle2, obstacle2.Name + " is coming for you!!");
-
-        // get signals
-        foreach(DTGameObject o in origamis)
-        {
-            if(o.Name.Contains("ORI"))
-            {
-                Origami origami = (Origami)o;
-                List<string> signals = o.GetSignals();
-                if(signals.Count != 0)
-                {
-                    foreach(string message in signals)
-                    {
-                        print(o.Name + " <- " + message);
-                        if(message.Contains("OBS100"))
-                        {
-                            origami.GameObject.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
-                        }
-                        else if(message.Contains("OBS101"))
-                        {
-                            origami.GameObject.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
-                        }
-                        else if(message.Contains("OBS102"))
-                        {
-                            origami.GameObject.GetComponent<Renderer>().material.SetColor("_Color", Color.green);
-                        }
-                    }
-                }
-            }
-        }
-        //// TEST CODE Ends Here
-
+        //Generate Patterns
+        GetComponent<GetUserInput>().generatePatterns();
     }
 
+    private int frames = 0;
     // Update is called once per frame
     void Update()
     {
+        frames++;
+        // fire danger signals
+        if(frames % 10 == 0)
+        { 
+            Obstacle obstacle = new Obstacle();
+            obstacle.Pattern = GetComponent<wallsNramps>().getNextObstacleString();
+            obstacle.GameObject = GetComponent<wallsNramps>().getNextObstacle();
+            GetComponent<Swarm_behaviour>().newObstacle = true;
+            GetComponent<Swarm_behaviour>().ObstaclePattern = obstacle.Pattern;
+            obstacle.SendSignal(obstacle, obstacle.Pattern);
 
+        }
+
+        foreach(char c in Input.inputString)
+        {
+
+            if((c == '\n') || (c == '\r')) // enter/return
+            {
+                ArrayList userInputs = GetComponent<GetUserInput>().userInputs;
+                //Create String of User Input
+                string userInput = "";
+                for(int i = 0; i < userInputs.Count; i++)
+                {
+                    //Debug.Log(userInputs[i]);
+                    userInput += userInputs[i];
+                }
+                //print(userInput);
+
+                //Call function to pattern match and send results to Ruan
+                //Match patterns using Rchunk pattern matching
+
+                ArrayList returnedObstaclesPattern = GetComponent<GetUserInput>().matchPattern(userInput.ToUpper());
+                if(returnedObstaclesPattern.Count > 0)
+                {
+                   // print("Returned a matching pattern");
+                    //for(int i = 0; i < returnedObstaclesPattern.Count; i++)
+                    //{
+                    //    //Return Matched
+                    //    print(returnedObstaclesPattern[i]);
+                      
+                    //    //First check difficulty
+                    //    GetComponent<GetUserInput>().increaseDifficulty(returnedObstaclesPattern,  intCounter);
+                    //}
+
+                    //Generate List of Strings
+                    GetComponent<GetUserInput>().PatternStringsList = new ArrayList(); //First Reset List
+                    //int intCounting = 0;
+                    string strObstacle = "";
+                    //for(int j = 0; j < returnedObstaclesPattern.Count; j++)
+                    //{
+                    //    if (intCounting < 5)
+                    //    {
+                    //        strObstacle += returnedObstaclesPattern[j];
+                    //        intCounting++;
+                    //    }
+                    //    else {
+                    //        GetComponent<GetUserInput>().PatternStringsList.Add(strObstacle);
+                    //        strObstacle = "";
+                    //        intCounting = 0;
+                    //    }                        
+                    //}
+
+                    for (int j = 0; j < 5; j++)
+                    {
+                        strObstacle += returnedObstaclesPattern[j];
+                    }
+
+                    //Increase difficulty if necessary
+                    for (int i = 0; i < GetComponent<GetUserInput>().PatternStringsList.Count; i++)
+                    {
+                        //ArrayList to Increase Difficulty of
+                        ArrayList toIncrease = new ArrayList();
+                        //Valid String
+                        string validString = (string)GetComponent<GetUserInput>().PatternStringsList[i];
+                        //Current Obstacle Combo
+                        for (int k = 0; k < validString.Length; k++)
+                        {
+                            //Return Matched
+                            //print(validString[k]);
+                            toIncrease.Add(validString[k]);
+                        }
+
+                        //First check difficulty
+                        string result = GetComponent<GetUserInput>().increaseDifficulty(toIncrease, intCounter);
+                        GetComponent<GetUserInput>().PatternStringsList[i] = result;
+                    }
+
+                    //Send List
+                    //GameManagerObj.GetComponent<wallsNramps>().setObstacleListOfObstacles(GetComponent<GetUserInput>().PatternStringsList);
+                    GetComponent<wallsNramps>().setObstacleListOfObstacles(strObstacle);
+                }
+                else
+                {
+                    print("No matching pattern found");
+                }
+
+                //Reset list after sending
+                userInputs = new ArrayList();
+            }
+            else
+            {
+                GetComponent<GetUserInput>().userInputs.Add(c);
+                //Debug.Log(c);
+            }
+        }
     }
 
     // increase times played by 1
-    public static void IncTimesPlaye()
+    public void IncTimesPlaye()
     {
         ++TIMESPLAYED;
     }
 
 
     // Add origami
-    public static void AddOrigami(Origami origami)
+    public void AddOrigami(Origami origami)
     {
         origamis.Add(origami);
     }
 
     // Remove origami
-    public static bool RemoveOrigami(Origami origami)
+    public bool RemoveOrigami(Origami origami)
     {
         return origamis.Remove(origami);
     }
-
-    // Add obstacle from game
-    public static void AddObstacle(Obstacle obstacle)
-    {
-        obstacles.Add(obstacle);
-    }
-
-    // Remove obstacle from game
-    public static bool RemoveObstacle(Obstacle obstacle)
-    {
-        return obstacles.Remove(obstacle);
-    }
-
-
 
 }

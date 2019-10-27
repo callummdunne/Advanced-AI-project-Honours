@@ -652,7 +652,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2066812261}
+      - m_Target: {fileID: 697892038}
         m_MethodName: PlayGame
         m_Mode: 1
         m_Arguments:
@@ -921,7 +921,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2066812261}
+      - m_Target: {fileID: 0}
         m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
@@ -1077,7 +1077,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 697892033}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71e97021375d6354b9d693143b1d67e3, type: 3}
+  m_Script: {fileID: 11500000, guid: 026bf69fb35b5e2488a2ad56577298e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &725279838
@@ -2121,7 +2121,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 300, y: 50}
+  m_SizeDelta: {x: 500, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1363882933
 MonoBehaviour:
@@ -2141,15 +2141,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '1. Blah
-
-    2. Blah
-
-    3. Blah
-
-    4. Blah
-
-    5. Blah'
+  m_text: "USER INPUT DESCRIPTION\r\n\r\nFor Obstacles to be generated, the User will
+    need to input is a valid combination of characters.\r\nThe Valid Combination of
+    characters is described below;\r\n\r\n1. W/R -> The first character representing
+    the obstacle\r\n2. (3-6)\r\n3. (3-9)\r\n4. (3-6)\r\n5. (3-6)\r\n\r\nExample: W3333\r\n\r\nIt
+    is upto the User's discretion to enter as many characters as possible, but only
+    valid chunks of contiguous blocks will be considered."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2177,8 +2174,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 12
-  m_fontSizeBase: 12
+  m_fontSize: 14
+  m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2194,7 +2191,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 24
+  m_firstOverflowCharacterIndex: -1
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -2218,12 +2215,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1363882933}
-    characterCount: 39
+    characterCount: 436
     spriteCount: 0
-    spaceCount: 9
-    wordCount: 10
+    spaceCount: 73
+    wordCount: 71
     linkCount: 0
-    lineCount: 5
+    lineCount: 17
     pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
@@ -2489,7 +2486,6 @@ GameObject:
   - component: {fileID: 2066812258}
   - component: {fileID: 2066812260}
   - component: {fileID: 2066812259}
-  - component: {fileID: 2066812261}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: Untagged
@@ -2555,15 +2551,3 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2066812257}
   m_CullTransparentMesh: 0
---- !u!114 &2066812261
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2066812257}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71e97021375d6354b9d693143b1d67e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

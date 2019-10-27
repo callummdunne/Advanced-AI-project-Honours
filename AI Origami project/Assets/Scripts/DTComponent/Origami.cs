@@ -7,13 +7,19 @@ using UnityEngine.SceneManagement;
 public class Origami : DTGameObject
 {
 
-    private GameObject gameObject;
-    private int age;
+    static int intName= 0;
+
+    GameObject gameObject;
+
+    public Vector3 oldPosition;
+    public Vector3 newPosition;
+
+    public bool hasMoved;
 
     public Origami()
     {
-        SetToOrigami();
-        GameObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+       Name = "Ori" + intName;
+       intName += 1;
     }
 
     public GameObject GameObject
@@ -22,9 +28,22 @@ public class Origami : DTGameObject
         set => gameObject = value;
     }
 
+    public GameObject myObject
+    {
+        get => gameObject;
+        set => gameObject = value;
+    }
+
     public int Age
     {
-        get => age;
-        set => age = value;
+        get;
+        set;
     }
+
+    public string Pattern
+    {
+        get;
+        set;
+    }
+    
 }
