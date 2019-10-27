@@ -145,6 +145,7 @@ public class DTGameObject : MonoBehaviour
                             o.AddSignal(signal);
                             GetComponent<Swarm_behaviour>().newObstacle = true;
                             GetComponent<Swarm_behaviour>().ObstaclePattern = obstacle.Pattern;
+                            print ("Sent Pattern: " + obstacle.Pattern);
                         }
                     }
                 }

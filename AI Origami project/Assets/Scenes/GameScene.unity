@@ -346,7 +346,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 373237101}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb34b48e0f37f674cb8c22a40074a702, type: 3}
+  m_Script: {fileID: 11500000, guid: 1b7768d9f5e229043a1c4b5a044f013c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TIMESPLAYED: 0
@@ -422,7 +422,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05fe4f317c0ff654a9a872a91230cf6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameManagerObj: {fileID: 0}
   origamisGenerated: 0
 --- !u!114 &373237108
 MonoBehaviour:

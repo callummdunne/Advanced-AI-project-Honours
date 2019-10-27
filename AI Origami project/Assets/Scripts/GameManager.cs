@@ -1,7 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEditor;
 
 // Kevin Matthew Julius 216007874
 public class GameManager : MonoBehaviour
@@ -37,7 +38,7 @@ public class GameManager : MonoBehaviour
         frames++;
         // fire danger signals
         if(frames % 10 == 0)
-        { 
+        {
             Obstacle obstacle = new Obstacle();
             obstacle.Pattern = GetComponent<wallsNramps>().getNextObstacleString();
             obstacle.GameObject = GetComponent<wallsNramps>().getNextObstacle();
@@ -71,7 +72,7 @@ public class GameManager : MonoBehaviour
                     //{
                     //    //Return Matched
                     //    print(returnedObstaclesPattern[i]);
-                      
+
                     //    //First check difficulty
                     //    GetComponent<GetUserInput>().increaseDifficulty(returnedObstaclesPattern,  intCounter);
                     //}
@@ -94,20 +95,20 @@ public class GameManager : MonoBehaviour
                     //    }                        
                     //}
 
-                    for (int j = 0; j < 5; j++)
+                    for(int j = 0; j < 5; j++)
                     {
                         strObstacle += returnedObstaclesPattern[j];
                     }
 
                     //Increase difficulty if necessary
-                    for (int i = 0; i < GetComponent<GetUserInput>().PatternStringsList.Count; i++)
+                    for(int i = 0; i < GetComponent<GetUserInput>().PatternStringsList.Count; i++)
                     {
                         //ArrayList to Increase Difficulty of
                         ArrayList toIncrease = new ArrayList();
                         //Valid String
                         string validString = (string)GetComponent<GetUserInput>().PatternStringsList[i];
                         //Current Obstacle Combo
-                        for (int k = 0; k < validString.Length; k++)
+                        for(int k = 0; k < validString.Length; k++)
                         {
                             //Return Matched
                             print(validString[k]);
