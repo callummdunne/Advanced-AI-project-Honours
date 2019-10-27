@@ -7,7 +7,6 @@ using UnityEditor;
 public class AddOrigamis : MonoBehaviour
 {
 
-    public GameObject GameManagerObj;
 
     //declaring a new game and mesh object
     Mesh myMesh;
@@ -50,8 +49,6 @@ public class AddOrigamis : MonoBehaviour
 
     void Start()
     {
-        GameManagerObj = GameObject.FindWithTag("GameManager");
-
         for (int i = 0; i < 160; i++)
         {
             addNewOrigami(i);
@@ -122,7 +119,7 @@ public class AddOrigamis : MonoBehaviour
         origami.Pattern = newRobot;
         origami.Age = 0;
         //origamis[iFromLoop].inPosition = origami.transform.position;
-        GameManagerObj.GetComponent<GameManager>().AddOrigami(origami);
+        GetComponent<GameManager>().AddOrigami(origami);
 
         StringMatcher(newRobot);
 
