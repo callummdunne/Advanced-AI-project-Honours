@@ -23,8 +23,8 @@ public class NSA : MonoBehaviour
     // Origami space
     public Detector SelfSpace = new Detector();
     // Self Space width and height
-    int W = 20;
-    int H = 20;
+    int Width = 20;
+    int Height = 20;
 
     public void Start()
     {
@@ -32,10 +32,10 @@ public class NSA : MonoBehaviour
         initialDetectors = new Detector[XSpace / athreshold, YSpace / athreshold];
 
         // Self Cells Space
-        SelfSpace.topleftX = GetRandomNumber(0, XSpace - W);
-        SelfSpace.topleftY = GetRandomNumber(YSpace, 0 + H);
-        SelfSpace.bottomrightX = SelfSpace.topleftX + W;
-        SelfSpace.bottomrightY = SelfSpace.topleftY - H;
+        SelfSpace.topleftX = GetRandomNumber(0, XSpace - Width);
+        SelfSpace.topleftY = GetRandomNumber(YSpace, 0 + Height);
+        SelfSpace.bottomrightX = SelfSpace.topleftX + Width;
+        SelfSpace.bottomrightY = SelfSpace.topleftY - Height;
         SelfSpace.PRINT();
         //
         GenerateInitialDetectors();
@@ -120,6 +120,15 @@ public class NSA : MonoBehaviour
         return (t2x2 >= t1x1 && t2x1 <= t1x2) && (t2y2 >= t1y1 && t2y1 <= t1y2);
     }
 
+    public bool CheckPoint(Detector d1, int X, int Y)
+    {
+        Detector d2 = new Detector();
+        d2.topleftX = X;
+        d2.topleftY = Y;
+        d2.bottomrightX = X;
+        d2.bottomrightY = Y;
+        return CheckDetector(d1, d2);
+    }
 
     // Step 3
     private void JoinDetectors()
